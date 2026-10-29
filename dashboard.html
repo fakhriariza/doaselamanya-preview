@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Doa Selamanya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#FBF7F0;--cream-2:#F4ECDF;--ink:#3E3A34;--ink-2:#2C2823;--soft:#6E675C;--gold:#B08D57;--gold-dark:#96733F;--gold-soft:#E9DCC2;--rose:#C48B7A;--rose-soft:#F6E7E0;--sage:#8A9B7E;--sage-soft:#E9EDE0;--card:#FFF;--line:#E7DCC9;--shadow:0 12px 30px rgba(62,58,52,.09);--r:20px}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.55}
+  h1,h2,h3,.serif{font-family:'Playfair Display',Georgia,serif}
+  button{font-family:inherit;cursor:pointer}
+  input,select,textarea{font-family:inherit;font-size:14.5px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:#FFFDF8;color:var(--ink);width:100%}
+  label{font-size:11.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold-dark);display:block;margin:14px 0 6px}
+  .layout{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+  @media(max-width:860px){.layout{grid-template-columns:1fr}}
+  /* SIDEBAR */
+  aside{background:var(--ink-2);color:#EDE6D6;padding:24px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px}
+  @media(max-width:860px){aside{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center}}
+  .brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--cream);margin-bottom:20px}
+  .brand img{width:36px;height:36px;border-radius:10px}
+  .brand b{font-family:'Playfair Display',serif;font-size:17.5px;line-height:1.1}
+  .brand small{display:block;font-size:8.5px;letter-spacing:2.6px;text-transform:uppercase;color:var(--gold-soft);font-family:'Plus Jakarta Sans',sans-serif}
+  .nav{display:flex;flex-direction:column;gap:4px}
+  @media(max-width:860px){.nav{flex-direction:row;flex-wrap:wrap}}
+  .nav button{background:none;border:none;color:#CFC5AE;text-align:left;font-size:14px;font-weight:600;padding:11px 13px;border-radius:11px;display:flex;gap:10px;align-items:center}
+  .nav button:hover{background:rgba(251,247,240,.07);color:var(--cream)}
+  .nav button.act{background:var(--gold);color:#FFF9EE}
+  .side-foot{margin-top:auto;font-size:12px;color:#A99C83;border-top:1px solid rgba(251,247,240,.13);padding-top:14px}
+  .side-foot a{color:var(--gold-soft);text-decoration:none;font-weight:700}
+  @media(max-width:860px){.side-foot{display:none}}
+  /* MAIN */
+  main{padding:30px 30px 70px;max-width:1060px;width:100%;margin:0 auto}
+  @media(max-width:560px){main{padding:22px 15px 60px}}
+  .page{display:none}.page.act{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .phead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+  .phead h1{font-size:29px;font-weight:600}
+  .phead p{color:var(--soft);font-size:14px}
+  .demotag{background:var(--rose-soft);color:#96604F;font-size:11.5px;font-weight:800;padding:6px 13px;border-radius:999px;letter-spacing:.6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:24px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:999px;font-weight:700;font-size:14px;padding:12px 24px;text-decoration:none;transition:.2s}
+  .btn.gold{background:var(--gold);color:#FFF9EE}.btn.gold:hover{background:var(--gold-dark)}
+  .btn.ink{background:var(--ink);color:var(--cream)}.btn.ink:hover{background:var(--ink-2)}
+  .btn.line{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+  .btn.wa{background:#25D366;color:#08351A}
+  .btn.sm{padding:8px 16px;font-size:12.5px}
+  .cdwrap{background:linear-gradient(150deg,var(--ink),var(--ink-2));color:var(--cream);border-radius:var(--r);padding:26px;text-align:center}
+  .cdwrap .nums{display:flex;gap:10px;justify-content:center;margin-top:12px}
+  .cdwrap .nums div{background:rgba(251,247,240,.07);border:1px solid rgba(233,220,194,.4);border-radius:13px;padding:12px 0;width:74px}
+  .cdwrap .nums b{font-family:'Playfair Display',serif;font-size:27px;color:var(--gold-soft);display:block;line-height:1}
+  .cdwrap .nums small{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#CFC5AE}
+  .stat .k{font-size:11.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--soft)}
+  .stat .v{font-family:'Playfair Display',serif;font-size:25px;font-weight:700;margin-top:5px}
+  .stat .s{font-size:13px;color:var(--soft)}
+  .livechip{display:inline-flex;gap:7px;align-items:center;background:var(--sage-soft);color:#4E5D45;font-weight:800;font-size:12.5px;padding:6px 13px;border-radius:999px}
+  .livechip i{width:8px;height:8px;border-radius:50%;background:#6FA75C;display:block}
+  .draftchip{display:inline-flex;background:var(--cream-2);color:var(--soft);font-weight:800;font-size:12.5px;padding:6px 13px;border-radius:999px}
+  /* theme picker */
+  .themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:13px;margin-top:8px}
+  .th{border:2px solid var(--line);border-radius:15px;overflow:hidden;cursor:pointer;background:#fff;text-align:left;padding:0;transition:.18s}
+  .th:hover{transform:translateY(-3px)}
+  .th.sel{border-color:var(--gold);box-shadow:0 10px 24px rgba(176,141,87,.3)}
+  .th img{width:100%;height:118px;object-fit:cover;display:block}
+  .th span{display:block;font-size:12.5px;font-weight:700;padding:8px 10px}
+  .th.sel span{color:var(--gold-dark)}
+  /* table tamu */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--soft);text-align:left;padding:10px 10px;border-bottom:2px solid var(--line)}
+  td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  .st{font-size:11.5px;font-weight:800;padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .st.belum{background:var(--cream-2);color:var(--soft)}
+  .st.kirim{background:#FDF0D5;color:#8A6D1F}
+  .st.buka{background:#E3EDFB;color:#33507E}
+  .st.hadir{background:var(--sage-soft);color:#4E5D45}
+  .st.absen{background:var(--rose-soft);color:#96604F}
+  .rsvp-item{border:1px solid var(--line);border-radius:14px;padding:15px 17px;margin-bottom:11px;background:#FFFDF8}
+  .rsvp-item b{font-size:14.5px}
+  .rsvp-item p{color:var(--soft);font-size:14px;font-style:italic;margin-top:3px}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink-2);color:var(--cream);padding:13px 22px;border-radius:999px;font-size:14px;font-weight:600;box-shadow:0 16px 36px rgba(0,0,0,.3);transition:.35s;z-index:99}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .hint{font-size:12.5px;color:var(--soft);margin-top:6px}
+  .ok{color:#4E5D45;font-weight:700}.err{color:#B0492F;font-weight:700}
+  .prog{height:10px;background:var(--cream-2);border-radius:99px;overflow:hidden}
+  .prog i{display:block;height:100%;background:var(--sage);border-radius:99px;transition:width .4s}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <a class="brand" href="index.html"><img src="logo-mark.png" alt="Logo Doa Selamanya"><span><b>Doa Selamanya</b><small>Dashboard</small></span></a>
+    <div class="nav">
+      <button data-page="beranda" class="act">🏠 Beranda</button>
+      <button data-page="editor">💌 Editor Undangan</button>
+      <button data-page="tamu">👥 Tamu &amp; RSVP</button>
+      <button data-page="bagikan">📲 Bagikan via WA</button>
+    </div>
+    <div class="side-foot">Mode demo — data tersimpan di browser ini.<br><a href="katalog.html">← Lihat Katalog Tema</a></div>
+  </aside>
+
+  <main>
+    <!-- ================= BERANDA ================= -->
+    <section class="page act" id="page-beranda">
+      <div class="phead">
+        <div><h1 id="haloNama">Halo, Nadia &amp; Raka</h1><p>Atur fondasi acaramu di sini — tanggal dan target biaya dulu; checklist &amp; budgeting menyusul.</p></div>
+        <span class="demotag">DEMO · DATA CONTOH</span>
+      </div>
+
+      <div class="grid2" style="align-items:start">
+        <div class="card">
+          <h3 style="font-size:20px">Pengaturan Dasar</h3>
+          <label>Nama Mempelai Wanita</label>
+          <input id="inWanita" type="text" placeholder="cth: Nadia Prameswari">
+          <label>Nama Mempelai Pria</label>
+          <input id="inPria" type="text" placeholder="cth: Raka Aditya Pratama">
+          <label>Tanggal Pernikahan</label>
+          <input id="inTanggal" type="date">
+          <label>Target Biaya Total (Rp)</label>
+          <input id="inBudget" type="number" min="0" step="500000" placeholder="cth: 40000000">
+          <p class="hint">Target biaya ini jadi patokan Budget Planner di tahap berikutnya.</p>
+          <button class="btn gold" id="btnSimpanSetup" style="margin-top:16px">Simpan Pengaturan</button>
+          <span id="setupMsg" class="hint" style="margin-left:10px"></span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <div class="cdwrap">
+            <div style="font-size:11.5px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-soft);font-weight:800">Menghitung Hari Bahagia</div>
+            <div class="nums">
+              <div><b id="cd-d">–</b><small>Hari</small></div>
+              <div><b id="cd-h">–</b><small>Jam</small></div>
+              <div><b id="cd-m">–</b><small>Menit</small></div>
+              <div><b id="cd-s">–</b><small>Detik</small></div>
+            </div>
+            <div id="cdTgl" style="margin-top:12px;font-size:13.5px;color:#CFC5AE"></div>
+          </div>
+          <div class="grid2" style="gap:18px">
+            <div class="card stat"><div class="k">Target Biaya Total</div><div class="v" id="statBudget">–</div><div class="s">Budget planner menyusul</div></div>
+            <div class="card stat"><div class="k">Status Undangan</div><div class="v" style="font-size:19px" id="statLive">–</div><div class="s" id="statSub">Belum memilih subdomain</div></div>
+          </div>
+          <div class="card stat"><div class="k">Tamu &amp; RSVP</div><div class="v"><span id="statTamu">0</span> tamu · <span id="statRsvp">0</span> RSVP masuk</div><div class="s">Kelola di menu Tamu &amp; RSVP, sebarkan lewat menu Bagikan via WA.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EDITOR ================= -->
+    <section class="page" id="page-editor">
+      <div class="phead">
+        <div><h1>Editor Undangan</h1><p>Pilih tema, isi data, tentukan subdomain — lalu publikasikan. Semua memakai engine &amp; aset Doa Selamanya.</p></div>
+        <span id="pubChip" class="draftchip">Belum live</span>
+      </div>
+
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="font-size:20px">1 · Pilih Tema</h3>
+        <p class="hint">24 tema premium dari katalog — klik untuk memilih.</p>
+        <div class="themes" id="themeGrid"></div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="font-size:20px">2 · Isi Data Undangan</h3>
+        <div class="grid2">
+          <div>
+            <label>Nama &amp; Gelar Mempelai Wanita</label><input id="fWanita" type="text">
+            <label>Nama Ayah &amp; Ibu (Wanita)</label><input id="fOrtuW" type="text">
+            <label>Nama &amp; Gelar Mempelai Pria</label><input id="fPria" type="text">
+            <label>Nama Ayah &amp; Ibu (Pria)</label><input id="fOrtuP" type="text">
+            <label>Tanggal Acara</label><input id="fTanggal" type="date">
+          </div>
+          <div>
+            <label>Jam Akad</label><input id="fAkad" type="text" placeholder="08.00 – 10.00 WIB">
+            <label>Jam Resepsi</label><input id="fResepsi" type="text" placeholder="11.00 – 13.00 WIB">
+            <label>Nama Venue</label><input id="fVenue" type="text">
+            <label>Alamat Venue</label><input id="fAlamat" type="text">
+            <label>Link Google Maps</label><input id="fMaps" type="text" placeholder="https://maps.google.com/?q=...">
+          </div>
+        </div>
+        <div class="grid2">
+          <div>
+            <label>Rekening BCA + Atas Nama</label><input id="fBca" type="text" placeholder="1234567890 a.n. Nadia Prameswari">
+            <label>DANA + Atas Nama</label><input id="fDana" type="text" placeholder="081234567890 a.n. Nadia Prameswari">
+          </div>
+          <div>
+            <label>Alamat Kirim Kado Fisik</label><input id="fKado" type="text">
+            <label>No. WhatsApp Konfirmasi Kado</label><input id="fWa" type="text" placeholder="62812xxxxxxx">
+          </div>
+        </div>
+        <button class="btn ink" id="btnSimpanData" style="margin-top:18px">Simpan Data</button>
+        <span id="dataMsg" class="hint" style="margin-left:10px"></span>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:20px">3 · Subdomain &amp; Publikasi</h3>
+        <p class="hint">Alamat undanganmu nanti: <b>https://<span id="subPrev">nama-kamu</span>.doaselamanya.com</b></p>
+        <label>Subdomain Pilihanmu</label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <input id="inSub" type="text" placeholder="cth: nadia-raka" style="flex:1;min-width:200px">
+          <button class="btn line" id="btnCekSub">Cek Ketersediaan</button>
+        </div>
+        <p id="subMsg" class="hint"></p>
+        <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <button class="btn gold" id="btnPublish">🚀 Publikasikan Undangan</button>
+          <a class="btn line" id="btnPreview" href="u.html" target="_blank" rel="noopener">👁 Pratinjau Undangan (Engine)</a>
+        </div>
+        <p class="hint" style="margin-top:12px">Pratinjau membuka undangan yang dirender langsung oleh engine dari data &amp; tema pilihanmu — persis seperti yang akan dilihat tamu.</p>
+      </div>
+    </section>
+
+    <!-- ================= TAMU ================= -->
+    <section class="page" id="page-tamu">
+      <div class="phead">
+        <div><h1>Tamu &amp; RSVP</h1><p>Daftar tamu terhubung ke undangan: tiap tamu punya link personal &amp; QR buku tamu sendiri.</p></div>
+      </div>
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="font-size:20px">Tambah Tamu / Rombongan</h3>
+        <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;margin-top:10px" id="guestForm">
+          <input id="gNama" type="text" placeholder="Nama tamu / rombongan">
+          <input id="gGrup" type="text" placeholder="Grup (cth: Keluarga, Kantor)">
+          <input id="gWa" type="text" placeholder="No. WA (628xx)">
+          <button class="btn gold" id="btnAddGuest">+ Tambah</button>
+        </div>
+        <p class="hint">Satu entri bisa mewakili satu rombongan/keluarga — QR buku tamunya berlaku untuk rombongan itu.</p>
+      </div>
+      <div class="card" style="margin-bottom:18px;overflow-x:auto">
+        <table>
+          <thead><tr><th>Tamu</th><th>Grup</th><th>Status</th><th>Link Personal</th><th></th></tr></thead>
+          <tbody id="guestBody"></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3 style="font-size:20px;margin-bottom:14px">RSVP &amp; Ucapan Masuk</h3>
+        <div id="rsvpList"></div>
+      </div>
+    </section>
+
+    <!-- ================= BAGIKAN ================= -->
+    <section class="page" id="page-bagikan">
+      <div class="phead">
+        <div><h1>Bagikan via WhatsApp</h1><p>Cara paling gampang &amp; resmi: satu ketuk per tamu — WhatsApp terbuka dengan pesan personal berisi link undangan tamu itu. Tanpa aplikasi tambahan, tanpa risiko nomor diblokir.</p></div>
+      </div>
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="font-size:20px">Template Pesan</h3>
+        <label>Isi Pesan (otomatis dipersonalisasi)</label>
+        <textarea id="waTemplate" rows="6"></textarea>
+        <p class="hint">Variabel: <b>{nama}</b> = nama tamu · <b>{mempelai}</b> = nama kamu &amp; pasangan · <b>{link}</b> = link personal tamu itu.</p>
+        <button class="btn line sm" id="btnResetTpl" style="margin-top:10px">Kembalikan Template Awal</button>
+      </div>
+      <div class="card" style="margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">
+          <h3 style="font-size:20px">Progres Pengiriman</h3>
+          <span class="hint" id="progText" style="margin:0"></span>
+        </div>
+        <div class="prog" style="margin-top:12px"><i id="progBar" style="width:0%"></i></div>
+        <p class="hint" style="margin-top:12px">Klik tombol hijau di tiap tamu → WhatsApp terbuka → tekan kirim di WhatsApp → status tamu otomatis berubah jadi <b>Terkirim</b>.</p>
+      </div>
+      <div class="card" style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Tamu</th><th>Grup</th><th>Status</th><th>Kirim</th></tr></thead>
+          <tbody id="shareBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var THEMES = [
+ ['amplop-burgundy','Samudra Burgundy'],['zamrud','Zamrud Royal'],['amplop-navy','Samudra Malam'],
+ ['amplop-hitam-emas','Hitam Emas'],['rose-gold','Rose Gold'],['amplop-mahoni','Mahoni Klasik'],
+ ['art-deco','Art Deco Emas'],['marmer','Marmer Putih'],['pita-krem','Pita Krem'],['jawa-royal','Jawa Royal'],
+ ['doodle-biru','Doodle Biru'],['doodle-sage','Doodle Sage'],['doodle-mentega','Doodle Mentega'],
+ ['doodle-merah-muda','Doodle Merah Muda'],['doodle-lavender','Doodle Lavender'],['doodle-kraft','Doodle Kraft'],
+ ['doodle-toska','Doodle Toska'],['kayu-manis','Kayu Manis'],['kayu-arang','Kayu Arang'],
+ ['kayu-lumut','Kayu Lumut'],['kayu-denim','Kayu Denim'],['floral','Arunika Floral'],
+ ['jawa','Klasik Jawa'],['minimal','Sage Minimal']
+];
+var DEF_SETUP = {wanita:'Nadia Prameswari', pria:'Raka Aditya Pratama', tanggal:'2027-03-20', budget:40000000};
+var DEF_INVITE = {
+  theme:'jawa-royal', subdomain:'', live:false,
+  wanita:'Nadia Prameswari, S.E.', ortuW:'Bapak Bambang Sutrisno & Ibu Sri Wahyuni',
+  pria:'Raka Aditya Pratama, S.T.', ortuP:'Bapak Agus Pratama & Ibu Dewi Anggraini',
+  tanggal:'2027-03-20', akad:'08.00 – 10.00 WIB', resepsi:'11.00 – 13.00 WIB',
+  venue:'Gedung Serbaguna Al-Azhar', alamat:'Jl. Sisingamangaraja No. 2, Jakarta Selatan',
+  maps:'https://maps.google.com/?q=Gedung+Al-Azhar+Jakarta+Selatan',
+  bca:'1234567890 a.n. Nadia Prameswari', dana:'081234567890 a.n. Nadia Prameswari',
+  kado:'Jl. Kenanga No. 8, Kebayoran Baru, Jakarta Selatan 12120', wa:'6281234567890'
+};
+var DEF_GUESTS = [
+  {nama:'Keluarga Besar Wijaya', grup:'Keluarga', wa:'6281200000001', status:'hadir'},
+  {nama:'Bapak H. Ahmad Wijaya & Ibu', grup:'Keluarga', wa:'6281200000002', status:'buka'},
+  {nama:'Keluarga Besar Pratama', grup:'Keluarga', wa:'6281200000003', status:'kirim'},
+  {nama:'Rekan Kantor Raka', grup:'Kantor', wa:'6281200000004', status:'hadir'},
+  {nama:'Sahabat Nadia — Geng Melati', grup:'Sahabat', wa:'6281200000005', status:'belum'},
+  {nama:'Keluarga Besar Sutrisno', grup:'Keluarga', wa:'6281200000006', status:'absen'}
+];
+var DEF_RSVPS = [
+  {nama:'Keluarga Besar Wijaya', hadir:'Hadir, insya Allah', ucapan:'Barakallahu lakuma wa baraka alaikuma wa jama\'a bainakuma fii khair. Selamat Nadia & Raka!'},
+  {nama:'Rekan Kantor Raka', hadir:'Hadir, insya Allah', ucapan:'Akhirnya sampai juga hari ini. Sampai jumpa di hari H!'},
+  {nama:'Keluarga Besar Sutrisno', hadir:'Berhalangan hadir', ucapan:'Mohon maaf belum bisa hadir — doa terbaik untuk kedua mempelai dari kami sekeluarga.'}
+];
+var DEF_TPL = 'Assalamu\'alaikum Warahmatullahi Wabarakatuh\n\nDengan memohon rahmat dan ridha Allah SWT, kami mengundang Bapak/Ibu/Saudara/i {nama} untuk hadir dalam pernikahan kami, {mempelai}.\n\nUndangan personal Anda dapat dibuka di sini:\n{link}\n\nMerupakan suatu kehormatan bagi kami apabila berkenan hadir dan memberikan doa restu. Terima kasih.\n\nWassalamu\'alaikum Warahmatullahi Wabarakatuh';
+var ST = {belum:['Belum Dikirim','belum'], kirim:['Terkirim','kirim'], buka:['Dibuka','buka'], hadir:['RSVP · Hadir','hadir'], absen:['RSVP · Tidak Hadir','absen']};
+
+function load(k, def){ try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : JSON.parse(JSON.stringify(def)); } catch(e){ return JSON.parse(JSON.stringify(def)); } }
+function save(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
+var setup = load('ds2_setup', DEF_SETUP);
+var invite = load('ds2_invite', DEF_INVITE);
+var guests = load('ds2_guests', DEF_GUESTS);
+var rsvps = load('ds2_rsvps', DEF_RSVPS);
+var tpl = load('ds2_tpl', DEF_TPL);
+
+function $(id){ return document.getElementById(id); }
+function slugify(t){ return t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40) || 'tamu'; }
+function baseUrl(){ return location.href.split('dashboard.html')[0].split('?')[0]; }
+function guestLink(g){ return baseUrl() + 'u.html?to=' + slugify(g.nama); }
+function rp(n){ return 'Rp ' + Number(n||0).toLocaleString('id-ID'); }
+function toast(msg){ var t = $('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 2400); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+/* ---------- Tabs ---------- */
+document.querySelectorAll('.nav button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.nav button').forEach(function(x){ x.classList.remove('act'); });
+    document.querySelectorAll('.page').forEach(function(x){ x.classList.remove('act'); });
+    b.classList.add('act'); $('page-' + b.dataset.page).classList.add('act');
+    window.scrollTo({top:0});
+  });
+});
+
+/* ---------- Beranda ---------- */
+function fillSetup(){ $('inWanita').value = setup.wanita; $('inPria').value = setup.pria; $('inTanggal').value = setup.tanggal; $('inBudget').value = setup.budget; }
+function fmtTgl(iso){ try { return new Date(iso + 'T08:00:00+07:00').toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'}); } catch(e){ return iso; } }
+function tick(){
+  var target = new Date((setup.tanggal || '2027-03-20') + 'T08:00:00+07:00').getTime();
+  var sisa = Math.max(0, target - Date.now());
+  var d = Math.floor(sisa/86400000), h = Math.floor(sisa%86400000/3600000), m = Math.floor(sisa%3600000/60000), s = Math.floor(sisa%60000/1000);
+  $('cd-d').textContent = d; $('cd-h').textContent = String(h).padStart(2,'0'); $('cd-m').textContent = String(m).padStart(2,'0'); $('cd-s').textContent = String(s).padStart(2,'0');
+  $('cdTgl').textContent = fmtTgl(setup.tanggal);
+}
+function renderStats(){
+  $('haloNama').textContent = 'Halo, ' + setup.wanita.split(' ')[0] + ' & ' + setup.pria.split(' ')[0];
+  $('statBudget').textContent = rp(setup.budget);
+  $('statTamu').textContent = guests.length; $('statRsvp').textContent = rsvps.length;
+  if (invite.live && invite.subdomain){ $('statLive').innerHTML = '<span class="livechip"><i></i>LIVE</span>'; $('statSub').textContent = invite.subdomain + '.doaselamanya.com'; }
+  else { $('statLive').innerHTML = '<span class="draftchip">Draft</span>'; $('statSub').textContent = invite.subdomain ? invite.subdomain + '.doaselamanya.com (belum publish)' : 'Belum memilih subdomain'; }
+}
+$('btnSimpanSetup').addEventListener('click', function(){
+  setup = {wanita:$('inWanita').value.trim() || DEF_SETUP.wanita, pria:$('inPria').value.trim() || DEF_SETUP.pria, tanggal:$('inTanggal').value || DEF_SETUP.tanggal, budget:Number($('inBudget').value) || 0};
+  save('ds2_setup', setup); tick(); renderStats(); $('setupMsg').innerHTML = '<span class="ok">Tersimpan ✓</span>'; toast('Pengaturan dasar tersimpan');
+});
+
+/* ---------- Editor ---------- */
+function renderThemes(){
+  $('themeGrid').innerHTML = THEMES.map(function(t){
+    return '<button class="th' + (invite.theme === t[0] ? ' sel' : '') + '" data-slug="' + t[0] + '"><img src="assets/katalog-preview/card-' + t[0] + '.jpg" alt="Tema ' + t[1] + '" loading="lazy"><span>' + t[1] + '</span></button>';
+  }).join('');
+  document.querySelectorAll('.th').forEach(function(el){
+    el.addEventListener('click', function(){ invite.theme = el.dataset.slug; save('ds2_invite', invite); renderThemes(); toast('Tema dipilih: ' + el.textContent.trim()); });
+  });
+}
+function fillInvite(){
+  $('fWanita').value = invite.wanita; $('fOrtuW').value = invite.ortuW; $('fPria').value = invite.pria; $('fOrtuP').value = invite.ortuP;
+  $('fTanggal').value = invite.tanggal; $('fAkad').value = invite.akad; $('fResepsi').value = invite.resepsi;
+  $('fVenue').value = invite.venue; $('fAlamat').value = invite.alamat; $('fMaps').value = invite.maps;
+  $('fBca').value = invite.bca; $('fDana').value = invite.dana; $('fKado').value = invite.kado; $('fWa').value = invite.wa;
+  $('inSub').value = invite.subdomain || ''; $('subPrev').textContent = invite.subdomain || 'nama-kamu'; renderPub();
+}
+$('btnSimpanData').addEventListener('click', function(){
+  invite.wanita = $('fWanita').value; invite.ortuW = $('fOrtuW').value; invite.pria = $('fPria').value; invite.ortuP = $('fOrtuP').value;
+  invite.tanggal = $('fTanggal').value; invite.akad = $('fAkad').value; invite.resepsi = $('fResepsi').value;
+  invite.venue = $('fVenue').value; invite.alamat = $('fAlamat').value; invite.maps = $('fMaps').value;
+  invite.bca = $('fBca').value; invite.dana = $('fDana').value; invite.kado = $('fKado').value; invite.wa = $('fWa').value;
+  save('ds2_invite', invite); $('dataMsg').innerHTML = '<span class="ok">Tersimpan ✓ — pratinjau engine sudah memakai data ini</span>'; toast('Data undangan tersimpan');
+});
+function subValid(v){ return /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9])?$/.test(v) && ['www','app','admin','dashboard','katalog','mail','support'].indexOf(v) < 0; }
+$('inSub').addEventListener('input', function(){ $('subPrev').textContent = this.value.trim() || 'nama-kamu'; });
+$('btnCekSub').addEventListener('click', function(){
+  var v = $('inSub').value.trim().toLowerCase();
+  if (!v) { $('subMsg').innerHTML = '<span class="err">Isi dulu subdomain yang kamu mau.</span>'; return; }
+  if (!subValid(v)) { $('subMsg').innerHTML = '<span class="err">Format tidak valid</span> — gunakan huruf kecil, angka, dan tanda hubung (3–30 karakter), tanpa spasi.'; return; }
+  invite.subdomain = v; save('ds2_invite', invite);
+  $('subMsg').innerHTML = '<span class="ok">✓ ' + v + '.doaselamanya.com tersedia!</span> (simulasi demo) Silakan publikasikan.';
+});
+function renderPub(){
+  if (invite.live && invite.subdomain) { $('pubChip').className = 'livechip'; $('pubChip').innerHTML = '<i></i>LIVE · ' + invite.subdomain + '.doaselamanya.com'; }
+  else { $('pubChip').className = 'draftchip'; $('pubChip').textContent = 'Belum live'; }
+  renderStats();
+}
+$('btnPublish').addEventListener('click', function(){
+  var v = ($('inSub').value.trim().toLowerCase()) || invite.subdomain;
+  if (!v || !subValid(v)) { $('subMsg').innerHTML = '<span class="err">Pilih subdomain yang valid dulu sebelum publish.</span>'; toast('Subdomain belum valid'); return; }
+  invite.subdomain = v; invite.live = true; save('ds2_invite', invite); renderPub();
+  toast('🎉 Undangan LIVE di ' + v + '.doaselamanya.com');
+});
+
+/* ---------- Tamu & RSVP ---------- */
+function statusSel(g, i){
+  return '<select data-i="' + i + '" class="stSel" style="width:auto;padding:6px 9px;font-size:12.5px">' +
+    Object.keys(ST).map(function(k){ return '<option value="' + k + '"' + (g.status === k ? ' selected' : '') + '>' + ST[k][0] + '</option>'; }).join('') + '</select>';
+}
+function renderGuests(){
+  $('guestBody').innerHTML = guests.map(function(g, i){
+    return '<tr><td><b>' + esc(g.nama) + '</b><br><span style="color:var(--soft);font-size:12.5px">' + esc(g.wa || '—') + '</span></td><td>' + esc(g.grup) + '</td>' +
+      '<td><span class="st ' + ST[g.status][1] + '">' + ST[g.status][0] + '</span></td>' +
+      '<td><code style="font-size:12px">u.html?to=' + slugify(g.nama) + '</code></td>' +
+      '<td style="white-space:nowrap"><button class="btn line sm" data-copy="' + i + '">Salin Link</button> ' + statusSel(g, i) + '</td></tr>';
+  }).join('') || '<tr><td colspan="5" style="color:var(--soft)">Belum ada tamu. Tambahkan di atas.</td></tr>';
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var link = guestLink(guests[Number(b.dataset.copy)]);
+      if (navigator.clipboard) navigator.clipboard.writeText(link).then(function(){ toast('Link personal tersalin'); });
+      else window.prompt('Salin link ini:', link);
+    });
+  });
+  document.querySelectorAll('.stSel').forEach(function(sel){
+    sel.addEventListener('change', function(){ guests[Number(sel.dataset.i)].status = sel.value; save('ds2_guests', guests); renderGuests(); renderShare(); renderStats(); });
+  });
+}
+$('btnAddGuest').addEventListener('click', function(){
+  var nama = $('gNama').value.trim(); if (!nama) { toast('Isi nama tamu dulu'); return; }
+  guests.push({nama:nama, grup:$('gGrup').value.trim() || 'Umum', wa:$('gWa').value.trim(), status:'belum'});
+  save('ds2_guests', guests); $('gNama').value = ''; $('gGrup').value = ''; $('gWa').value = '';
+  renderGuests(); renderShare(); renderStats(); toast('Tamu ditambahkan');
+});
+function renderRsvps(){
+  $('rsvpList').innerHTML = rsvps.map(function(r){
+    var hadir = r.hadir.indexOf('Berhalangan') < 0;
+    return '<div class="rsvp-item"><b>' + esc(r.nama) + '</b> <span class="st ' + (hadir ? 'hadir' : 'absen') + '">' + esc(r.hadir) + '</span><p>&ldquo;' + esc(r.ucapan) + '&rdquo;</p></div>';
+  }).join('') || '<p style="color:var(--soft)">Belum ada RSVP masuk.</p>';
+}
+
+/* ---------- Bagikan WA ---------- */
+function waText(g){
+  var mempelai = setup.wanita.split(',')[0] + ' & ' + setup.pria.split(',')[0];
+  return tpl.replace(/\{nama\}/g, g.nama).replace(/\{mempelai\}/g, mempelai).replace(/\{link\}/g, guestLink(g));
+}
+function waUrl(g){
+  var num = (g.wa || '').replace(/[^0-9]/g, '');
+  return 'https://wa.me/' + num + '?text=' + encodeURIComponent(waText(g));
+}
+function renderShare(){
+  $('shareBody').innerHTML = guests.map(function(g, i){
+    return '<tr><td><b>' + esc(g.nama) + '</b></td><td>' + esc(g.grup) + '</td>' +
+      '<td><span class="st ' + ST[g.status][1] + '">' + ST[g.status][0] + '</span></td>' +
+      '<td><a class="btn wa sm" target="_blank" rel="noopener" href="' + waUrl(g) + '" data-wa="' + i + '">Kirim via WA</a></td></tr>';
+  }).join('') || '<tr><td colspan="4" style="color:var(--soft)">Belum ada tamu.</td></tr>';
+  document.querySelectorAll('[data-wa]').forEach(function(a){
+    a.addEventListener('click', function(){
+      var g = guests[Number(a.dataset.wa)];
+      if (g.status === 'belum') { g.status = 'kirim'; save('ds2_guests', guests); setTimeout(function(){ renderGuests(); renderShare(); }, 600); }
+    });
+  });
+  var sent = guests.filter(function(g){ return g.status !== 'belum'; }).length;
+  var pct = guests.length ? Math.round(sent / guests.length * 100) : 0;
+  $('progBar').style.width = pct + '%';
+  $('progText').textContent = sent + ' dari ' + guests.length + ' tamu sudah dikirimi (' + pct + '%)';
+}
+$('waTemplate').value = tpl;
+$('waTemplate').addEventListener('input', function(){ tpl = this.value; save('ds2_tpl', tpl); renderShare(); });
+$('btnResetTpl').addEventListener('click', function(){ tpl = DEF_TPL; save('ds2_tpl', tpl); $('waTemplate').value = tpl; renderShare(); toast('Template dikembalikan ke awal'); });
+
+/* ---------- Init ---------- */
+fillSetup(); fillInvite(); renderThemes(); renderGuests(); renderRsvps(); renderShare(); renderStats(); tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>
