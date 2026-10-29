@@ -66,6 +66,7 @@
 
   /* ---------- MEMPELAI ---------- */
   .mempelai h3{font-family:'Cormorant Garamond',serif;font-size:27px;color:var(--emerald);margin:18px 0 6px}
+  .mempelai .pimg{width:205px;aspect-ratio:.8;object-fit:cover;border-radius:115px 115px 14px 14px;border:1px solid var(--line);box-shadow:0 14px 30px rgba(51,38,31,.22);margin:0 auto 2px}
   .amp{font-family:'Great Vibes',cursive;font-size:40px;color:var(--gold);margin:30px 0 6px;line-height:1}
 
   /* ---------- COUNTDOWN (pita gelap bergambar) ---------- */
@@ -107,6 +108,8 @@
   /* ---------- GALERI ---------- */
   .galeri-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:360px;margin:0 auto}
   .galeri-grid figure{border-radius:16px;overflow:hidden;box-shadow:0 10px 24px rgba(51,38,31,.18);position:relative}
+  .galeri-grid figure.wide{grid-column:span 2}
+  .galeri-grid figure.wide img{aspect-ratio:1.85}
   .galeri-grid img{width:100%;height:100%;aspect-ratio:.86;object-fit:cover;transition:transform .6s ease}
   .galeri-grid figure:hover img{transform:scale(1.05)}
   .galeri-grid figcaption{position:absolute;left:0;right:0;bottom:0;padding:18px 10px 9px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14.5px;color:#FFF6E3;background:linear-gradient(180deg,transparent,rgba(7,23,17,.75));text-align:center}
@@ -180,13 +183,15 @@
   <section>
     <p class="kicker">Dua Hati, Satu Tujuan</p>
     <h2>Mempelai</h2>
-    <img class="frame-img" src="../assets/samudra-burgundy/arch.webp" alt="Rangkaian bunga anggrek dan mawar dalam bingkai lengkung emas dengan dua cincin di atas bantal beludru burgundy" style="aspect-ratio:.78">
-    <div class="mempelai">
+    <img class="frame-img" src="../assets/samudra-burgundy/couple.webp" alt="Foto prewedding Nadia dan Raka di depan tirai beludru emerald" style="aspect-ratio:.78">
+    <div class="mempelai" style="margin-top:30px">
+      <img class="pimg" src="../assets/samudra-burgundy/bride.webp" alt="Potret mempelai wanita, Nadia, dengan gaun burgundy">
       <h3>Nadia Prameswari, S.E.</h3>
       <p class="muted">Putri kedua dari<br>Bapak H. Ahmad Suryana &amp; Ibu Hj. Ratna Suryana</p>
     </div>
     <div class="amp">&amp;</div>
     <div class="mempelai">
+      <img class="pimg" src="../assets/samudra-burgundy/groom.webp" alt="Potret mempelai pria, Raka, dengan jas gelap dan dasi burgundy">
       <h3>Raka Aditya Pratama, S.T.</h3>
       <p class="muted">Putra pertama dari<br>Bapak Budi Pratama &amp; Ibu Dewi Pratama</p>
     </div>
@@ -267,7 +272,8 @@
     <p class="kicker">Galeri</p>
     <h2>Momen Kami</h2>
     <div class="galeri-grid">
-      <figure><img src="../assets/samudra-burgundy/story-coffee.webp" alt="Dua cangkir kopi di meja kafe"><figcaption>Awal Pertemuan</figcaption></figure>
+      <figure class="wide"><img src="../assets/samudra-burgundy/candid.webp" alt="Momen candid Nadia dan Raka saling menempelkan dahi"><figcaption>Momen Bahagia</figcaption></figure>
+      <figure><img src="../assets/samudra-burgundy/arch.webp" alt="Bingkai emas dan rangkaian bunga"><figcaption>Bingkai Emas</figcaption></figure>
       <figure><img src="../assets/samudra-burgundy/story-journey.webp" alt="Perjalanan dengan kereta saat senja"><figcaption>Perjalanan Bersama</figcaption></figure>
       <figure><img src="../assets/samudra-burgundy/hands.webp" alt="Dua tangan dengan cincin emas"><figcaption>Janji Suci</figcaption></figure>
       <figure><img src="../assets/samudra-burgundy/rings.webp" alt="Dua cincin emas di atas sutra krem dengan mawar putih"><figcaption>Dua Cincin</figcaption></figure>
