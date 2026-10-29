@@ -3,595 +3,439 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doa Selamanya — Wedding Planner & Undangan Digital dalam Satu Sistem</title>
-<meta name="description" content="Semua persiapan nikah beres dalam satu sistem: checklist, budget planner, daftar tamu, sampai undangan digital. Sekali bayar, aktif 1 tahun penuh.">
+<title>Doa Selamanya — Undangan Digital, QR Buku Tamu & Wedding Planner dalam Satu Sistem</title>
+<meta name="description" content="Semua persiapan nikah beres dalam satu sistem: undangan digital dengan nama tamu personal, QR buku tamu, dan wedding planner. Sekali bayar, aktif 1 tahun penuh.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#FBF7F0;
-    --cream-2:#F4ECDF;
-    --ink:#3E3A34;
-    --ink-soft:#6E675C;
-    --gold:#B08D57;
-    --gold-dark:#96733F;
-    --rose:#C48B7A;
-    --rose-soft:#F3E2DB;
-    --sage:#8A9B7E;
-    --sage-soft:#E7EBDF;
-    --card:#FFFFFF;
-    --line:#E7DCC9;
-    --shadow:0 10px 30px rgba(62,58,52,.08);
-    --radius:18px;
+    --cream:#FBF7F0; --cream-2:#F4ECDF; --ink:#3E3A34; --ink-2:#2C2823; --ink-soft:#6E675C;
+    --gold:#B08D57; --gold-dark:#96733F; --gold-soft:#E9DCC2;
+    --rose:#C48B7A; --rose-soft:#F6E7E0; --sage:#8A9B7E; --sage-soft:#E9EDE0;
+    --card:#FFFFFF; --line:#E7DCC9; --shadow:0 14px 34px rgba(62,58,52,.10);
+    --r:26px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    font-family:"Plus Jakarta Sans",system-ui,sans-serif;
-    background:var(--cream);
-    color:var(--ink);
-    line-height:1.65;
-    font-size:16px;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;line-height:1.2}
-  img{max-width:100%}
-  a{color:inherit}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-  section{padding:64px 0}
-  .section-head{text-align:center;max-width:640px;margin:0 auto 40px}
-  .section-head .eyebrow{
-    display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--gold-dark);margin-bottom:12px;
-  }
-  .section-head h2{font-size:1.9rem;margin-bottom:12px}
-  .section-head p{color:var(--ink-soft)}
-  .btn{
-    display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;
-    padding:14px 28px;font-size:.98rem;transition:transform .15s ease, box-shadow .15s ease;
-    text-align:center;
-  }
-  .btn:hover{transform:translateY(-2px)}
-  .btn-gold{background:var(--gold);color:#fff;box-shadow:0 8px 20px rgba(176,141,87,.35)}
-  .btn-gold:hover{background:var(--gold-dark)}
-  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--gold)}
-  .btn-ghost:hover{background:#fff}
-
-  /* ---------- Header ---------- */
-  header{
-    position:sticky;top:0;z-index:50;
-    background:rgba(251,247,240,.92);backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line);
-  }
-  .header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
-  .brand{font-family:"Playfair Display",serif;font-size:1.35rem;font-weight:700;text-decoration:none;white-space:nowrap}
-  .brand span{color:var(--gold)}
-  nav.main{display:none;gap:28px}
-  nav.main a{text-decoration:none;font-weight:600;font-size:.95rem;color:var(--ink-soft)}
-  nav.main a:hover{color:var(--gold-dark)}
-  .btn-header{padding:10px 20px;font-size:.9rem}
-  @media(min-width:760px){ nav.main{display:flex} }
-
-  /* ---------- Hero ---------- */
-  .hero{
-    padding:56px 0 72px;
-    background:
-      radial-gradient(600px 300px at 85% -50px, var(--rose-soft), transparent 70%),
-      radial-gradient(500px 260px at 5% 110%, var(--sage-soft), transparent 70%),
-      var(--cream);
-    overflow:hidden;
-  }
-  .hero-grid{display:grid;gap:44px;align-items:center}
-  @media(min-width:920px){ .hero-grid{grid-template-columns:1.05fr .95fr} }
-  .hero h1{font-size:2.35rem;margin-bottom:18px}
-  .hero h1 em{font-style:italic;color:var(--gold-dark)}
-  .hero p.lead{font-size:1.08rem;color:var(--ink-soft);margin-bottom:28px;max-width:520px}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:14px}
-  .hero-note{margin-top:18px;font-size:.88rem;color:var(--ink-soft)}
-
-  /* Kartu contoh dashboard (CSS murni) */
-  .mock{
-    background:var(--card);border:1px solid var(--line);border-radius:24px;
-    box-shadow:var(--shadow);padding:26px;position:relative;
-  }
-  .mock::before{
-    content:"";position:absolute;inset:-14px -14px auto auto;width:90px;height:90px;
-    border-radius:50%;background:var(--rose-soft);z-index:-1;
-  }
-  .mock-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
-  .mock-label{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rose)}
-  .mock-names{font-family:"Playfair Display",serif;font-size:1.5rem;font-weight:700}
-  .mock-date{font-size:.88rem;color:var(--ink-soft)}
-  .count-row{display:flex;gap:10px;margin:18px 0 22px}
-  .count-box{
-    flex:1;text-align:center;background:var(--cream);border:1px solid var(--line);
-    border-radius:14px;padding:12px 4px;
-  }
-  .count-box b{display:block;font-family:"Playfair Display",serif;font-size:1.45rem;color:var(--gold-dark)}
-  .count-box span{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
-  .mock h4{font-size:.92rem;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
-  .mock h4 .progress{font-size:.8rem;color:var(--sage);font-weight:700}
-  .progress-bar{height:8px;border-radius:99px;background:var(--cream-2);overflow:hidden;margin-bottom:16px}
-  .progress-bar i{display:block;height:100%;width:64%;background:linear-gradient(90deg,var(--sage),var(--gold));border-radius:99px}
-  .check-list{list-style:none;display:grid;gap:9px}
-  .check-list li{display:flex;gap:10px;align-items:center;font-size:.92rem;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:9px 12px}
-  .check-list .box{
-    width:20px;height:20px;border-radius:6px;flex:none;display:grid;place-items:center;
-    background:var(--sage);color:#fff;font-size:.75rem;font-weight:700;
-  }
-  .check-list li.pending .box{background:#fff;border:1.5px solid var(--line);color:transparent}
-  .check-list li.pending{color:var(--ink-soft)}
-  .check-list .tag{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--gold-dark);white-space:nowrap}
-
-  /* ---------- Strip kepercayaan ---------- */
-  .trust{background:var(--ink);color:var(--cream)}
-  .trust .wrap{display:flex;flex-wrap:wrap;gap:10px 34px;justify-content:center;padding-top:20px;padding-bottom:20px}
-  .trust span{font-weight:600;font-size:.95rem;display:flex;align-items:center;gap:9px}
-  .trust span::before{content:"✦";color:var(--gold)}
-
-  /* ---------- Masalah → solusi ---------- */
-  .cards-3{display:grid;gap:18px}
-  @media(min-width:820px){ .cards-3{grid-template-columns:repeat(3,1fr)} }
-  .pain-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:26px;box-shadow:var(--shadow);
-  }
-  .pain-card .icon{font-size:1.7rem;margin-bottom:12px}
-  .pain-card h3{font-size:1.15rem;margin-bottom:8px}
-  .pain-card p{color:var(--ink-soft);font-size:.95rem}
-  .pain-card p b{color:var(--rose)}
-
-  /* ---------- Fitur ---------- */
-  .fitur{background:var(--cream-2)}
-  .fitur-groups{display:grid;gap:22px}
-  @media(min-width:880px){ .fitur-groups{grid-template-columns:1fr 1fr} }
-  .fitur-group{
-    background:var(--card);border:1px solid var(--line);border-radius:24px;
-    padding:30px;box-shadow:var(--shadow);
-  }
-  .fitur-group > h3{font-size:1.35rem;margin-bottom:4px}
-  .fitur-group > p{color:var(--ink-soft);font-size:.93rem;margin-bottom:20px}
-  .fitur-group ul{list-style:none;display:grid;gap:16px}
-  .fitur-group li{display:flex;gap:14px}
-  .fitur-group .fi{
-    width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:1.15rem;
-  }
-  .fi-rose{background:var(--rose-soft)}
-  .fi-sage{background:var(--sage-soft)}
-  .fitur-group li b{display:block;font-size:.98rem}
-  .fitur-group li span{font-size:.9rem;color:var(--ink-soft)}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+  img{max-width:100%;display:block}
+  .container{max-width:1120px;margin:0 auto;padding:0 22px}
+  h1,h2,h3,.serif{font-family:'Playfair Display',Georgia,serif}
+  section{padding:88px 0;position:relative}
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .rv.in{opacity:1;transform:none}
+  /* ---------- HEADER ---------- */
+  header{position:sticky;top:0;z-index:50;background:var(--ink-2);color:var(--cream);box-shadow:0 6px 24px rgba(0,0,0,.25)}
+  .hbar{display:flex;align-items:center;gap:26px;padding:13px 0}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--cream)}
+  .brand img{width:38px;height:38px;border-radius:11px}
+  .brand b{font-family:'Playfair Display',serif;font-size:20px;letter-spacing:.4px;line-height:1.05}
+  .brand small{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-soft)}
+  nav{display:flex;gap:22px;margin-left:auto}
+  nav a{color:#EDE6D6;text-decoration:none;font-size:13.5px;font-weight:600}
+  nav a:hover{color:var(--gold-soft)}
+  .hctas{display:flex;gap:10px;margin-left:8px}
+  .pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:700;text-decoration:none;cursor:pointer;border:none;transition:.22s;font-family:'Plus Jakarta Sans',sans-serif}
+  .pill.sm{padding:9px 19px;font-size:13px}
+  .pill.lg{padding:15px 30px;font-size:15px}
+  .pill.gold{background:var(--gold);color:#FFF9EE;box-shadow:0 8px 20px rgba(176,141,87,.35)}
+  .pill.gold:hover{background:var(--gold-dark);transform:translateY(-2px)}
+  .pill.light{background:var(--cream);color:var(--ink)}
+  .pill.light:hover{background:#fff;transform:translateY(-2px)}
+  .pill.line{background:transparent;color:var(--cream);border:1.5px solid rgba(251,247,240,.5)}
+  .pill.line:hover{border-color:var(--gold-soft);color:var(--gold-soft)}
+  .pill.ink{background:var(--ink);color:var(--cream)}
+  .pill.ink:hover{background:var(--ink-2);transform:translateY(-2px)}
+  @media(max-width:820px){nav{display:none}.hctas{margin-left:auto}}
+  /* ---------- HERO ---------- */
+  .hero{padding:34px 0 0}
+  .hero-panel{background:linear-gradient(160deg,var(--ink) 0%,var(--ink-2) 70%);border-radius:34px;color:var(--cream);text-align:center;padding:64px 26px 0;overflow:hidden;position:relative}
+  .hero-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 45% at 50% 0%,rgba(176,141,87,.28),transparent 70%)}
+  .hero-panel>*{position:relative}
+  .hero h1{font-size:clamp(34px,5.6vw,56px);font-weight:600;line-height:1.16;max-width:760px;margin:0 auto}
+  .hero h1 em{color:var(--gold-soft)}
+  .hero p{color:#D9CFBB;max-width:600px;margin:18px auto 0;font-size:16.5px}
+  .hero .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+  .hero .strip{margin-top:20px;font-size:12.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold-soft);font-weight:700}
+  .hero-cards{display:flex;justify-content:center;align-items:flex-end;margin-top:46px;height:300px}
+  .hero-cards img{width:212px;height:283px;object-fit:cover;border-radius:18px;border:3px solid rgba(251,247,240,.85);box-shadow:0 24px 50px rgba(0,0,0,.45)}
+  .hero-cards .l{transform:rotate(-7deg) translateY(26px);margin-right:-34px}
+  .hero-cards .c{transform:translateY(6px);z-index:2;width:228px;height:304px}
+  .hero-cards .r{transform:rotate(7deg) translateY(26px);margin-left:-34px}
+  @media(max-width:560px){.hero-cards{height:218px}.hero-cards img{width:150px;height:200px}.hero-cards .c{width:162px;height:216px}}
+  /* ---------- INTRO STATS ---------- */
+  .intro{text-align:center}
+  .intro h2{font-size:clamp(28px,4.4vw,42px);font-weight:600}
+  .intro h2 em{color:var(--gold)}
+  .intro .sub{color:var(--ink-soft);max-width:560px;margin:12px auto 0}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+  @media(max-width:820px){.stats{grid-template-columns:1fr}}
+  .stat{border-radius:var(--r);padding:34px 26px;text-align:left;border:1px solid var(--line)}
+  .stat.rose{background:var(--rose-soft)} .stat.sage{background:var(--sage-soft)} .stat.sand{background:var(--cream-2)}
+  .stat .num{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:var(--gold-dark);line-height:1}
+  .stat h3{font-size:20px;margin:10px 0 6px}
+  .stat p{color:var(--ink-soft);font-size:14.5px}
+  /* ---------- PRODUCT SECTIONS ---------- */
+  .prod{border-radius:38px;margin:0 12px}
+  @media(max-width:640px){.prod{margin:0;border-radius:0}}
+  .prod.rose{background:var(--rose-soft)} .prod.sage{background:var(--sage-soft)} .prod.cream{background:var(--cream)}
+  .eyebrow{display:inline-block;background:var(--card);border:1px solid var(--line);color:var(--gold-dark);font-size:11.5px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;padding:8px 18px;border-radius:999px}
+  .prod h2{font-size:clamp(27px,4.2vw,40px);font-weight:600;line-height:1.25;max-width:640px}
+  .prod h2 em{color:var(--gold-dark)}
+  .prod .lead{color:var(--ink-soft);max-width:560px;margin-top:12px;font-size:15.5px}
+  .center{text-align:center}.center h2,.center .lead{margin-left:auto;margin-right:auto}
+  .keywords{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .center .keywords{justify-content:center}
+  .keywords span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700}
+  .feats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px;text-align:left}
+  @media(max-width:720px){.feats{grid-template-columns:1fr}}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+  .feat .ic{width:44px;height:44px;border-radius:13px;background:var(--cream-2);display:grid;place-items:center;font-size:20px;margin-bottom:12px}
+  .feat h3{font-size:18.5px;margin-bottom:5px}
+  .feat p{color:var(--ink-soft);font-size:14.5px}
+  .showcase{display:flex;justify-content:center;gap:0;margin-top:44px}
+  .showcase img{width:196px;height:261px;object-fit:cover;border-radius:16px;border:3px solid #fff;box-shadow:0 20px 44px rgba(62,58,52,.25)}
+  .showcase .a{transform:rotate(-5deg) translateY(14px)}
+  .showcase .b{transform:translateY(-4px);z-index:2;margin:0 -26px}
+  .showcase .c2{transform:rotate(5deg) translateY(14px)}
+  @media(max-width:560px){.showcase img{width:132px;height:176px}}
+  .bullets{list-style:none;margin-top:26px;text-align:left;max-width:520px}
+  .bullets li{padding:9px 0 9px 34px;position:relative;font-size:15px;border-bottom:1px dashed var(--line)}
+  .bullets li:last-child{border-bottom:none}
+  .bullets li::before{content:"✓";position:absolute;left:2px;top:9px;width:22px;height:22px;border-radius:50%;background:var(--sage);color:#fff;font-size:12.5px;font-weight:800;display:grid;place-items:center}
+  .split{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+  @media(max-width:860px){.split{grid-template-columns:1fr}}
+  .qrvisual{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:30px;text-align:center;max-width:360px;margin:0 auto}
+  .qrvisual img{width:190px;height:190px;margin:0 auto}
+  .qrvisual .chip{display:inline-block;margin-top:14px;background:var(--ink);color:var(--gold-soft);font-size:11px;letter-spacing:2.5px;padding:7px 15px;border-radius:999px}
+  .qrvisual p{color:var(--ink-soft);font-size:13.5px;margin-top:12px}
+  /* planner mock */
+  .mock{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px;text-align:left;max-width:420px;margin:0 auto}
+  .mock .mhead{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:12px}
+  .mock .mhead b{font-family:'Playfair Display',serif;font-size:18px}
+  .mock .mhead span{font-size:12px;color:var(--gold-dark);font-weight:800}
+  .mock .row{display:flex;justify-content:space-between;font-size:13.5px;padding:10px 0;border-bottom:1px dashed var(--line)}
+  .mock .row:last-child{border-bottom:none}
+  .mock .bar{height:9px;background:var(--cream-2);border-radius:99px;overflow:hidden;margin-top:6px}
+  .mock .bar i{display:block;height:100%;background:var(--sage);border-radius:99px}
+  .mock .tag{font-size:11px;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--sage-soft);color:#5C6B52}
+  .mock .tag.rose{background:var(--rose-soft);color:#96604F}
+  .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:30px;text-align:left}
+  @media(max-width:560px){.tools{grid-template-columns:1fr}}
+  .tool{background:rgba(255,255,255,.65);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .tool h3{font-size:16.5px;margin-bottom:4px}
+  .tool p{color:var(--ink-soft);font-size:13.5px}
+  /* ---------- HARGA ---------- */
+  .prices{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:820px;margin:44px auto 0;text-align:left}
+  @media(max-width:720px){.prices{grid-template-columns:1fr}}
+  .price{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:34px 30px;box-shadow:var(--shadow);position:relative}
+  .price.best{border:2px solid var(--gold)}
+  .price .badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--gold);color:#FFF9EE;font-size:11.5px;font-weight:800;letter-spacing:1.6px;padding:6px 16px;border-radius:999px;text-transform:uppercase;white-space:nowrap}
+  .price h3{font-size:21px}
+  .price .rp{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;margin:8px 0 2px}
+  .price .per{color:var(--ink-soft);font-size:13px}
+  .price ul{list-style:none;margin:18px 0 24px}
+  .price li{padding:7px 0 7px 28px;position:relative;font-size:14.5px;border-bottom:1px dashed var(--line)}
+  .price li:last-child{border-bottom:none}
+  .price li::before{content:"✓";position:absolute;left:0;top:7px;color:var(--gold-dark);font-weight:800}
+  .price li.no{color:#B4AA99}.price li.no::before{content:"—";color:#B4AA99}
+  /* ---------- KENAPA ---------- */
+  .why{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:42px;text-align:left}
+  @media(max-width:900px){.why{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.why{grid-template-columns:1fr}}
+  .why .w{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px}
+  .why .ic{font-size:24px;margin-bottom:10px}
+  .why h3{font-size:17.5px;margin-bottom:5px}
+  .why p{color:var(--ink-soft);font-size:14px}
+  /* ---------- MARQUEE ---------- */
+  .marquee{background:var(--ink);color:var(--gold-soft);overflow:hidden;padding:20px 0;transform:rotate(-1.2deg) scale(1.02)}
+  .marquee .track{display:flex;gap:0;white-space:nowrap;animation:mq 40s linear infinite;font-family:'Playfair Display',serif;font-size:19px}
+  .marquee span{padding:0 14px}
+  @keyframes mq{to{transform:translateX(-50%)}}
+  /* ---------- FAQ ---------- */
+  .faq{max-width:720px;margin:38px auto 0;text-align:left}
+  .qa{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:12px;overflow:hidden}
+  .qa button{width:100%;background:none;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15.5px;color:var(--ink);text-align:left;padding:19px 22px;cursor:pointer;display:flex;justify-content:space-between;gap:14px;align-items:center}
+  .qa button i{font-style:normal;color:var(--gold-dark);font-size:20px;transition:.3s}
+  .qa .ans{display:none;padding:0 22px 19px;color:var(--ink-soft);font-size:14.5px}
+  .qa.open .ans{display:block}.qa.open button i{transform:rotate(45deg)}
+  /* ---------- CTA BAND & FOOTER ---------- */
+  .ctaband{background:linear-gradient(150deg,var(--ink),var(--ink-2));border-radius:34px;color:var(--cream);text-align:center;padding:58px 26px}
+  .ctaband h2{color:var(--cream);font-size:clamp(26px,4vw,38px);font-weight:600}
+  .ctaband h2 em{color:var(--gold-soft)}
+  .ctaband p{color:#D9CFBB;max-width:520px;margin:12px auto 0}
+  .ctaband .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+  footer{background:var(--ink-2);color:#CFC5AE;padding:60px 0 34px;margin-top:88px}
+  .fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
+  @media(max-width:820px){.fgrid{grid-template-columns:1fr 1fr}}
+  footer h4{font-family:'Playfair Display',serif;color:var(--cream);font-size:16.5px;margin-bottom:13px}
+  footer a{color:#CFC5AE;text-decoration:none;font-size:13.5px;display:block;padding:4px 0}
+  footer a:hover{color:var(--gold-soft)}
+  footer p{font-size:13.5px;line-height:1.7}
+  .fbrand{display:flex;gap:11px;align-items:center;margin-bottom:13px}
+  .fbrand img{width:36px;height:36px;border-radius:10px}
+  .fbrand b{font-family:'Playfair Display',serif;color:var(--cream);font-size:18px}
+  .fbot{border-top:1px solid rgba(251,247,240,.14);margin-top:36px;padding-top:20px;font-size:12.5px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 </style>
 </head>
 <body>
 
-<!-- ================= HEADER ================= -->
 <header>
-  <div class="wrap header-inner">
-    <a class="brand" href="#">Doa <span>Selamanya</span></a>
-    <nav class="main">
+  <div class="container hbar">
+    <a class="brand" href="#"><img src="logo-mark.png" alt="Logo Doa Selamanya"><span><b>Doa Selamanya</b><small>Wedding in One System</small></span></a>
+    <nav>
+      <a href="katalog.html">Tema</a>
       <a href="#fitur">Fitur</a>
-      <a href="#tema">Tema</a>
+      <a href="#planner">Planner</a>
       <a href="#harga">Harga</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn btn-gold btn-header" href="#harga">Pesan Sekarang</a>
+    <div class="hctas">
+      <a class="pill sm light" href="katalog.html">Lihat Katalog</a>
+      <a class="pill sm gold" href="#harga">Beli Sekarang</a>
+    </div>
   </div>
 </header>
 
-<!-- ================= HERO ================= -->
-<div class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <h1>Semua Persiapan Nikah, <em>Beres</em> dalam Satu Sistem.</h1>
-      <p class="lead">Dari checklist persiapan, budget planner, dan daftar tamu — sampai undangan digitalnya — semua menyatu dalam satu dashboard. Sekali bayar, aktif 1 tahun penuh, semua fitur terbuka.</p>
-      <div class="hero-cta">
-        <a class="btn btn-gold" href="#harga">Lihat Paket &amp; Harga</a>
-        <a class="btn btn-ghost" href="#tema">Lihat Contoh Undangan</a>
-      </div>
-      <p class="hero-note">Tanpa langganan bulanan. Tanpa fitur yang dikunci-kunci.</p>
+<!-- HERO -->
+<div class="container hero">
+  <div class="hero-panel rv">
+    <h1>Persiapan Nikahmu, <em>Selesai</em> dalam Satu Tempat</h1>
+    <p>Undangan digital dengan nama tamu personal, QR buku tamu, dan wedding planner — beres dalam satu sistem Doa Selamanya. Sekali bayar, aktif satu tahun penuh.</p>
+    <div class="ctas">
+      <a class="pill lg gold" href="katalog.html">Lihat 24 Tema →</a>
+      <a class="pill lg line" href="#harga">Cek Harga</a>
     </div>
-
-    <!-- Contoh tampilan dashboard (ilustrasi CSS) -->
-    <div class="mock" aria-hidden="true">
-      <div class="mock-head">
-        <div>
-          <div class="mock-label">Menghitung Hari</div>
-          <div class="mock-names">Raka &amp; Nadia</div>
-          <div class="mock-date">Akad &amp; Resepsi — Sabtu, 20 Maret 2027</div>
-        </div>
-        <div style="font-size:1.6rem">💌</div>
-      </div>
-      <div class="count-row">
-        <div class="count-box"><b>128</b><span>Hari lagi</span></div>
-        <div class="count-box"><b>9</b><span>Bulan</span></div>
-        <div class="count-box"><b>300</b><span>Tamu</span></div>
-      </div>
-      <h4>Checklist Persiapan <span class="progress">64% beres</span></h4>
-      <div class="progress-bar"><i></i></div>
-      <ul class="check-list">
-        <li><span class="box">✓</span> Booking venue &amp; katering <span class="tag">Beres</span></li>
-        <li><span class="box">✓</span> Dokumen KUA lengkap <span class="tag">Beres</span></li>
-        <li><span class="box">✓</span> Fitting busana pengantin <span class="tag">Beres</span></li>
-        <li class="pending"><span class="box">✓</span> Sebar undangan digital <span class="tag">H-30</span></li>
-        <li class="pending"><span class="box">✓</span> Konfirmasi RSVP tamu <span class="tag">H-14</span></li>
-      </ul>
+    <div class="strip">Sekali Bayar ✦ Tanpa Langganan ✦ Semua Fitur Terbuka</div>
+    <div class="hero-cards">
+      <img class="l" src="assets/katalog-preview/card-amplop-burgundy.jpg" alt="Tema Samudra Burgundy">
+      <img class="c" src="assets/katalog-preview/card-jawa-royal.jpg" alt="Tema Jawa Royal">
+      <img class="r" src="assets/katalog-preview/card-kayu-lumut.jpg" alt="Tema Kayu Lumut">
     </div>
   </div>
 </div>
 
-<!-- ================= STRIP KEPERCAYAAN ================= -->
-<div class="trust">
-  <div class="wrap">
-    <span>Sekali bayar</span>
-    <span>Aktif 1 tahun penuh</span>
-    <span>Semua fitur terbuka</span>
-    <span>Tanpa langganan</span>
+<!-- INTRO -->
+<section class="intro">
+  <div class="container">
+    <h2 class="rv">Kenalin, <em>Doa Selamanya</em> — Partner Digital Hari Spesial Kamu</h2>
+    <p class="sub rv">Bukan sekadar undangan. Ini sistem yang menemani dari hari pertama persiapan sampai tamu terakhir pulang.</p>
+    <div class="stats">
+      <div class="stat rose rv"><div class="num">24</div><h3>Tema Premium</h3><p>Dibangun satu per satu dengan artwork khusus di setiap slot foto — bukan hasil generate massal.</p></div>
+      <div class="stat sand rv"><div class="num">3-in-1</div><h3>Satu Sistem Utuh</h3><p>Undangan website, QR buku tamu digital, dan wedding planner saling terhubung dalam satu dashboard.</p></div>
+      <div class="stat sage rv"><div class="num">1 Tahun</div><h3>Aktif Penuh</h3><p>Undangan dan planner-mu aktif satu tahun penuh sejak pembelian. Tanpa biaya bulanan, tanpa kejutan.</p></div>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- ================= MASALAH → SOLUSI ================= -->
+<!-- PRODUK 1: UNDANGAN -->
+<section class="prod rose" id="fitur" style="padding-top:76px;padding-bottom:76px">
+  <div class="container center">
+    <span class="eyebrow rv">Undangan Website</span>
+    <h2 class="rv" style="margin-top:18px">Undangan yang Menyebut <em>Nama Tamumu</em> Satu-Satu</h2>
+    <p class="lead rv">Setiap tamu menerima link personal dengan namanya sendiri di sampul undangan — bukan undangan massal yang terasa seperti brosur.</p>
+    <div class="keywords rv"><span>✦ Nama Tamu Personal</span><span>✦ RSVP Pilihan Hadir</span><span>✦ Amplop Digital</span><span>✦ Musik &amp; Countdown</span><span>✦ Rundown Acara</span></div>
+    <div class="showcase rv">
+      <img class="a" src="assets/katalog-preview/card-doodle-biru.jpg" alt="Tema Doodle Biru">
+      <img class="b" src="assets/katalog-preview/card-marmer.jpg" alt="Tema Marmer Putih">
+      <img class="c2" src="assets/katalog-preview/card-amplop-burgundy.jpg" alt="Tema Samudra Burgundy">
+    </div>
+    <div class="feats">
+      <div class="feat rv"><div class="ic">✉️</div><h3>Link Personal per Tamu</h3><p>Nama tamu tampil utuh di sampul — tanpa dikotaki, tanpa menutupi artwork. Tamu merasa diundang, bukan di-broadcast.</p></div>
+      <div class="feat rv"><div class="ic">📋</div><h3>RSVP &amp; Ucapan Masuk Dashboard</h3><p>Konfirmasi hadir/tidak dan doa dari tamu terkumpul rapi dan bisa kamu pantau kapan saja secara real-time.</p></div>
+      <div class="feat rv"><div class="ic">💌</div><h3>Amplop Digital &amp; Wedding Gift</h3><p>Nomor rekening dan e-wallet dengan tombol salin, plus alamat kirim kado fisik dengan konfirmasi WhatsApp.</p></div>
+      <div class="feat rv"><div class="ic">🎵</div><h3>Musik, Countdown &amp; Rundown</h3><p>Lagu latar mulai saat undangan dibuka, hitung mundur ke hari H, dan susunan acara per jam yang jelas untuk tamu.</p></div>
+    </div>
+    <a class="pill lg ink rv" href="katalog.html" style="margin-top:38px">Jelajahi 24 Tema →</a>
+  </div>
+</section>
+
+<!-- PRODUK 2: QR BUKU TAMU -->
 <section>
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Kenapa Doa Selamanya</span>
-      <h2>Persiapan Nikah Itu Ribet. Sistemnya Jangan Ikutan Ribet.</h2>
-      <p>Tiga masalah yang hampir selalu dialami calon pengantin — dan cara kami membereskannya.</p>
+  <div class="container split">
+    <div class="rv">
+      <span class="eyebrow">Buku Tamu Digital</span>
+      <h2 style="margin-top:18px">Check-In Tamu Semudah <em style="color:var(--gold-dark)">Memindai QR</em></h2>
+      <p class="lead" style="max-width:520px">Setiap undangan membawa QR buku tamu milik rombongannya. Tunjukkan ke resepsionis, dan kehadiran tercatat otomatis — tanpa antre, tanpa buku fisik yang hilang.</p>
+      <ul class="bullets">
+        <li>Satu QR untuk satu rombongan sesuai nama undangan</li>
+        <li>Kehadiran tercatat real-time dan masuk ke dashboard kamu</li>
+        <li>Tamu VIP dan rombongan keluarga mudah dikenali petugas</li>
+        <li>Rekap tamu hadir tersedia kapan saja setelah acara</li>
+        <li>Tetap sopan untuk konsep syar'i — tersedia versi tanpa foto mempelai</li>
+      </ul>
+      <a class="pill lg gold" href="tema/jawa-royal.html" style="margin-top:26px">Lihat Contoh QR-nya →</a>
     </div>
-    <div class="cards-3">
-      <article class="pain-card">
-        <div class="icon">💸</div>
-        <h3>Undangan Cetak Mahal</h3>
-        <p>Undangan cetak untuk 300 tamu bisa habis <b>Rp3–6 juta</b> — dan berakhir menumpuk di laci tamu. Undangan digital kami mulai Rp49.000, bisa diperbarui kapan pun tanpa cetak ulang.</p>
-      </article>
-      <article class="pain-card">
-        <div class="icon">🗂️</div>
-        <h3>Persiapan Tercecer di Mana-mana</h3>
-        <p>Checklist di catatan HP, budget di spreadsheet, daftar tamu di chat, undangan di platform lain. Di Doa Selamanya semuanya <b>satu tempat</b> — data tamu dan budget mengalir langsung ke undangan, tanpa input ulang.</p>
-      </article>
-      <article class="pain-card">
-        <div class="icon">⏳</div>
-        <h3>Baru Dibeli, Sudah Kedaluwarsa</h3>
-        <p>Di platform lain, paket murah masa aktifnya cuma <b>7–30 hari</b> dan fitur pentingnya dikunci di paket mahal. Di sini: aktif <b>1 tahun penuh</b>, semua fitur terbuka sejak hari pertama.</p>
-      </article>
+    <div class="qrvisual rv">
+      <img src="assets/jawa-royal/qr-checkin.png" alt="Contoh QR buku tamu Doa Selamanya">
+      <div><span class="chip">DS · NR · 2027</span></div>
+      <p>Tunjukkan QR ini kepada resepsionis wedding kami untuk buku tamu.</p>
     </div>
   </div>
 </section>
 
-<style>
-  /* ---------- Tema ---------- */
-  .tema-grid{display:grid;gap:18px}
-  @media(min-width:820px){ .tema-grid{grid-template-columns:repeat(3,1fr)} }
-  .tema-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    overflow:hidden;box-shadow:var(--shadow);text-decoration:none;display:block;
-    transition:transform .15s ease;
-  }
-  .tema-card:hover{transform:translateY(-4px)}
-  .tema-visual{height:190px;display:grid;place-items:center;position:relative}
-  .tema-visual .orn{font-size:2.6rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.15))}
-  .tema-visual .names{
-    position:absolute;bottom:14px;left:0;right:0;text-align:center;
-    font-family:"Playfair Display",serif;font-style:italic;font-size:1.05rem;
-  }
-  .tv-floral{background:linear-gradient(150deg,#F7DCD2,#F3E6D8 55%,#EFE3CE)}
-  .tv-floral .names{color:#9A5F4E}
-  .tv-jawa{background:linear-gradient(150deg,#4A3826,#6B4F30 55%,#8A6A3C)}
-  .tv-jawa .names{color:#F0DFC0}
-  .tv-sage{background:linear-gradient(150deg,#DCE3D2,#E9EDDF 55%,#F1EFE2)}
-  .tv-sage .names{color:#5F7052}
-  .tema-body{padding:20px 22px 24px}
-  .tema-body h3{font-size:1.2rem;margin-bottom:6px}
-  .tema-body p{color:var(--ink-soft);font-size:.93rem;margin-bottom:12px}
-  .tema-body .open{font-weight:700;color:var(--gold-dark);font-size:.92rem}
-  .tema-visual{overflow:hidden}
-  .tema-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .tema-visual .names{z-index:1;text-shadow:0 2px 10px rgba(0,0,0,.55)}
-  .tvariants{display:flex;gap:8px;flex-wrap:wrap}
-  .tvariants a{flex:1;text-align:center;text-decoration:none;font-weight:700;font-size:.85rem;padding:10px 8px;border-radius:999px;border:1.5px solid var(--gold);color:var(--gold-dark);background:#FFF;white-space:nowrap}
-  .tvariants a.foto{background:var(--gold);color:#FFF;border-color:var(--gold)}
-
-  /* ---------- Cara kerja ---------- */
-  .steps{display:grid;gap:18px;counter-reset:step}
-  @media(min-width:820px){ .steps{grid-template-columns:repeat(3,1fr)} }
-  .step{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    padding:26px;box-shadow:var(--shadow);position:relative;
-  }
-  .step .num{
-    width:40px;height:40px;border-radius:50%;background:var(--gold);color:#fff;
-    display:grid;place-items:center;font-family:"Playfair Display",serif;font-weight:700;
-    font-size:1.1rem;margin-bottom:14px;
-  }
-  .step h3{font-size:1.12rem;margin-bottom:8px}
-  .step p{color:var(--ink-soft);font-size:.94rem}
-
-  /* ---------- Harga ---------- */
-  .harga{background:var(--cream-2)}
-  .price-grid{display:grid;gap:22px;max-width:860px;margin:0 auto}
-  @media(min-width:820px){ .price-grid{grid-template-columns:1fr 1fr} }
-  .price-card{
-    background:var(--card);border:1px solid var(--line);border-radius:24px;
-    padding:32px 28px;box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column;
-  }
-  .price-card.featured{border:2px solid var(--gold)}
-  .badge{
-    position:absolute;top:-14px;left:50%;transform:translateX(-50%);
-    background:var(--gold);color:#fff;font-size:.78rem;font-weight:700;
-    letter-spacing:.06em;text-transform:uppercase;padding:6px 16px;border-radius:999px;white-space:nowrap;
-  }
-  .price-card h3{font-size:1.3rem;text-align:center}
-  .price{text-align:center;margin:14px 0 4px;font-family:"Playfair Display",serif}
-  .price b{font-size:2.4rem;font-weight:700}
-  .price-note{text-align:center;color:var(--ink-soft);font-size:.88rem;margin-bottom:22px}
-  .price-card ul{list-style:none;display:grid;gap:11px;margin-bottom:28px}
-  .price-card li{display:flex;gap:10px;font-size:.95rem}
-  .price-card li::before{content:"✓";color:var(--sage);font-weight:700;flex:none}
-  .price-card .btn{margin-top:auto}
-  .harga-note{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:26px}
-
-  /* ---------- FAQ ---------- */
-  .faq-list{max-width:760px;margin:0 auto;display:grid;gap:12px}
-  .faq-item{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-  .faq-q{
-    width:100%;background:none;border:none;cursor:pointer;text-align:left;
-    font-family:inherit;font-size:1rem;font-weight:700;color:var(--ink);
-    padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px;
-  }
-  .faq-q .chev{color:var(--gold-dark);font-size:1.2rem;transition:transform .2s ease;flex:none}
-  .faq-item.open .faq-q .chev{transform:rotate(180deg)}
-  .faq-a{display:none;padding:0 20px 18px;color:var(--ink-soft);font-size:.95rem}
-  .faq-item.open .faq-a{display:block}
-
-  /* ---------- CTA penutup & footer ---------- */
-  .closing{
-    background:linear-gradient(140deg,#4A4238,#3E3A34);color:var(--cream);text-align:center;
-  }
-  .closing h2{font-size:2rem;margin-bottom:14px}
-  .closing h2 em{font-style:italic;color:#E4C88F}
-  .closing p{color:#CFC7B8;max-width:520px;margin:0 auto 28px}
-  footer{padding:36px 0 42px;text-align:center;color:var(--ink-soft);font-size:.92rem}
-  footer .fbrand{font-family:"Playfair Display",serif;font-size:1.2rem;color:var(--ink);margin-bottom:6px}
-  footer .tagline{font-style:italic;margin-bottom:14px}
-</style>
-
-<!-- ================= FITUR ================= -->
-<section class="fitur" id="fitur">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Fitur</span>
-      <h2>Dua Kekuatan, Satu Dashboard</h2>
-      <p>Planner untuk menyiapkan hari bahagia, undangan digital untuk menyebarkannya — datanya saling terhubung.</p>
+<!-- PRODUK 3: PLANNER -->
+<section class="prod sage" id="planner" style="padding-top:76px;padding-bottom:76px">
+  <div class="container">
+    <div class="center">
+      <span class="eyebrow rv">Wedding Planner</span>
+      <h2 class="rv" style="margin-top:18px">Persiapan Nikah, <em>dalam Genggaman</em></h2>
+      <p class="lead rv">Checklist, anggaran, dan daftar tamu yang terhubung langsung dengan undanganmu — bukan file tersebar di mana-mana.</p>
     </div>
-    <div class="fitur-groups">
-
-      <div class="fitur-group">
-        <h3>🗓️ Wedding Planner</h3>
-        <p>Tersedia di Paket Lengkap — pendamping persiapanmu dari lamaran sampai hari H.</p>
-        <ul>
-          <li><span class="fi fi-rose">⏳</span><div><b>Countdown Hari H</b><span>Hitung mundur otomatis ke tanggal akad &amp; resepsi, selalu terlihat di beranda dashboard.</span></div></li>
-          <li><span class="fi fi-rose">✅</span><div><b>Checklist Berbasis Timeline</b><span>Template persiapan lengkap — dokumen KUA, venue, katering, MUA, busana, sampai seserahan — dengan tenggat relatif ke hari H dan progress yang terlihat.</span></div></li>
-          <li><span class="fi fi-rose">💰</span><div><b>Budget Planner</b><span>Catat estimasi vs realisasi per kategori, pantau total terpakai dan sisa anggaran tanpa spreadsheet terpisah.</span></div></li>
-          <li><span class="fi fi-rose">👥</span><div><b>Daftar Tamu Terpadu</b><span>Kelompokkan tamu (keluarga, teman, kantor) dan pantau statusnya: terkirim → dibuka → RSVP.</span></div></li>
-          <li><span class="fi fi-rose">🔗</span><div><b>Terhubung ke Undangan</b><span>Nama tamu yang sudah kamu susun langsung jadi link personal undangan — tidak ada input ulang.</span></div></li>
-        </ul>
+    <div class="split" style="margin-top:44px">
+      <div class="mock rv">
+        <div class="mhead"><b>Planner Nadia &amp; Raka</b><span>H-142 hari</span></div>
+        <div class="row"><span>Checklist persiapan</span><b>18 / 30 beres</b></div>
+        <div class="bar" style="margin:2px 0 8px"><i style="width:60%"></i></div>
+        <div class="row"><span>Budget terpakai</span><b>Rp 24,5 jt / 40 jt</b></div>
+        <div class="row"><span>Tamu terkonfirmasi</span><span class="tag">212 hadir</span></div>
+        <div class="row"><span>Undangan terkirim</span><span class="tag rose">86% dibuka</span></div>
       </div>
-
-      <div class="fitur-group">
-        <h3>💌 Undangan Digital</h3>
-        <p>Ada di semua paket — undangan website yang siap sebar lewat WhatsApp.</p>
-        <ul>
-          <li><span class="fi fi-sage">🎟️</span><div><b>Link Personal per Tamu</b><span>Setiap tamu menerima link dengan namanya sendiri di sampul undangan — terasa personal, seperti undangan cetak.</span></div></li>
-          <li><span class="fi fi-sage">📩</span><div><b>RSVP &amp; Ucapan Masuk Dashboard</b><span>Konfirmasi kehadiran dan doa dari tamu terkumpul rapi, tidak tercecer di chat.</span></div></li>
-          <li><span class="fi fi-sage">🎁</span><div><b>Amplop Digital</b><span>Nomor rekening, QRIS, dan alamat kirim kado fisik — tamu yang berhalangan tetap bisa memberi tanda kasih.</span></div></li>
-          <li><span class="fi fi-sage">📸</span><div><b>Galeri &amp; Love Story</b><span>Foto prewedding dan cerita perjalanan cintamu, plus detail acara dengan petunjuk lokasi.</span></div></li>
-          <li><span class="fi fi-sage">💬</span><div><b>Kirim WA per Tamu</b><span>Template pesan personal siap kirim untuk tiap tamu, lengkap dengan status sudah dibuka atau belum.</span></div></li>
-          <li><span class="fi fi-sage">🌿</span><div><b>Opsi Tanpa Foto</b><span>Ada tema yang tampil elegan tanpa foto pasangan — untukmu yang menjaga privasi.</span></div></li>
-        </ul>
+      <div class="tools" style="margin-top:0">
+        <div class="tool rv"><h3>⏳ Countdown &amp; Checklist</h3><p>Hitung mundur hari H dengan daftar persiapan per tahap, dari lamaran sampai hari pernikahan.</p></div>
+        <div class="tool rv"><h3>💰 Budget Planner</h3><p>Catat estimasi dan realisasi tiap pos — venue, katering, dekor — agar tidak ada biaya yang bocor diam-diam.</p></div>
+        <div class="tool rv"><h3>👥 Daftar Tamu Terpadu</h3><p>Status tiap tamu jelas: terkirim, dibuka, sampai RSVP-nya — tersambung langsung ke undangan digital.</p></div>
+        <div class="tool rv"><h3>🎤 Rundown Hari H</h3><p>Susunan acara per jam yang sama dengan yang dilihat tamu di undangan. Sekali atur, semua selaras.</p></div>
       </div>
-
     </div>
+    <div class="center"><a class="pill lg ink rv" href="#harga" style="margin-top:40px">Dapatkan Paket Lengkapnya →</a></div>
   </div>
 </section>
 
-<!-- ================= TEMA ================= -->
-<section id="tema">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Contoh Tema</span>
-      <h2>Pilih Tema yang Paling "Kamu Banget"</h2>
-      <p>Setiap tema premium tersedia dalam <b>dua versi</b> — dengan foto pasangan, atau tanpa foto mempelai sama sekali (gambar dekorasi tema tetap tampil). Pilih versi pada tiap kartu, atau jelajahi seluruh katalog berisi 24 tema.</p>
-    </div>
-    <div class="tema-grid">
-      <div class="tema-card">
-        <div class="tema-visual">
-          <img src="assets/samudra-burgundy/cover.webp" alt="Preview tema Samudra Burgundy">
-          <span class="names" style="color:#FFF6E3">Nadia &amp; Raka</span>
-        </div>
-        <div class="tema-body">
-          <h3>Samudra Burgundy ★ Premium</h3>
-          <p>Tirai emerald gelap, amplop burgundy, dan segel lilin emas — standar premium Doa Selamanya.</p>
-          <div class="tvariants"><a class="foto" href="tema/amplop-burgundy.html">📷 Dengan Foto</a><a href="tema/amplop-burgundy-tanpa-foto.html">🌿 Tanpa Foto</a></div>
-        </div>
-      </div>
-      <div class="tema-card">
-        <div class="tema-visual">
-          <img src="assets/zamrud/cover.webp" alt="Preview tema Zamrud Royal">
-          <span class="names" style="color:#FFF6E3">Nadia &amp; Raka</span>
-        </div>
-        <div class="tema-body">
-          <h3>Zamrud Royal ★ Premium</h3>
-          <p>Amplop zamrud bersegel emas di atas tirai gading, dengan anggrek dan mawar putih.</p>
-          <div class="tvariants"><a class="foto" href="tema/zamrud.html">📷 Dengan Foto</a><a href="tema/zamrud-tanpa-foto.html">🌿 Tanpa Foto</a></div>
-        </div>
-      </div>
-      <div class="tema-card">
-        <div class="tema-visual">
-          <img src="assets/marmer/cover.webp" alt="Preview tema Marmer Putih">
-          <span class="names" style="color:#FFF6E3">Nadia &amp; Raka</span>
-        </div>
-        <div class="tema-body">
-          <h3>Marmer Putih ★ Premium</h3>
-          <p>Marmer putih berurat emas dan amplop putih bersegel lilin emas — terang, bersih, mewah.</p>
-          <div class="tvariants"><a class="foto" href="tema/marmer.html">📷 Dengan Foto</a><a href="tema/marmer-tanpa-foto.html">🌿 Tanpa Foto</a></div>
-        </div>
-      </div>
-    </div>
-    <p style="text-align:center;margin-top:28px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn btn-gold" href="katalog.html?versi=foto">Katalog — Dengan Foto →</a><a class="btn btn-ghost" href="katalog.html?versi=tanpafoto">Katalog — Tanpa Foto →</a></p>
-  </div>
-</section>
-
-<!-- ================= CARA KERJA ================= -->
-<section style="padding-top:0">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Cara Kerja</span>
-      <h2>Tiga Langkah, Langsung Bisa Disebar</h2>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="num">1</div>
-        <h3>Pilih Paket &amp; Checkout</h3>
-        <p>Pilih Undangan Saja atau Paket Lengkap, lalu checkout lewat Shopee atau WhatsApp. Sekali bayar — selesai, tidak ada tagihan bulanan.</p>
-      </div>
-      <div class="step">
-        <div class="num">2</div>
-        <h3>Isi Data Lewat Form</h3>
-        <p>Isi nama, tanggal, lokasi, foto, dan daftar tamu lewat form yang kami kirim. Semua serba form — tidak perlu keahlian teknis apa pun.</p>
-      </div>
-      <div class="step">
-        <div class="num">3</div>
-        <h3>Link Jadi, Tinggal Sebar</h3>
-        <p>Undanganmu tayang di link sendiri, lengkap dengan link personal per tamu. Sebar lewat WhatsApp dan pantau RSVP-nya masuk.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= HARGA ================= -->
-<section class="harga" id="harga">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Harga</span>
-      <h2>Sekali Bayar, Aktif Setahun Penuh</h2>
-      <p>Harga final, bukan harga pancingan. Bandingkan dengan undangan cetak Rp3–6 juta untuk 300 tamu.</p>
-    </div>
-    <div class="price-grid">
-
-      <div class="price-card">
+<!-- HARGA -->
+<section id="harga" style="padding-top:84px">
+  <div class="container center">
+    <span class="eyebrow rv">Harga</span>
+    <h2 class="rv" style="margin:18px auto 0;font-size:clamp(27px,4.2vw,40px);font-weight:600">Sekali Bayar, <em style="color:var(--gold-dark)">Tanpa Langganan</em></h2>
+    <p class="lead rv" style="margin-left:auto;margin-right:auto">Harga yang kamu lihat adalah harga yang kamu bayar. Transaksi selesai saat pembelian — terkirim otomatis, langsung bisa dipakai.</p>
+    <div class="prices">
+      <div class="price rv">
         <h3>Undangan Saja</h3>
-        <div class="price"><b>Rp49.000</b></div>
-        <p class="price-note">sekali bayar · aktif 1 tahun</p>
+        <div class="rp">Rp49.000</div>
+        <div class="per">sekali bayar · aktif 1 tahun</div>
         <ul>
-          <li>1 undangan digital (pilih tema)</li>
-          <li>Semua fitur undangan terbuka</li>
-          <li>Link personal per tamu</li>
-          <li>RSVP &amp; kolom ucapan</li>
-          <li>Amplop digital (rekening + QRIS)</li>
-          <li>Galeri foto &amp; love story</li>
-          <li>Kirim undangan lewat WhatsApp</li>
-          <li>Masa aktif 1 tahun penuh</li>
+          <li>1 tema undangan premium pilihanmu</li>
+          <li>Link personal + nama tamu di sampul</li>
+          <li>RSVP &amp; ucapan ke dashboard</li>
+          <li>Amplop digital &amp; wedding gift</li>
+          <li>Musik, countdown &amp; rundown acara</li>
+          <li class="no">QR buku tamu digital</li>
+          <li class="no">Wedding planner (checklist &amp; budget)</li>
         </ul>
-        <a class="btn btn-ghost" href="#faq">Pesan Paket Ini</a>
+        <a class="pill lg ink" href="katalog.html" style="width:100%;justify-content:center">Pilih Tema Dulu</a>
       </div>
-
-      <div class="price-card featured">
+      <div class="price best rv">
         <span class="badge">Paling Lengkap</span>
         <h3>Paket Lengkap</h3>
-        <div class="price"><b>Rp99.000</b></div>
-        <p class="price-note">sekali bayar · aktif 1 tahun</p>
+        <div class="rp">Rp99.000</div>
+        <div class="per">sekali bayar · aktif 1 tahun</div>
         <ul>
-          <li><b>Semua</b> yang ada di Undangan Saja</li>
-          <li>Wedding Planner penuh</li>
-          <li>Countdown hari H</li>
-          <li>Checklist persiapan berbasis timeline</li>
-          <li>Budget planner (estimasi vs realisasi)</li>
-          <li>Daftar tamu + status terkirim / dibuka / RSVP</li>
-          <li>Data tamu terhubung otomatis ke undangan</li>
-          <li>Masa aktif 1 tahun penuh</li>
+          <li><b>Semua</b> fitur Undangan Saja</li>
+          <li>QR buku tamu digital per rombongan</li>
+          <li>Wedding planner: checklist &amp; countdown</li>
+          <li>Budget planner dengan realisasi biaya</li>
+          <li>Daftar tamu + status kirim–dibuka–RSVP</li>
+          <li>Rundown hari H terhubung ke undangan</li>
+          <li>Prioritas saat tema premium baru rilis</li>
         </ul>
-        <a class="btn btn-gold" href="#faq">Pesan Paket Ini</a>
+        <a class="pill lg gold" href="katalog.html" style="width:100%;justify-content:center">Pilih Tema Dulu</a>
       </div>
-
     </div>
-    <p class="harga-note">Kedua paket <b>sekali bayar, bukan langganan</b>. Tidak ada biaya bulanan, tidak ada fitur yang dikunci di tengah jalan.</p>
+    <p class="rv" style="color:var(--ink-soft);font-size:13.5px;margin-top:22px">Pembelian dibuka melalui etalase Shopee kami — halaman etalase sedang disiapkan. Sementara itu, semua tema bisa kamu coba buka dan rasakan langsung dari katalog.</p>
   </div>
 </section>
 
-<!-- ================= FAQ ================= -->
+<!-- KENAPA KAMI -->
+<section style="padding-top:20px">
+  <div class="container center">
+    <h2 class="rv" style="font-size:clamp(27px,4.2vw,40px);font-weight:600">Kenapa Harus <em style="color:var(--gold-dark)">Doa Selamanya?</em></h2>
+    <div class="why">
+      <div class="w rv"><div class="ic">🎨</div><h3>Dibangun Satu-Satu</h3><p>Setiap tema dibuat manual dengan artwork khusus per slot — bukan katalog hasil generate massal.</p></div>
+      <div class="w rv"><div class="ic">💎</div><h3>Harga Jujur</h3><p>Sekali bayar di awal, selesai. Tidak ada biaya bulanan dan tidak ada fitur yang dikunci di tengah jalan.</p></div>
+      <div class="w rv"><div class="ic">🔓</div><h3>Semua Fitur Terbuka</h3><p>Nama tamu personal, QR check-in, sampai rundown — fitur premium tidak dijual terpisah-pisah.</p></div>
+      <div class="w rv"><div class="ic">📅</div><h3>Aktif 1 Tahun Penuh</h3><p>Dari hari pembelian sampai setahun penuh — cukup untuk persiapan paling santai sekalipun.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE TEMA -->
+<div class="marquee" aria-hidden="true"><div class="track" id="mqTrack"></div></div>
+
+<!-- FAQ -->
 <section id="faq">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">FAQ</span>
-      <h2>Sering Ditanyakan</h2>
-    </div>
-    <div class="faq-list">
-
-      <div class="faq-item">
-        <button class="faq-q" type="button">Berapa lama undangan saya jadi?<span class="chev">⌄</span></button>
-        <div class="faq-a">Setelah pembayaran terkonfirmasi dan form data terisi lengkap, undangan langsung kami proses dan kamu menerima link-nya begitu selesai. Kalau ada data yang berubah setelahnya, kamu tetap bisa memperbaruinya — undangan digital tidak seperti cetak yang sekali jadi tidak bisa diubah.</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" type="button">Kalau mau revisi, batasnya bagaimana?<span class="chev">⌄</span></button>
-        <div class="faq-a">Revisi minor — perubahan teks, nama, tanggal, atau foto — bebas selama masa aktif. Ganti tema diperbolehkan 1 kali. Di luar itu (misalnya ganti tema berkali-kali atau permintaan desain custom di luar tema) akan dikenakan biaya tambahan yang kami sampaikan di awal, tanpa kejutan.</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" type="button">Masa aktif 1 tahun dihitung dari kapan?<span class="chev">⌄</span></button>
-        <div class="faq-a">Sejak paketmu diaktifkan saat pembelian terkonfirmasi — bukan sejak hari H. Jadi kamu bisa membeli dan menyiapkan semuanya jauh-jauh hari, dan link undangan tetap hidup sampai setahun penuh, termasuk untuk dibagikan kembali setelah acara.</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" type="button">Bisa buat undangan tanpa foto pasangan?<span class="chev">⌄</span></button>
-        <div class="faq-a">Bisa. Kami punya tema tanpa foto — contohnya tema Sage Minimal — yang tetap tampil elegan dengan tipografi dan ilustrasi. Cocok untuk pasangan yang menjaga privasi atau menginginkan nuansa yang lebih syar'i. Musik di undangan juga bisa dimatikan.</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" type="button">Cara pesannya bagaimana — lewat Shopee atau WhatsApp?<span class="chev">⌄</span></button>
-        <div class="faq-a">Dua-duanya bisa. Checkout lewat Shopee kami [link Shopee menyusul] untuk pembayaran yang tercatat rapi di platform, atau chat WhatsApp kami di [WA menyusul] kalau mau tanya-tanya dulu. Setelah pembayaran terkonfirmasi, kami kirimkan form pengisian data dan proses pembuatan dimulai.</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" type="button">Data tamu dan RSVP masuknya ke mana?<span class="chev">⌄</span></button>
-        <div class="faq-a">Semua masuk ke dashboard pasanganmu (Paket Lengkap). Dari sana kamu bisa melihat siapa saja yang sudah menerima, membuka, dan mengonfirmasi kehadiran lewat RSVP, lengkap dengan ucapan doa dari tamu — tidak perlu lagi mengecek chat satu per satu.</div>
-      </div>
-
+  <div class="container center">
+    <span class="eyebrow rv">FAQ</span>
+    <h2 class="rv" style="margin-top:18px;font-size:clamp(27px,4.2vw,40px);font-weight:600">Sering Ditanyakan</h2>
+    <div class="faq">
+      <div class="qa rv"><button>Berapa lama undangan saya aktif?<i>+</i></button><div class="ans">Satu tahun penuh sejak pembelian, untuk undangan maupun wedding planner-nya. Kamu bisa menyiapkan semuanya jauh-jauh hari tanpa takut masa aktif habis di tengah persiapan.</div></div>
+      <div class="qa rv"><button>Apakah nama tamu benar-benar tampil personal?<i>+</i></button><div class="ans">Ya. Setiap tamu mendapat link personal dan namanya tampil utuh di sampul undangan sebagai teks yang elegan — bukan tempelan kotak. Ini salah satu keunggulan kami dibanding template undangan pasaran.</div></div>
+      <div class="qa rv"><button>Keluarga kami menjaga privasi — bisa tanpa foto mempelai?<i>+</i></button><div class="ans">Bisa. Tema premium tersedia dalam versi Tanpa Foto Mempelai: foto pasangan tidak ditampilkan sama sekali, sementara artwork tema, foto venue, dan dekorasi tetap tampil penuh. Cocok untuk konsep syar'i.</div></div>
+      <div class="qa rv"><button>Bagaimana cara membeli dan menerima produknya?<i>+</i></button><div class="ans">Pembelian melalui etalase Shopee kami dengan pembayaran sekali bayar. Setelah transaksi selesai, akses dikirim otomatis — kamu tinggal memilih tema, mengisi data, dan membagikan link undanganmu.</div></div>
+      <div class="qa rv"><button>Apakah QR buku tamu harus dibeli terpisah?<i>+</i></button><div class="ans">QR buku tamu digital termasuk dalam Paket Lengkap (Rp99.000) bersama wedding planner. Paket Undangan Saja (Rp49.000) fokus ke undangan websitenya saja.</div></div>
     </div>
   </div>
 </section>
 
-<!-- ================= CTA PENUTUP ================= -->
-<section class="closing">
-  <div class="wrap">
-    <h2>Hari Bahagiamu Layak Disiapkan <em>dengan Tenang.</em></h2>
-    <p>Satu sistem untuk semua persiapan — dari checklist pertama sampai undangan tersebar. Sekali bayar, aktif setahun penuh.</p>
-    <a class="btn btn-gold" href="#harga">Mulai Siapkan Sekarang</a>
+<!-- CTA BAND -->
+<div class="container">
+  <div class="ctaband rv">
+    <h2>Hari Bahagiamu Tinggal <em>Satu Tema</em> Lagi</h2>
+    <p>Buka contoh undangannya sekarang — rasakan sendiri bedanya tema yang dibangun satu-satu dengan penuh doa.</p>
+    <div class="ctas">
+      <a class="pill lg gold" href="tema/amplop-burgundy.html">Buka Contoh Undangan</a>
+      <a class="pill lg line" href="katalog.html">Jelajahi Katalog</a>
+    </div>
   </div>
-</section>
+</div>
 
-<!-- ================= FOOTER ================= -->
 <footer>
-  <div class="wrap">
-    <div class="fbrand">Doa Selamanya</div>
-    <p class="tagline">Doa Selamanya — dibuat dengan doa, untuk selamanya.</p>
-    <p>Pesan &amp; tanya-tanya: WhatsApp [WA menyusul] · Shopee [menyusul]</p>
-    <p style="margin-top:14px">© 2026 Doa Selamanya. Seluruh hak cipta dilindungi.</p>
+  <div class="container">
+    <div class="fgrid">
+      <div>
+        <div class="fbrand"><img src="logo-mark.png" alt="Logo Doa Selamanya"><b>Doa Selamanya</b></div>
+        <p>Sistem wedding planner &amp; undangan digital dalam satu tempat. Sekali bayar, aktif satu tahun penuh — agar doa baik mengiringi setiap persiapanmu.</p>
+      </div>
+      <div>
+        <h4>Produk</h4>
+        <a href="#fitur">Undangan Website</a>
+        <a href="tema/jawa-royal.html">QR Buku Tamu</a>
+        <a href="#planner">Wedding Planner</a>
+        <a href="katalog.html">Katalog 24 Tema</a>
+      </div>
+      <div>
+        <h4>Bantuan</h4>
+        <a href="#harga">Harga &amp; Paket</a>
+        <a href="#faq">FAQ</a>
+        <a href="katalog.html?versi=tanpafoto">Tema Tanpa Foto</a>
+      </div>
+      <div>
+        <h4>Ikuti Kami</h4>
+        <a href="#">TikTok · @doaselamanya</a>
+        <a href="#">Instagram · @doaselamanya</a>
+        <a href="#">Shopee · Doa Selamanya</a>
+      </div>
+    </div>
+    <div class="fbot"><span>© 2026 Doa Selamanya. Dibuat dengan doa di Indonesia.</span><span>Undangan Digital ✦ QR Buku Tamu ✦ Wedding Planner</span></div>
   </div>
 </footer>
 
 <script>
-  // FAQ accordion sederhana
-  document.querySelectorAll('.faq-q').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var item = btn.parentElement;
-      var wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(function (el) {
-        el.classList.remove('open');
-      });
-      if (!wasOpen) item.classList.add('open');
-    });
+  // Marquee nama tema
+  (function(){
+    var tema = ['Samudra Burgundy','Zamrud Royal','Samudra Malam','Hitam Emas','Rose Gold','Mahoni Klasik','Art Deco Emas','Marmer Putih','Pita Krem','Jawa Royal','Doodle Biru','Doodle Sage','Doodle Mentega','Doodle Merah Muda','Doodle Lavender','Doodle Kraft','Doodle Toska','Kayu Manis','Kayu Arang','Kayu Lumut','Kayu Denim','Arunika Floral','Klasik Jawa','Sage Minimal'];
+    var half = tema.map(function(t){ return '<span>' + t + ' ✦</span>'; }).join('');
+    document.getElementById('mqTrack').innerHTML = half + half;
+  })();
+  // FAQ accordion
+  document.querySelectorAll('.qa button').forEach(function(b){
+    b.addEventListener('click', function(){ b.parentElement.classList.toggle('open'); });
   });
+  // Reveal on scroll
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.1});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
 </script>
 </body>
 </html>
