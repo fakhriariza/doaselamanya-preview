@@ -327,21 +327,22 @@ if (guest && (guest.status === 'kirim')) { guest.status = 'buka'; save('ds2_gues
 
 // Isi konten
 $('ldInit').textContent = initials;
-$('covImg').src = T.coverArt ? 'assets/' + T.coverArt : F + 'cover.webp';
+var PH = inv.photos || {};
+$('covImg').src = PH.cover || (T.coverArt ? 'assets/' + T.coverArt : F + 'cover.webp');
 $('covNames').innerHTML = wFull + '<br><em>&amp;</em><br>' + pFull;
 var dObj = new Date((inv.tanggal || '2027-03-20') + 'T08:00:00+07:00');
 var tglLong = dObj.toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
 var tglShort = dObj.toLocaleDateString('id-ID', {day:'2-digit', month:'2-digit', year:'numeric'}).replace(/\//g, ' · ');
 $('covTgl').textContent = tglLong;
 $('covGuest').textContent = guestName;
-$('heroImg').src = P + (T.gal && inv.theme.indexOf('kayu') === 0 ? 'cover.webp' : 'couple.webp');
+$('heroImg').src = PH.hero || (P + (T.gal && inv.theme.indexOf('kayu') === 0 ? 'cover.webp' : 'couple.webp'));
 $('heroInit').textContent = initials;
 $('heroNames').textContent = wShort + ' & ' + pShort;
 $('heroTgl').textContent = tglShort;
-$('brideImg').src = P + 'bride.webp';
+$('brideImg').src = PH.bride || (P + 'bride.webp');
 $('brideName').textContent = inv.wanita;
 $('ortuW').innerHTML = 'Putri dari<br>' + inv.ortuW;
-$('groomImg').src = P + 'groom.webp';
+$('groomImg').src = PH.groom || (P + 'groom.webp');
 $('groomName').textContent = inv.pria;
 $('ortuP').innerHTML = 'Putra dari<br>' + inv.ortuP;
 $('akadHari').textContent = tglLong; $('resepsiHari').textContent = tglLong;
@@ -352,7 +353,7 @@ document.querySelectorAll('.mapsLink').forEach(function(a){ a.href = inv.maps; }
 $('swatches').innerHTML = [[T.accent,'Warna Tema'],[T.gold,'Emas'],[T.deep,'Gelap'],['#F1E3D3','Krem']].map(function(s){
   return '<div><i style="background:' + s[0] + '"></i><span>' + s[1] + '</span></div>';
 }).join('');
-$('gal1').src = P + (T.gal || 'candid.webp');
+$('gal1').src = PH.galeri || (P + (T.gal || 'candid.webp'));
 $('gal2').src = P + 'bride.webp';
 $('gal3').src = P + 'groom.webp';
 $('qrImg').src = F + 'qr-checkin.png';
