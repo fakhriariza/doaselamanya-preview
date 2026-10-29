@@ -107,6 +107,35 @@
   .chk-item button{margin-left:auto;background:none;border:none;color:#B0492F;font-size:15px;cursor:pointer}
   .bud-in{padding:8px 10px;font-size:13.5px;text-align:right}
   .neg{color:#B0492F;font-weight:700}
+.modnav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .modnav button{background:#fff;border:1.5px solid var(--line);color:var(--soft);font-weight:700;font-size:13px;padding:9px 16px;border-radius:999px;transition:.18s}
+  .modnav button:hover{border-color:var(--gold);color:var(--gold-dark)}
+  .modnav button.act{background:var(--gold);border-color:var(--gold);color:#FFF9EE}
+  .mod{display:none}.mod.act{display:block;animation:fade .3s ease}
+  .st.dp{background:#FDF0D5;color:#8A6D1F}.st.book{background:#E3EDFB;color:#33507E}.st.lunas{background:var(--sage-soft);color:#4E5D45}.st.cons{background:var(--cream-2);color:var(--soft)}.st.siap{background:var(--sage-soft);color:#4E5D45}
+  .evcard{border:1px solid var(--line);border-radius:16px;padding:18px;background:#FFFDF8;margin-bottom:13px}
+  .evcard .evhead{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .evdate{background:var(--ink);color:var(--gold-soft);border-radius:12px;padding:9px 13px;text-align:center;min-width:64px}
+  .evdate b{font-family:'Playfair Display',serif;font-size:21px;display:block;line-height:1;color:#FFF7E8}
+  .evdate small{font-size:10px;letter-spacing:1.6px;text-transform:uppercase}
+  .doc-row{display:flex;gap:12px;align-items:center;padding:12px 4px;border-bottom:1px solid var(--line);font-size:14.5px}
+  .doc-row:last-child{border-bottom:none}
+  .doc-row input[type=checkbox]{width:19px;height:19px;accent-color:var(--gold);flex:0 0 auto}
+  .doc-row .fname{font-size:12px;color:var(--gold-dark);font-weight:700}
+  .upbtn{margin-left:auto;background:var(--cream-2);border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+  .upbtn:hover{border-color:var(--gold);color:var(--gold-dark)}
+  .tl-item{display:flex;gap:15px;align-items:flex-start;padding:13px 4px;border-bottom:1px solid var(--line)}
+  .tl-item:last-child{border-bottom:none}
+  .tl-item .when{background:var(--cream-2);border:1px solid var(--line);border-radius:12px;padding:8px 11px;text-align:center;min-width:62px;flex:0 0 auto}
+  .tl-item .when b{font-family:'Playfair Display',serif;font-size:19px;display:block;line-height:1}
+  .tl-item .when small{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--soft)}
+  .tl-item .what b{font-size:14.5px}
+  .tl-item .what span{display:block;font-size:12.5px;color:var(--soft)}
+  .tl-item.past{opacity:.45}
+  .mini{font-size:12.5px;color:var(--soft)}
+  .alloc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-top:12px}
+  .alloc-grid div{background:#FFFDF8;border:1px solid var(--line);border-radius:11px;padding:10px 12px;font-size:13px}
+  .alloc-grid b{display:block;font-size:14.5px}
 </style>
 </head>
 <body>
@@ -163,6 +192,7 @@
             <div class="card stat"><div class="k">Status Undangan</div><div class="v" style="font-size:19px" id="statLive">–</div><div class="s" id="statSub">Belum memilih subdomain</div></div>
           </div>
           <div class="card stat"><div class="k">Tamu &amp; RSVP</div><div class="v"><span id="statTamu">0</span> tamu · <span id="statRsvp">0</span> RSVP masuk</div><div class="s">Kelola di menu Tamu &amp; RSVP, sebarkan lewat menu Bagikan via WA.</div></div>
+          <div class="card stat"><div class="k">Ringkasan Planner</div><div class="v" style="font-size:19px"><span id="sumProg">–</span> persiapan · <span id="sumVendor">–</span> vendor deal</div><div class="s">Tabungan terkumpul <span id="sumTab">–</span> · detailnya di tab Planner.</div></div>
         </div>
       </div>
     </section>
@@ -171,10 +201,24 @@
     <!-- ================= PLANNER ================= -->
     <section class="page" id="page-planner">
       <div class="phead">
-        <div><h1>Wedding Planner</h1><p>Otak persiapan acaramu: checklist timeline &amp; budget planner yang nyambung ke target biaya total di Beranda.</p></div>
+        <div><h1>Wedding Planner</h1><p>Satu tempat untuk semua persiapan: checklist, budget, acara, vendor, seserahan, dokumen, sampai rundown hari-H.</p></div>
       </div>
 
-      <div class="card" style="margin-bottom:18px">
+      <div class="modnav" id="modNav">
+        <button data-mod="checklist" class="act">✓ Checklist</button>
+        <button data-mod="budget">💰 Budget &amp; Tabungan</button>
+        <button data-mod="acara">🎉 Acara</button>
+        <button data-mod="vendor">🏢 Vendor</button>
+        <button data-mod="seserahan">🎁 Seserahan</button>
+        <button data-mod="dokumen">📁 Dokumen KUA</button>
+        <button data-mod="timeline">⏰ Timeline</button>
+        <button data-mod="rundown">🎬 Rundown Hari-H</button>
+        <button data-mod="honeymoon">🌴 Honeymoon &amp; Hadiah</button>
+      </div>
+
+      <!-- CHECKLIST -->
+      <div class="mod act" data-modpanel="checklist">
+      <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">
           <h3 style="font-size:20px">Checklist Persiapan</h3>
           <span class="hint" id="chkProgText" style="margin:0"></span>
@@ -187,8 +231,11 @@
           <button class="btn line" id="btnAddChk">+ Tambah</button>
         </div>
       </div>
+      </div>
 
-      <div class="card">
+      <!-- BUDGET + ALOKATOR + TABUNGAN -->
+      <div class="mod" data-modpanel="budget">
+      <div class="card" style="margin-bottom:18px">
         <h3 style="font-size:20px">Budget Planner</h3>
         <p class="hint">Target biaya total diambil dari Beranda — ubah anggarannya di sana, rincian posnya di sini.</p>
         <div class="grid3" style="margin:16px 0">
@@ -209,6 +256,171 @@
           <input id="budAnggaran" type="number" min="0" step="100000" placeholder="Anggaran (Rp)">
           <button class="btn line" id="btnAddBud">+ Pos</button>
         </div>
+      </div>
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="font-size:20px">✨ Budget Auto Allocator</h3>
+        <p class="hint">Satu klik membagi target biaya totalmu ke pos-pos standar pernikahan Indonesia. Angka tetap bisa kamu ubah manual setelahnya.</p>
+        <div class="alloc-grid" id="allocGrid"></div>
+        <button class="btn gold" id="btnAlloc" style="margin-top:16px">Terapkan Alokasi ke Budget Planner</button>
+      </div>
+      <div class="card">
+        <h3 style="font-size:20px">🐷 Tabungan Bersama</h3>
+        <p class="hint">Catat setoran berdua menuju target biaya — biar terasa progresnya, bukan cuma keluarnya.</p>
+        <div class="grid3" style="margin:14px 0">
+          <div class="stat"><div class="k">Target Tabungan</div><div class="v" id="tabTarget" style="font-size:21px">–</div></div>
+          <div class="stat"><div class="k">Sudah Terkumpul</div><div class="v" id="tabTotal" style="font-size:21px">–</div></div>
+          <div class="stat"><div class="k">Kurang</div><div class="v" id="tabKurang" style="font-size:21px">–</div></div>
+        </div>
+        <div class="prog"><i id="tabBar" style="width:0%"></i></div>
+        <div id="tabList" style="margin-top:12px"></div>
+        <div style="display:grid;grid-template-columns:1fr 1.4fr 1fr auto;gap:10px;margin-top:14px">
+          <input id="tabTgl" type="date">
+          <input id="tabKet" type="text" placeholder="Keterangan (cth: Gaji Nadia)">
+          <input id="tabJml" type="number" min="0" step="50000" placeholder="Jumlah (Rp)">
+          <button class="btn line" id="btnAddTab">+ Setor</button>
+        </div>
+      </div>
+      </div>
+
+      <!-- ACARA -->
+      <div class="mod" data-modpanel="acara">
+      <div class="card">
+        <h3 style="font-size:20px">Acara &amp; Kebutuhan Vendor per Acara</h3>
+        <p class="hint">Pernikahanmu bisa punya banyak acara — lamaran, akad, siraman, resepsi. Atur semuanya terpisah di sini.</p>
+        <div id="acaraList" style="margin-top:16px"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:8px">
+          <input id="acNama" type="text" placeholder="Nama acara (cth: Siraman)">
+          <input id="acTgl" type="date">
+          <input id="acJam" type="text" placeholder="Jam (cth: 07.00)">
+          <input id="acTempat" type="text" placeholder="Tempat">
+          <input id="acButuh" type="text" placeholder="Kebutuhan vendor (cth: Dekorasi, katering 50 pax)" style="grid-column:span 2">
+          <button class="btn line" id="btnAddAcara">+ Tambah Acara</button>
+        </div>
+      </div>
+      </div>
+
+      <!-- VENDOR -->
+      <div class="mod" data-modpanel="vendor">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <h3 style="font-size:20px">Vendor &amp; Kebutuhan</h3>
+          <span class="hint" id="venSummary" style="margin:0"></span>
+        </div>
+        <p class="hint">Simpan vendor pilihanmu, pantau status &amp; pembayaran (DP, cicilan, lunas), dan jangan sampai deadline bayar kelewat — deadline-nya otomatis muncul di Timeline.</p>
+        <div style="overflow-x:auto;margin-top:10px">
+        <table>
+          <thead><tr><th>Kategori &amp; Vendor</th><th>Status</th><th style="text-align:right">Anggaran</th><th style="text-align:right">Sudah Bayar</th><th>Jatuh Tempo</th><th></th></tr></thead>
+          <tbody id="venBody"></tbody>
+        </table>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1.4fr 1fr 1fr auto;gap:10px;margin-top:16px">
+          <input id="venKat" type="text" placeholder="Kategori (cth: Fotografi)">
+          <input id="venNama" type="text" placeholder="Nama vendor">
+          <input id="venAnggaran" type="number" min="0" step="100000" placeholder="Anggaran (Rp)">
+          <input id="venTempo" type="date">
+          <button class="btn line" id="btnAddVen">+ Vendor</button>
+        </div>
+      </div>
+      </div>
+
+      <!-- SESERAHAN -->
+      <div class="mod" data-modpanel="seserahan">
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="font-size:20px">Seserahan &amp; Mahar</h3>
+        <p class="hint">Daftar isi seserahan dan mahar, estimasi anggarannya, status persiapan, dan deadline-nya.</p>
+        <div style="overflow-x:auto;margin-top:10px">
+        <table>
+          <thead><tr><th>Item</th><th>Jenis</th><th>Status</th><th style="text-align:right">Anggaran</th><th>Deadline</th><th></th></tr></thead>
+          <tbody id="sesBody"></tbody>
+        </table>
+        </div>
+        <div style="display:grid;grid-template-columns:1.5fr .8fr 1fr 1fr auto;gap:10px;margin-top:16px">
+          <input id="sesNama" type="text" placeholder="Item (cth: Set Mukena Sutra)">
+          <select id="sesJenis"><option>Mahar</option><option>Seserahan</option></select>
+          <input id="sesAnggaran" type="number" min="0" step="50000" placeholder="Anggaran (Rp)">
+          <input id="sesTempo" type="date">
+          <button class="btn line" id="btnAddSes">+ Item</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:20px">Pendamping — Bridesmaid &amp; Groomsmen</h3>
+        <div id="penList" style="margin-top:12px"></div>
+        <div style="display:grid;grid-template-columns:1.6fr 1fr auto;gap:10px;margin-top:14px">
+          <input id="penNama" type="text" placeholder="Nama pendamping">
+          <select id="penPeran"><option>Bridesmaid</option><option>Groomsmen</option><option>Pendamping Keluarga</option></select>
+          <button class="btn line" id="btnAddPen">+ Tambah</button>
+        </div>
+      </div>
+      </div>
+
+      <!-- DOKUMEN KUA -->
+      <div class="mod" data-modpanel="dokumen">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <h3 style="font-size:20px">Dokumen &amp; Berkas KUA</h3>
+          <span class="hint" id="dokProgText" style="margin:0"></span>
+        </div>
+        <div class="prog" style="margin-top:12px"><i id="dokBar" style="width:0%"></i></div>
+        <p class="hint" style="margin-top:10px">Centang berkas yang sudah siap dan unggah scan-nya — tersimpan rapi dalam satu aplikasi. (Di demo ini yang tersimpan adalah nama file-nya.)</p>
+        <div id="dokList" style="margin-top:8px"></div>
+      </div>
+      </div>
+
+      <!-- TIMELINE -->
+      <div class="mod" data-modpanel="timeline">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <h3 style="font-size:20px">Timeline &amp; Reminder</h3>
+          <button class="btn gold sm" id="btnIcs">⬇ Ekspor Kalender (.ics)</button>
+        </div>
+        <p class="hint">Semua tanggal penting terkumpul otomatis di sini: hari acara, jatuh tempo pembayaran vendor, dan deadline seserahan. Tambah reminder manual bila perlu.</p>
+        <div id="tlList" style="margin-top:10px"></div>
+        <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:10px;margin-top:16px">
+          <input id="tlTgl" type="date">
+          <input id="tlTeks" type="text" placeholder="Reminder baru (cth: Meeting final dengan WO)">
+          <button class="btn line" id="btnAddTl">+ Reminder</button>
+        </div>
+      </div>
+      </div>
+
+      <!-- RUNDOWN -->
+      <div class="mod" data-modpanel="rundown">
+      <div class="card">
+        <h3 style="font-size:20px">Rundown Hari-H</h3>
+        <p class="hint">Susunan acara di hari bahagia — bagikan ke keluarga, WO, dan vendor supaya semua satu irama.</p>
+        <div id="runList" style="margin-top:12px"></div>
+        <div style="display:grid;grid-template-columns:.6fr 2fr auto;gap:10px;margin-top:14px">
+          <input id="runJam" type="text" placeholder="07.30">
+          <input id="runTeks" type="text" placeholder="Kegiatan (cth: Pengantin memasuki ruangan)">
+          <button class="btn line" id="btnAddRun">+ Baris</button>
+        </div>
+      </div>
+      </div>
+
+      <!-- HONEYMOON -->
+      <div class="mod" data-modpanel="honeymoon">
+      <div class="grid2" style="align-items:start">
+      <div class="card">
+        <h3 style="font-size:20px">🌴 Rencana Honeymoon</h3>
+        <label>Destinasi &amp; Durasi</label>
+        <input id="honDest" type="text" placeholder="cth: Bali — 4 hari 3 malam">
+        <label>Anggaran Honeymoon (Rp)</label>
+        <input id="honAnggaran" type="number" min="0" step="100000">
+        <label>Catatan</label>
+        <input id="honCat" type="text" placeholder="cth: Villa di Ubud, tiket dibeli H-60">
+        <button class="btn gold" id="btnSaveHon" style="margin-top:16px">Simpan</button>
+      </div>
+      <div class="card">
+        <h3 style="font-size:20px">🎁 Daftar Hadiah Pilihan</h3>
+        <p class="hint">Untuk tamu yang bertanya "mau kado apa?" — arahkan ke daftar ini.</p>
+        <div id="hadList" style="margin-top:10px"></div>
+        <div style="display:grid;grid-template-columns:1.6fr 1fr auto;gap:10px;margin-top:14px">
+          <input id="hadNama" type="text" placeholder="Hadiah (cth: Air fryer)">
+          <input id="hadLink" type="text" placeholder="Link toko (opsional)">
+          <button class="btn line" id="btnAddHad">+ Hadiah</button>
+        </div>
+      </div>
+      </div>
       </div>
     </section>
 
@@ -294,11 +506,20 @@
           <input id="gWa" type="text" placeholder="No. WA (628xx)">
           <button class="btn gold" id="btnAddGuest">+ Tambah</button>
         </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+          <select id="gAcara"><option>Resepsi</option><option>Akad Nikah</option><option>Lamaran</option><option>Siraman</option></select>
+          <input id="gPendamping" type="number" min="0" max="20" placeholder="Jumlah pendamping (cth: 2)">
+        </div>
         <p class="hint">Satu entri bisa mewakili satu rombongan/keluarga — QR buku tamunya berlaku untuk rombongan itu.</p>
       </div>
       <div class="card" style="margin-bottom:18px;overflow-x:auto">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+          <select id="fAcara" style="width:auto"><option value="">Semua Acara</option><option>Resepsi</option><option>Akad Nikah</option><option>Lamaran</option><option>Siraman</option></select>
+          <select id="fStatus" style="width:auto"><option value="">Semua Status</option><option value="belum">Belum Dikirim</option><option value="kirim">Terkirim</option><option value="buka">Dibuka</option><option value="hadir">RSVP · Hadir</option><option value="absen">RSVP · Tidak Hadir</option></select>
+          <span class="hint" id="guestSummary" style="margin:0"></span>
+        </div>
         <table>
-          <thead><tr><th>Tamu</th><th>Grup</th><th>Status</th><th>Link Personal</th><th></th></tr></thead>
+          <thead><tr><th>Tamu</th><th>Grup</th><th>Acara</th><th>Kehadiran</th><th>Status</th><th>Link Personal</th><th></th></tr></thead>
           <tbody id="guestBody"></tbody>
         </table>
       </div>
@@ -362,12 +583,12 @@ var DEF_INVITE = {
   kado:'Jl. Kenanga No. 8, Kebayoran Baru, Jakarta Selatan 12120', wa:'6281234567890'
 };
 var DEF_GUESTS = [
-  {nama:'Keluarga Besar Wijaya', grup:'Keluarga', wa:'6281200000001', status:'hadir'},
-  {nama:'Bapak H. Ahmad Wijaya & Ibu', grup:'Keluarga', wa:'6281200000002', status:'buka'},
-  {nama:'Keluarga Besar Pratama', grup:'Keluarga', wa:'6281200000003', status:'kirim'},
-  {nama:'Rekan Kantor Raka', grup:'Kantor', wa:'6281200000004', status:'hadir'},
-  {nama:'Sahabat Nadia — Geng Melati', grup:'Sahabat', wa:'6281200000005', status:'belum'},
-  {nama:'Keluarga Besar Sutrisno', grup:'Keluarga', wa:'6281200000006', status:'absen'}
+  {nama:'Keluarga Besar Wijaya', grup:'Keluarga', wa:'6281200000001', status:'hadir', acara:'Resepsi', pendamping:4},
+  {nama:'Bapak H. Ahmad Wijaya & Ibu', grup:'Keluarga', wa:'6281200000002', status:'buka', acara:'Akad Nikah', pendamping:1},
+  {nama:'Keluarga Besar Pratama', grup:'Keluarga', wa:'6281200000003', status:'kirim', acara:'Resepsi', pendamping:3},
+  {nama:'Rekan Kantor Raka', grup:'Kantor', wa:'6281200000004', status:'hadir', acara:'Resepsi', pendamping:0},
+  {nama:'Sahabat Nadia — Geng Melati', grup:'Sahabat', wa:'6281200000005', status:'belum', acara:'Resepsi', pendamping:2},
+  {nama:'Keluarga Besar Sutrisno', grup:'Keluarga', wa:'6281200000006', status:'absen', acara:'Lamaran', pendamping:2}
 ];
 var DEF_RSVPS = [
   {nama:'Keluarga Besar Wijaya', hadir:'Hadir, insya Allah', ucapan:'Barakallahu lakuma wa baraka alaikuma wa jama\'a bainakuma fii khair. Selamat Nadia & Raka!'},
@@ -418,12 +639,19 @@ function renderStats(){
   $('haloNama').textContent = 'Halo, ' + setup.wanita.split(' ')[0] + ' & ' + setup.pria.split(' ')[0];
   $('statBudget').textContent = rp(setup.budget);
   $('statTamu').textContent = guests.length; $('statRsvp').textContent = rsvps.length;
+  if (typeof allChkItems === 'function' && $('sumProg')) {
+    var its = allChkItems(), dn = its.filter(function(it){ return checks[it.id]; }).length;
+    $('sumProg').textContent = (its.length ? Math.round(dn / its.length * 100) : 0) + '%';
+    var vd = vendors.filter(function(v){ return v.status !== 'Dipertimbangkan'; }).length;
+    $('sumVendor').textContent = vd + '/' + vendors.length;
+    $('sumTab').textContent = rp(tabungan.reduce(function(a, x){ return a + (Number(x.jumlah) || 0); }, 0));
+  }
   if (invite.live && invite.subdomain){ $('statLive').innerHTML = '<span class="livechip"><i></i>LIVE</span>'; $('statSub').textContent = invite.subdomain + '.doaselamanya.com'; }
   else { $('statLive').innerHTML = '<span class="draftchip">Draft</span>'; $('statSub').textContent = invite.subdomain ? invite.subdomain + '.doaselamanya.com (belum publish)' : 'Belum memilih subdomain'; }
 }
 $('btnSimpanSetup').addEventListener('click', function(){
   setup = {wanita:$('inWanita').value.trim() || DEF_SETUP.wanita, pria:$('inPria').value.trim() || DEF_SETUP.pria, tanggal:$('inTanggal').value || DEF_SETUP.tanggal, budget:Number($('inBudget').value) || 0};
-  save('ds2_setup', setup); tick(); renderStats(); renderBudget(); $('setupMsg').innerHTML = '<span class="ok">Tersimpan ✓</span>'; toast('Pengaturan dasar tersimpan');
+  save('ds2_setup', setup); tick(); renderStats(); renderBudget(); renderAlloc(); renderTabungan(); $('setupMsg').innerHTML = '<span class="ok">Tersimpan ✓</span>'; toast('Pengaturan dasar tersimpan');
 });
 
 /* ---------- Editor ---------- */
@@ -510,13 +738,19 @@ function statusSel(g, i){
   return '<select data-i="' + i + '" class="stSel" style="width:auto;padding:6px 9px;font-size:12.5px">' +
     Object.keys(ST).map(function(k){ return '<option value="' + k + '"' + (g.status === k ? ' selected' : '') + '>' + ST[k][0] + '</option>'; }).join('') + '</select>';
 }
+function normGuest(g){ if (!g.acara) g.acara = 'Resepsi'; if (g.pendamping === undefined || g.pendamping === null) g.pendamping = 0; return g; }
 function renderGuests(){
-  $('guestBody').innerHTML = guests.map(function(g, i){
-    return '<tr><td><b>' + esc(g.nama) + '</b><br><span style="color:var(--soft);font-size:12.5px">' + esc(g.wa || '—') + '</span></td><td>' + esc(g.grup) + '</td>' +
+  guests.forEach(normGuest);
+  var fa = $('fAcara') ? $('fAcara').value : '', fs = $('fStatus') ? $('fStatus').value : '';
+  var rows = guests.map(function(g, i){ return {g:g, i:i}; }).filter(function(r){ return (!fa || r.g.acara === fa) && (!fs || r.g.status === fs); });
+  $('guestBody').innerHTML = rows.map(function(r){
+    var g = r.g, i = r.i, org = 1 + Number(g.pendamping || 0);
+    return '<tr><td><b>' + esc(g.nama) + '</b><br><span class="mini">' + esc(g.wa || '—') + '</span></td><td>' + esc(g.grup) + '</td><td>' + esc(g.acara) + '</td>' +
+      '<td>' + org + ' orang' + (g.pendamping ? '<br><span class="mini">+' + g.pendamping + ' pendamping</span>' : '') + '</td>' +
       '<td><span class="st ' + ST[g.status][1] + '">' + ST[g.status][0] + '</span></td>' +
       '<td><code style="font-size:12px">u?to=' + slugify(g.nama) + '</code></td>' +
       '<td style="white-space:nowrap"><button class="btn line sm" data-copy="' + i + '">Salin Link</button> ' + statusSel(g, i) + '</td></tr>';
-  }).join('') || '<tr><td colspan="5" style="color:var(--soft)">Belum ada tamu. Tambahkan di atas.</td></tr>';
+  }).join('') || '<tr><td colspan="7" class="mini">Tidak ada tamu pada filter ini.</td></tr>';
   document.querySelectorAll('[data-copy]').forEach(function(b){
     b.addEventListener('click', function(){
       var link = guestLink(guests[Number(b.dataset.copy)]);
@@ -527,11 +761,16 @@ function renderGuests(){
   document.querySelectorAll('.stSel').forEach(function(sel){
     sel.addEventListener('change', function(){ guests[Number(sel.dataset.i)].status = sel.value; save('ds2_guests', guests); renderGuests(); renderShare(); renderStats(); });
   });
+  var totOrang = guests.reduce(function(a, g){ return a + 1 + Number(g.pendamping || 0); }, 0);
+  var hadOrang = guests.filter(function(g){ return g.status === 'hadir'; }).reduce(function(a, g){ return a + 1 + Number(g.pendamping || 0); }, 0);
+  if ($('guestSummary')) $('guestSummary').textContent = guests.length + ' undangan · ' + totOrang + ' orang termasuk pendamping · ' + hadOrang + ' orang konfirmasi hadir';
 }
+if ($('fAcara')) $('fAcara').addEventListener('change', renderGuests);
+if ($('fStatus')) $('fStatus').addEventListener('change', renderGuests);
 $('btnAddGuest').addEventListener('click', function(){
   var nama = $('gNama').value.trim(); if (!nama) { toast('Isi nama tamu dulu'); return; }
-  guests.push({nama:nama, grup:$('gGrup').value.trim() || 'Umum', wa:$('gWa').value.trim(), status:'belum'});
-  save('ds2_guests', guests); $('gNama').value = ''; $('gGrup').value = ''; $('gWa').value = '';
+  guests.push({nama:nama, grup:$('gGrup').value.trim() || 'Umum', wa:$('gWa').value.trim(), status:'belum', acara:$('gAcara').value, pendamping:Math.max(0, Number($('gPendamping').value) || 0)});
+  save('ds2_guests', guests); $('gNama').value = ''; $('gGrup').value = ''; $('gWa').value = ''; $('gPendamping').value = '';
   renderGuests(); renderShare(); renderStats(); toast('Tamu ditambahkan');
 });
 function renderRsvps(){
@@ -660,8 +899,292 @@ $('btnAddBud').addEventListener('click', function(){
   save('ds2_budget', budget); $('budNama').value = ''; $('budAnggaran').value = ''; renderBudget(); toast('Pos ditambahkan');
 });
 
+
+/* ---------- Planner: sub-navigasi modul ---------- */
+document.querySelectorAll('#modNav button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#modNav button').forEach(function(x){ x.classList.remove('act'); });
+    document.querySelectorAll('[data-modpanel]').forEach(function(x){ x.classList.remove('act'); });
+    b.classList.add('act');
+    document.querySelector('[data-modpanel="' + b.dataset.mod + '"]').classList.add('act');
+  });
+});
+function dparts(iso){ var d = new Date((iso || '') + 'T08:00:00+07:00'); if (isNaN(d)) return {d:'–', m:''}; return {d: d.getDate(), m: d.toLocaleDateString('id-ID', {month:'short'})}; }
+function fmtD(iso){ try { return new Date(iso + 'T08:00:00+07:00').toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'}); } catch(e){ return iso; } }
+
+/* ---------- Planner: Acara (multi-event) ---------- */
+var DEF_ACARA = [
+  {nama:'Lamaran', tanggal:'2027-02-14', jam:'10.00', tempat:'Rumah Mempelai Wanita', butuh:'Backdrop lamaran, katering 50 pax, dokumentasi'},
+  {nama:'Akad Nikah', tanggal:'2027-03-20', jam:'08.00', tempat:'Gedung Serbaguna Al-Azhar', butuh:'Penghulu & saksi, dekorasi akad, sound system'},
+  {nama:'Resepsi', tanggal:'2027-03-20', jam:'11.00', tempat:'Gedung Serbaguna Al-Azhar', butuh:'Katering 500 pax, dekorasi, hiburan & MC, dokumentasi'}
+];
+var acara = load('ds2_acara', DEF_ACARA);
+function renderAcara(){
+  $('acaraList').innerHTML = acara.slice().sort(function(a, b){ return (a.tanggal || '').localeCompare(b.tanggal || ''); }).map(function(a){
+    var i = acara.indexOf(a), dp = dparts(a.tanggal);
+    return '<div class="evcard"><div class="evhead"><div class="evdate"><b>' + dp.d + '</b><small>' + dp.m + '</small></div>' +
+      '<div style="flex:1;min-width:200px"><b style="font-size:16.5px">' + esc(a.nama) + '</b><div class="mini">' + fmtD(a.tanggal) + (a.jam ? ' · Pukul ' + esc(a.jam) + ' WIB' : '') + (a.tempat ? ' · ' + esc(a.tempat) : '') + '</div>' +
+      (a.butuh ? '<div class="mini" style="margin-top:3px">🧰 Kebutuhan: ' + esc(a.butuh) + '</div>' : '') + '</div>' +
+      '<button class="btn line sm" data-delacara="' + i + '">✕</button></div></div>';
+  }).join('') || '<p class="mini">Belum ada acara. Tambahkan di bawah.</p>';
+  document.querySelectorAll('[data-delacara]').forEach(function(b){
+    b.addEventListener('click', function(){ acara.splice(Number(b.dataset.delacara), 1); save('ds2_acara', acara); renderAcara(); renderTimeline(); });
+  });
+}
+$('btnAddAcara').addEventListener('click', function(){
+  var n = $('acNama').value.trim(); if (!n) { toast('Isi nama acara dulu'); return; }
+  acara.push({nama:n, tanggal:$('acTgl').value || '', jam:$('acJam').value.trim(), tempat:$('acTempat').value.trim(), butuh:$('acButuh').value.trim()});
+  save('ds2_acara', acara); ['acNama','acTgl','acJam','acTempat','acButuh'].forEach(function(id){ $(id).value = ''; });
+  renderAcara(); renderTimeline(); toast('Acara ditambahkan');
+});
+
+/* ---------- Planner: Vendor ---------- */
+var VST = ['Dipertimbangkan','Booked','DP','Lunas','Selesai'];
+var VCLS = {'Dipertimbangkan':'cons','Booked':'book','DP':'dp','Lunas':'lunas','Selesai':'lunas'};
+var DEF_VENDOR = [
+  {kat:'Katering', nama:'Katering Berkah Rasa', status:'DP', anggaran:18000000, bayar:5000000, tempo:'2027-02-20', cat:'Prasmanan 500 pax + stall'},
+  {kat:'Dekorasi', nama:'Dekor Temanten', status:'Dipertimbangkan', anggaran:10000000, bayar:0, tempo:'2027-01-31', cat:'Tema rustic gold — menunggu penawaran final'},
+  {kat:'Dokumentasi', nama:'Lensakata Studio', status:'Lunas', anggaran:5000000, bayar:5000000, tempo:'2026-12-15', cat:'Foto + video + album cetak'},
+  {kat:'MUA', nama:'Rias Ayu', status:'Booked', anggaran:3500000, bayar:1000000, tempo:'2027-02-01', cat:'Pengantin + 2 ibu, tes makeup H-30'},
+  {kat:'Hiburan & MC', nama:'(belum dipilih)', status:'Dipertimbangkan', anggaran:2000000, bayar:0, tempo:'2027-02-28', cat:''}
+];
+var vendors = load('ds2_vendor', DEF_VENDOR);
+function renderVendor(){
+  $('venBody').innerHTML = vendors.map(function(v, i){
+    return '<tr><td><b>' + esc(v.kat) + '</b> — ' + esc(v.nama) + (v.cat ? '<br><span class="mini">' + esc(v.cat) + '</span>' : '') + '</td>' +
+      '<td><span class="st ' + VCLS[v.status] + '">' + v.status + '</span><br><select data-vi="' + i + '" data-vf="status" style="width:auto;padding:5px 8px;font-size:12px;margin-top:5px">' +
+        VST.map(function(st){ return '<option' + (v.status === st ? ' selected' : '') + '>' + st + '</option>'; }).join('') + '</select></td>' +
+      '<td><input class="bud-in" type="number" min="0" step="50000" value="' + v.anggaran + '" data-vi="' + i + '" data-vf="anggaran"></td>' +
+      '<td><input class="bud-in" type="number" min="0" step="50000" value="' + v.bayar + '" data-vi="' + i + '" data-vf="bayar"></td>' +
+      '<td><input type="date" value="' + (v.tempo || '') + '" data-vi="' + i + '" data-vf="tempo" style="padding:7px 9px;font-size:12.5px"></td>' +
+      '<td><button class="btn line sm" data-delven="' + i + '">✕</button></td></tr>';
+  }).join('') || '<tr><td colspan="6" class="mini">Belum ada vendor. Tambahkan di bawah.</td></tr>';
+  document.querySelectorAll('[data-vf]').forEach(function(el){
+    el.addEventListener('change', function(){
+      var v = vendors[Number(el.dataset.vi)];
+      v[el.dataset.vf] = (el.dataset.vf === 'anggaran' || el.dataset.vf === 'bayar') ? Math.max(0, Number(el.value) || 0) : el.value;
+      save('ds2_vendor', vendors); renderVendor(); renderTimeline(); renderStats();
+    });
+  });
+  document.querySelectorAll('[data-delven]').forEach(function(b){
+    b.addEventListener('click', function(){ vendors.splice(Number(b.dataset.delven), 1); save('ds2_vendor', vendors); renderVendor(); renderTimeline(); renderStats(); });
+  });
+  var deal = vendors.filter(function(v){ return v.status !== 'Dipertimbangkan'; }).length;
+  $('venSummary').textContent = deal + ' dari ' + vendors.length + ' vendor sudah deal';
+}
+$('btnAddVen').addEventListener('click', function(){
+  var k = $('venKat').value.trim(), n = $('venNama').value.trim(); if (!k || !n) { toast('Isi kategori & nama vendor'); return; }
+  vendors.push({kat:k, nama:n, status:'Dipertimbangkan', anggaran:Number($('venAnggaran').value) || 0, bayar:0, tempo:$('venTempo').value || '', cat:''});
+  save('ds2_vendor', vendors); ['venKat','venNama','venAnggaran','venTempo'].forEach(function(id){ $(id).value = ''; });
+  renderVendor(); renderTimeline(); renderStats(); toast('Vendor ditambahkan');
+});
+
+/* ---------- Planner: Seserahan & Pendamping ---------- */
+var SST = ['Belum','Sudah Booked','Siap'];
+var SCLS = {'Belum':'cons','Sudah Booked':'book','Siap':'siap'};
+var DEF_SES = [
+  {nama:'Set Perhiasan Emas', jenis:'Mahar', status:'Belum', anggaran:7500000, tempo:'2027-02-27'},
+  {nama:'Uang Mahar (sesuai kesepakatan)', jenis:'Mahar', status:'Belum', anggaran:10000000, tempo:'2027-03-20'},
+  {nama:'Parfum & Skincare', jenis:'Seserahan', status:'Sudah Booked', anggaran:1500000, tempo:'2026-08-27'},
+  {nama:'Tas & Sepatu', jenis:'Seserahan', status:'Belum', anggaran:1200000, tempo:'2027-02-27'},
+  {nama:'Alat Sholat & Al-Qur\'an', jenis:'Seserahan', status:'Siap', anggaran:800000, tempo:'2027-01-15'}
+];
+var seserahan = load('ds2_seserahan', DEF_SES);
+function renderSeserahan(){
+  $('sesBody').innerHTML = seserahan.map(function(x, i){
+    return '<tr><td><b>' + esc(x.nama) + '</b></td><td>' + x.jenis + '</td>' +
+      '<td><span class="st ' + SCLS[x.status] + '">' + x.status + '</span><br><select data-si="' + i + '" data-sf="status" style="width:auto;padding:5px 8px;font-size:12px;margin-top:5px">' +
+        SST.map(function(st){ return '<option' + (x.status === st ? ' selected' : '') + '>' + st + '</option>'; }).join('') + '</select></td>' +
+      '<td><input class="bud-in" type="number" min="0" step="50000" value="' + x.anggaran + '" data-si="' + i + '" data-sf="anggaran"></td>' +
+      '<td><input type="date" value="' + (x.tempo || '') + '" data-si="' + i + '" data-sf="tempo" style="padding:7px 9px;font-size:12.5px"></td>' +
+      '<td><button class="btn line sm" data-delses="' + i + '">✕</button></td></tr>';
+  }).join('') || '<tr><td colspan="6" class="mini">Belum ada item.</td></tr>';
+  document.querySelectorAll('[data-sf]').forEach(function(el){
+    el.addEventListener('change', function(){
+      var x = seserahan[Number(el.dataset.si)];
+      x[el.dataset.sf] = el.dataset.sf === 'anggaran' ? Math.max(0, Number(el.value) || 0) : el.value;
+      save('ds2_seserahan', seserahan); renderSeserahan(); renderTimeline();
+    });
+  });
+  document.querySelectorAll('[data-delses]').forEach(function(b){
+    b.addEventListener('click', function(){ seserahan.splice(Number(b.dataset.delses), 1); save('ds2_seserahan', seserahan); renderSeserahan(); renderTimeline(); });
+  });
+}
+$('btnAddSes').addEventListener('click', function(){
+  var n = $('sesNama').value.trim(); if (!n) { toast('Isi nama item dulu'); return; }
+  seserahan.push({nama:n, jenis:$('sesJenis').value, status:'Belum', anggaran:Number($('sesAnggaran').value) || 0, tempo:$('sesTempo').value || ''});
+  save('ds2_seserahan', seserahan); $('sesNama').value = ''; $('sesAnggaran').value = ''; $('sesTempo').value = '';
+  renderSeserahan(); renderTimeline(); toast('Item ditambahkan');
+});
+var DEF_PEN = [
+  {nama:'Sinta Maharani', peran:'Bridesmaid'}, {nama:'Dewi Lestari', peran:'Bridesmaid'},
+  {nama:'Bima Prakoso', peran:'Groomsmen'}, {nama:'Yoga Saputra', peran:'Groomsmen'}
+];
+var pendamping = load('ds2_pendamping', DEF_PEN);
+function renderPendamping(){
+  $('penList').innerHTML = pendamping.map(function(p, i){
+    return '<div class="doc-row"><span>👤</span><span><b>' + esc(p.nama) + '</b></span><span class="st book">' + p.peran + '</span><button class="upbtn" data-delpen="' + i + '">✕ Hapus</button></div>';
+  }).join('') || '<p class="mini">Belum ada pendamping.</p>';
+  document.querySelectorAll('[data-delpen]').forEach(function(b){
+    b.addEventListener('click', function(){ pendamping.splice(Number(b.dataset.delpen), 1); save('ds2_pendamping', pendamping); renderPendamping(); });
+  });
+}
+$('btnAddPen').addEventListener('click', function(){
+  var n = $('penNama').value.trim(); if (!n) { toast('Isi nama pendamping'); return; }
+  pendamping.push({nama:n, peran:$('penPeran').value});
+  save('ds2_pendamping', pendamping); $('penNama').value = ''; renderPendamping(); toast('Pendamping ditambahkan');
+});
+
+
+/* ---------- Planner: Dokumen KUA ---------- */
+var DEF_DOK = ['Fotokopi KTP Calon Pengantin Pria','Fotokopi KTP Calon Pengantin Wanita','Fotokopi KTP Orang Tua kedua pihak','Fotokopi KTP Saksi (2 orang)','Fotokopi Akta Lahir / Ijazah terakhir','Fotokopi Kartu Keluarga kedua pihak','Surat Pengantar RT/RW & Kelurahan (formulir N1–N4)','Surat Keterangan Sehat & Imunisasi (Calon Pengantin Wanita)','Pas Foto 2x3 & 3x4 latar biru (masing-masing 4 lembar)'];
+var dokumen = load('ds2_dokumen', {});
+function renderDokumen(){
+  $('dokList').innerHTML = DEF_DOK.map(function(nama, i){
+    var d = dokumen[nama] || {};
+    return '<div class="doc-row"><input type="checkbox" data-dok="' + i + '"' + (d.ok ? ' checked' : '') + '><span>' + nama + (d.file ? '<br><span class="fname">📎 ' + esc(d.file) + '</span>' : '') + '</span>' +
+      '<label class="upbtn">📎 Upload Scan<input type="file" data-dokfile="' + i + '" style="display:none"></label></div>';
+  }).join('');
+  document.querySelectorAll('[data-dok]').forEach(function(cb){
+    cb.addEventListener('change', function(){ var nama = DEF_DOK[Number(cb.dataset.dok)]; dokumen[nama] = dokumen[nama] || {}; dokumen[nama].ok = cb.checked; save('ds2_dokumen', dokumen); renderDokumen(); });
+  });
+  document.querySelectorAll('[data-dokfile]').forEach(function(inp){
+    inp.addEventListener('change', function(){ if (!inp.files.length) return; var nama = DEF_DOK[Number(inp.dataset.dokfile)]; dokumen[nama] = {ok:true, file:inp.files[0].name}; save('ds2_dokumen', dokumen); renderDokumen(); toast('Scan tercatat: ' + inp.files[0].name); });
+  });
+  var done = DEF_DOK.filter(function(n){ return dokumen[n] && dokumen[n].ok; }).length;
+  var pct = Math.round(done / DEF_DOK.length * 100);
+  $('dokBar').style.width = pct + '%';
+  $('dokProgText').textContent = done + ' dari ' + DEF_DOK.length + ' berkas lengkap (' + pct + '%)';
+}
+
+/* ---------- Planner: Timeline & Reminder ---------- */
+var reminders = load('ds2_reminder', [{tanggal:'2027-01-20', teks:'Meeting final dengan WO & keluarga'}]);
+function tlEvents(){
+  var ev = [];
+  acara.forEach(function(a){ if (a.tanggal) ev.push({tgl:a.tanggal, judul:'🎉 ' + a.nama, sub:(a.tempat || '') + (a.jam ? ' · ' + a.jam + ' WIB' : ''), tag:'Acara'}); });
+  vendors.forEach(function(v){ if (v.tempo && v.bayar < v.anggaran) ev.push({tgl:v.tempo, judul:'💸 Jatuh tempo bayar: ' + v.kat, sub:v.nama + ' · sisa ' + rp(v.anggaran - v.bayar), tag:'Pembayaran'}); });
+  seserahan.forEach(function(x){ if (x.tempo && x.status !== 'Siap') ev.push({tgl:x.tempo, judul:'🎁 Deadline seserahan: ' + x.nama, sub:'Status: ' + x.status, tag:'Seserahan'}); });
+  reminders.forEach(function(r, i){ ev.push({tgl:r.tanggal, judul:'⏰ ' + r.teks, sub:'Reminder manual', tag:'Reminder', ri:i}); });
+  return ev.filter(function(e){ return e.tgl; }).sort(function(a, b){ return a.tgl.localeCompare(b.tgl); });
+}
+function renderTimeline(){
+  var today = new Date().toISOString().slice(0, 10);
+  $('tlList').innerHTML = tlEvents().map(function(e){
+    var dp = dparts(e.tgl);
+    return '<div class="tl-item' + (e.tgl < today ? ' past' : '') + '"><div class="when"><b>' + dp.d + '</b><small>' + dp.m + '</small></div>' +
+      '<div class="what" style="flex:1"><b>' + esc(e.judul) + '</b><span>' + esc(e.sub || '') + ' · ' + fmtD(e.tgl) + '</span></div>' +
+      '<span class="st cons">' + e.tag + '</span>' + (e.ri !== undefined ? '<button class="btn line sm" data-delrem="' + e.ri + '">✕</button>' : '') + '</div>';
+  }).join('') || '<p class="mini">Belum ada tanggal penting.</p>';
+  document.querySelectorAll('[data-delrem]').forEach(function(b){
+    b.addEventListener('click', function(){ reminders.splice(Number(b.dataset.delrem), 1); save('ds2_reminder', reminders); renderTimeline(); });
+  });
+}
+$('btnAddTl').addEventListener('click', function(){
+  var t = $('tlTeks').value.trim(), tgl = $('tlTgl').value;
+  if (!t || !tgl) { toast('Isi tanggal & isi reminder'); return; }
+  reminders.push({tanggal:tgl, teks:t}); save('ds2_reminder', reminders);
+  $('tlTeks').value = ''; $('tlTgl').value = ''; renderTimeline(); toast('Reminder ditambahkan');
+});
+$('btnIcs').addEventListener('click', function(){
+  function d8(iso){ return (iso || '').replace(/-/g, ''); }
+  var stamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Doa Selamanya//Planner//ID'];
+  tlEvents().forEach(function(e, i){
+    ics.push('BEGIN:VEVENT', 'UID:ds-' + i + '-' + d8(e.tgl) + '@doaselamanya', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + d8(e.tgl), 'SUMMARY:' + e.judul.replace(/,/g, ' ') + ' — ' + (e.sub || ''), 'END:VEVENT');
+  });
+  ics.push('END:VCALENDAR');
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics.join('\r\n')], {type:'text/calendar'}));
+  a.download = 'doa-selamanya-reminder.ics'; a.click(); URL.revokeObjectURL(a.href);
+  toast('File kalender diunduh — impor ke Google Calendar/HP kamu');
+});
+
+/* ---------- Planner: Rundown Hari-H ---------- */
+var DEF_RUNDOWN = [
+  {jam:'07.00', teks:'Persiapan & rias kedua mempelai'}, {jam:'08.00', teks:'Akad nikah'}, {jam:'09.30', teks:'Sesi foto keluarga inti'},
+  {jam:'10.30', teks:'Ganti busana resepsi & touch up'}, {jam:'11.00', teks:'Resepsi dimulai — pintu dibuka untuk tamu'},
+  {jam:'11.30', teks:'Grand entrance, sambutan & doa'}, {jam:'12.00', teks:'Ramah tamah, hiburan & foto bersama'},
+  {jam:'12.45', teks:'Sesi foto tamu terakhir'}, {jam:'13.00', teks:'Penutupan & salam perpisahan'}
+];
+var rundown = load('ds2_rundown', DEF_RUNDOWN);
+function renderRundown(){
+  $('runList').innerHTML = rundown.map(function(r, i){
+    return '<div style="display:grid;grid-template-columns:.6fr 2fr auto;gap:10px;margin-bottom:9px"><input type="text" value="' + esc(r.jam) + '" data-ri2="' + i + '" data-rf="jam" style="text-align:center;font-weight:700"><input type="text" value="' + esc(r.teks) + '" data-ri2="' + i + '" data-rf="teks"><button class="btn line sm" data-delrun="' + i + '">✕</button></div>';
+  }).join('') || '<p class="mini">Rundown masih kosong.</p>';
+  document.querySelectorAll('[data-rf]').forEach(function(el){
+    el.addEventListener('change', function(){ rundown[Number(el.dataset.ri2)][el.dataset.rf] = el.value; save('ds2_rundown', rundown); });
+  });
+  document.querySelectorAll('[data-delrun]').forEach(function(b){
+    b.addEventListener('click', function(){ rundown.splice(Number(b.dataset.delrun), 1); save('ds2_rundown', rundown); renderRundown(); });
+  });
+}
+$('btnAddRun').addEventListener('click', function(){
+  var t = $('runTeks').value.trim(); if (!t) { toast('Isi kegiatannya dulu'); return; }
+  rundown.push({jam:$('runJam').value.trim() || '—', teks:t}); save('ds2_rundown', rundown);
+  $('runJam').value = ''; $('runTeks').value = ''; renderRundown(); toast('Baris rundown ditambahkan');
+});
+
+/* ---------- Planner: Honeymoon & Hadiah ---------- */
+var honey = load('ds2_honey', {dest:'Bali — 4 hari 3 malam', anggaran:8500000, cat:'Villa di Ubud + tiket pesawat, dibeli H-60'});
+function renderHoney(){ $('honDest').value = honey.dest || ''; $('honAnggaran').value = honey.anggaran || ''; $('honCat').value = honey.cat || ''; }
+$('btnSaveHon').addEventListener('click', function(){
+  honey = {dest:$('honDest').value.trim(), anggaran:Number($('honAnggaran').value) || 0, cat:$('honCat').value.trim()};
+  save('ds2_honey', honey); toast('Rencana honeymoon tersimpan');
+});
+var hadiah = load('ds2_hadiah', [{nama:'Dinner set porselen', link:''}, {nama:'Air fryer low watt', link:''}, {nama:'Sprei katun premium king', link:''}]);
+function renderHadiah(){
+  $('hadList').innerHTML = hadiah.map(function(h, i){
+    return '<div class="doc-row"><span>🎁</span><span><b>' + esc(h.nama) + '</b>' + (h.link ? '<br><a href="' + esc(h.link) + '" target="_blank" rel="noopener" style="color:var(--gold-dark);font-size:12.5px;font-weight:700">Lihat di toko →</a>' : '') + '</span><button class="upbtn" data-delhad="' + i + '">✕ Hapus</button></div>';
+  }).join('') || '<p class="mini">Belum ada hadiah.</p>';
+  document.querySelectorAll('[data-delhad]').forEach(function(b){
+    b.addEventListener('click', function(){ hadiah.splice(Number(b.dataset.delhad), 1); save('ds2_hadiah', hadiah); renderHadiah(); });
+  });
+}
+$('btnAddHad').addEventListener('click', function(){
+  var n = $('hadNama').value.trim(); if (!n) { toast('Isi nama hadiah'); return; }
+  hadiah.push({nama:n, link:$('hadLink').value.trim()}); save('ds2_hadiah', hadiah);
+  $('hadNama').value = ''; $('hadLink').value = ''; renderHadiah(); toast('Hadiah ditambahkan');
+});
+
+/* ---------- Planner: Auto Allocator & Tabungan ---------- */
+var ALLOC = [['Venue & Katering',45],['Dekorasi',12],['Busana & Rias',12],['Dokumentasi (Foto & Video)',10],['Seserahan & Mahar',6],['Undangan & Souvenir',5],['Musik & Hiburan',5],['Lainnya & Cadangan',5]];
+function renderAlloc(){
+  var t = Number(setup.budget) || 0;
+  $('allocGrid').innerHTML = ALLOC.map(function(a){ return '<div>' + a[0] + ' · ' + a[1] + '%<b>' + rp(Math.round(t * a[1] / 100)) + '</b></div>'; }).join('');
+}
+$('btnAlloc').addEventListener('click', function(){
+  var t = Number(setup.budget) || 0;
+  if (!t) { toast('Isi dulu target biaya total di Beranda'); return; }
+  budget = ALLOC.map(function(a){
+    var lama = budget.filter(function(r){ return r.nama === a[0]; })[0];
+    return {nama:a[0], anggaran:Math.round(t * a[1] / 100 / 1000) * 1000, realisasi:lama ? lama.realisasi : 0};
+  });
+  save('ds2_budget', budget); renderBudget(); toast('Alokasi diterapkan ke Budget Planner');
+});
+var tabungan = load('ds2_tabungan', [{tgl:'2026-09-30', ket:'Setoran awal berdua', jumlah:5000000}, {tgl:'2026-10-25', ket:'Gaji Raka — disisihkan untuk nikah', jumlah:2500000}]);
+function renderTabungan(){
+  var total = tabungan.reduce(function(a, x){ return a + (Number(x.jumlah) || 0); }, 0);
+  var target = Number(setup.budget) || 0;
+  $('tabTarget').textContent = rp(target); $('tabTotal').textContent = rp(total);
+  $('tabKurang').innerHTML = target ? '<span class="' + (target - total < 0 ? 'neg' : '') + '">' + rp(target - total) + '</span>' : '–';
+  $('tabBar').style.width = target ? Math.min(100, Math.round(total / target * 100)) + '%' : '0%';
+  $('tabList').innerHTML = tabungan.slice().sort(function(a, b){ return (a.tgl || '').localeCompare(b.tgl || ''); }).map(function(x){
+    var i = tabungan.indexOf(x);
+    return '<div class="doc-row"><span>💰</span><span><b>' + rp(x.jumlah) + '</b> — ' + esc(x.ket) + '<br><span class="mini">' + fmtD(x.tgl) + '</span></span><button class="upbtn" data-deltab="' + i + '">✕ Hapus</button></div>';
+  }).join('') || '<p class="mini">Belum ada setoran. Mulai nabung yuk.</p>';
+  document.querySelectorAll('[data-deltab]').forEach(function(b){
+    b.addEventListener('click', function(){ tabungan.splice(Number(b.dataset.deltab), 1); save('ds2_tabungan', tabungan); renderTabungan(); });
+  });
+  if (!$('tabTgl').value) $('tabTgl').value = new Date().toISOString().slice(0, 10);
+}
+$('btnAddTab').addEventListener('click', function(){
+  var j = Number($('tabJml').value) || 0; if (!j) { toast('Isi jumlah setorannya'); return; }
+  tabungan.push({tgl:$('tabTgl').value || new Date().toISOString().slice(0, 10), ket:$('tabKet').value.trim() || 'Setoran', jumlah:j});
+  save('ds2_tabungan', tabungan); $('tabKet').value = ''; $('tabJml').value = ''; renderTabungan(); toast('Setoran tercatat — semangat!');
+});
+
 /* ---------- Init ---------- */
-fillSetup(); fillInvite(); renderThemes(); renderGuests(); renderRsvps(); renderShare(); renderStats(); renderChecklist(); renderBudget(); tick(); setInterval(tick, 1000);
+fillSetup(); fillInvite(); renderThemes(); renderGuests(); renderRsvps(); renderShare(); renderStats(); renderChecklist(); renderBudget(); renderAcara(); renderVendor(); renderSeserahan(); renderPendamping(); renderDokumen(); renderTimeline(); renderRundown(); renderHoney(); renderHadiah(); renderAlloc(); renderTabungan(); tick(); setInterval(tick, 1000);
 </script>
 </body>
 </html>
