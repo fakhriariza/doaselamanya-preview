@@ -39,6 +39,16 @@
   .tbody p{color:var(--soft);font-size:.9rem}
   .topen{display:inline-block;margin-top:11px;font-weight:700;color:var(--gold);font-size:.9rem}
   footer{text-align:center;padding:30px 0 40px;color:var(--soft);font-size:.9rem;border-top:1px solid var(--line)}
+
+  .timg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .tnum,.tnames{z-index:1}
+  .tbadge{display:inline-block;margin-top:11px;margin-right:8px;background:#F3E9D8;color:#7A5B21;border:1px solid #E3D3AC;font-size:.7rem;font-weight:700;letter-spacing:.07em;padding:4px 10px;border-radius:999px;text-transform:uppercase;vertical-align:middle}
+  .vtoggle{display:flex;justify-content:center;margin:24px auto 2px}
+  .vbtn{font-family:inherit;font-weight:700;font-size:.92rem;padding:11px 22px;border:1.5px solid var(--gold);background:transparent;color:var(--ink);cursor:pointer}
+  .vbtn:first-child{border-radius:999px 0 0 999px}
+  .vbtn:last-child{border-radius:0 999px 999px 0;border-left:none}
+  .vbtn.active{background:var(--gold);color:#FFF}
+  .vnote{text-align:center;color:var(--soft);font-size:.86rem;margin-top:9px;max-width:640px;margin-left:auto;margin-right:auto}
 </style>
 </head>
 <body>
@@ -50,6 +60,8 @@
     <p>Dari amplop klasik bersegel lilin sampai doodle Gen Z — semua contoh memakai pasangan demo yang sama (Nadia &amp; Raka, Sabtu 20 Maret 2027) supaya mudah dibandingkan. Klik tema untuk membuka undangannya.</p>
   </div>
   <div class="chips"><button class="chip active" data-filter="all">Semua 50</button><button class="chip" data-filter="Floral &amp; Alam">Floral &amp; Alam</button><button class="chip" data-filter="Adat Nusantara">Adat Nusantara</button><button class="chip" data-filter="Islami &amp; Modern">Islami &amp; Modern</button><button class="chip" data-filter="Amplop Klasik">Amplop Klasik</button><button class="chip" data-filter="Ilustrasi &amp; Playful">Ilustrasi &amp; Playful</button><button class="chip" data-filter="Elegan &amp; Mewah">Elegan &amp; Mewah</button></div>
+  <div class="vtoggle"><button class="vbtn active" id="vFoto" type="button">📷 Dengan Foto</button><button class="vbtn" id="vPolos" type="button">🌿 Tanpa Foto</button></div>
+  <p class="vnote">Setiap tema premium tersedia dalam dua versi — dengan foto pasangan, atau tanpa foto sama sekali (cocok untuk konsep syar'i &amp; menjaga privasi). Tombol ini mengganti versi contoh pada kartu tema premium bertanda ★.</p>
   <div class="grid">
       <a class="tcard" href="tema/floral.html" data-family="Floral &amp; Alam">
         <div class="tvis" style="background:linear-gradient(140deg,#C48B7A,#E9CFC2)">
@@ -69,29 +81,33 @@
         </div>
         <div class="tbody"><h3>Sage Minimal (Tanpa Foto)</h3><p class="tfam">Islami &amp; Modern</p><p>Bersih, tenang, modern — tampil penuh tanpa satu pun foto pasangan.</p><span class="topen">Lihat Contoh →</span></div>
       </a>
-      <a class="tcard" href="tema/amplop-burgundy.html" data-family="Amplop Klasik">
+      <a class="tcard" href="tema/amplop-burgundy.html" data-foto="tema/amplop-burgundy.html" data-tanpafoto="tema/amplop-burgundy-tanpa-foto.html" data-family="Amplop Klasik">
         <div class="tvis" style="background:linear-gradient(140deg,#671126,#315C46)">
+          <img class="timg" src="assets/samudra-burgundy/cover.webp" alt="Preview tema amplop-burgundy" loading="lazy">
           <span class="tnum">04</span><span class="tsym">✦</span><span class="tnames">Nadia &amp; Raka</span>
         </div>
-        <div class="tbody"><h3>Samudra Burgundy</h3><p class="tfam">Amplop Klasik</p><p>Tirai emerald gelap, amplop burgundy, dan segel lilin emas terasa seperti undangan premium di galeri pernikahan.</p><span class="topen">Lihat Contoh →</span></div>
+        <div class="tbody"><h3>Samudra Burgundy</h3><p class="tfam">Amplop Klasik</p><p>Tirai emerald gelap, amplop burgundy, dan segel lilin emas terasa seperti undangan premium di galeri pernikahan.</p><span class="tbadge">★ Premium · Dengan Foto</span><span class="topen">Lihat Contoh →</span></div>
       </a>
-      <a class="tcard" href="tema/amplop-mahoni.html" data-family="Amplop Klasik">
+      <a class="tcard" href="tema/amplop-mahoni.html" data-foto="tema/amplop-mahoni.html" data-tanpafoto="tema/amplop-mahoni-tanpa-foto.html" data-family="Amplop Klasik">
         <div class="tvis" style="background:linear-gradient(140deg,#6B3A25,#A9805B)">
+          <img class="timg" src="assets/amplop-mahoni/cover.webp" alt="Preview tema amplop-mahoni" loading="lazy">
           <span class="tnum">05</span><span class="tsym">❀</span><span class="tnames">Nadia &amp; Raka</span>
         </div>
-        <div class="tbody"><h3>Mahoni Klasik</h3><p class="tfam">Amplop Klasik</p><p>Kertas krem bertekstur dan amplop mahoni dengan mawar putih untuk kesan hangat, dewasa, dan tak lekang waktu.</p><span class="topen">Lihat Contoh →</span></div>
+        <div class="tbody"><h3>Mahoni Klasik</h3><p class="tfam">Amplop Klasik</p><p>Kertas krem bertekstur dan amplop mahoni dengan mawar putih untuk kesan hangat, dewasa, dan tak lekang waktu.</p><span class="tbadge">★ Premium · Dengan Foto</span><span class="topen">Lihat Contoh →</span></div>
       </a>
-      <a class="tcard" href="tema/amplop-navy.html" data-family="Amplop Klasik">
+      <a class="tcard" href="tema/amplop-navy.html" data-foto="tema/amplop-navy.html" data-tanpafoto="tema/amplop-navy-tanpa-foto.html" data-family="Amplop Klasik">
         <div class="tvis" style="background:linear-gradient(140deg,#1D3A5F,#7FA6C9)">
+          <img class="timg" src="assets/amplop-navy/cover.webp" alt="Preview tema amplop-navy" loading="lazy">
           <span class="tnum">06</span><span class="tsym">✦</span><span class="tnames">Nadia &amp; Raka</span>
         </div>
-        <div class="tbody"><h3>Samudra Malam</h3><p class="tfam">Amplop Klasik</p><p>Navy dalam dan emas tenang menghadirkan amplop malam yang formal, maskulin, dan berkelas.</p><span class="topen">Lihat Contoh →</span></div>
+        <div class="tbody"><h3>Samudra Malam</h3><p class="tfam">Amplop Klasik</p><p>Navy dalam dan emas tenang menghadirkan amplop malam yang formal, maskulin, dan berkelas.</p><span class="tbadge">★ Premium · Dengan Foto</span><span class="topen">Lihat Contoh →</span></div>
       </a>
-      <a class="tcard" href="tema/amplop-hitam-emas.html" data-family="Amplop Klasik">
+      <a class="tcard" href="tema/amplop-hitam-emas.html" data-foto="tema/amplop-hitam-emas.html" data-tanpafoto="tema/amplop-hitam-emas-tanpa-foto.html" data-family="Amplop Klasik">
         <div class="tvis" style="background:linear-gradient(140deg,#090909,#3A3328)">
+          <img class="timg" src="assets/amplop-hitam-emas/cover.webp" alt="Preview tema amplop-hitam-emas" loading="lazy">
           <span class="tnum">07</span><span class="tsym">◆</span><span class="tnames">Nadia &amp; Raka</span>
         </div>
-        <div class="tbody"><h3>Hitam Emas</h3><p class="tfam">Amplop Klasik</p><p>Hitam pekat, garis emas tipis, dan tipografi kontras tinggi untuk pasangan yang ingin tampil tegas dan mewah.</p><span class="topen">Lihat Contoh →</span></div>
+        <div class="tbody"><h3>Hitam Emas</h3><p class="tfam">Amplop Klasik</p><p>Hitam pekat, garis emas tipis, dan tipografi kontras tinggi untuk pasangan yang ingin tampil tegas dan mewah.</p><span class="tbadge">★ Premium · Dengan Foto</span><span class="topen">Lihat Contoh →</span></div>
       </a>
       <a class="tcard" href="tema/amplop-blush.html" data-family="Amplop Klasik">
         <div class="tvis" style="background:linear-gradient(140deg,#B85C70,#E9B4B8)">
@@ -261,29 +277,33 @@
         </div>
         <div class="tbody"><h3>Musim Gugur</h3><p class="tfam">Floral &amp; Alam</p><p>Maple oranye, karamel, dan zaitun untuk musim gugur yang hangat meski acaranya di tropis.</p><span class="topen">Lihat Contoh →</span></div>
       </a>
-      <a class="tcard" href="tema/pita-krem.html" data-family="Elegan &amp; Mewah">
+      <a class="tcard" href="tema/pita-krem.html" data-foto="tema/pita-krem.html" data-tanpafoto="tema/pita-krem-tanpa-foto.html" data-family="Elegan &amp; Mewah">
         <div class="tvis" style="background:linear-gradient(140deg,#8C7A5B,#B9BDC2)">
+          <img class="timg" src="assets/pita-krem/cover.webp" alt="Preview tema pita-krem" loading="lazy">
           <span class="tnum">36</span><span class="tsym">❦</span><span class="tnames">Nadia &amp; Raka</span>
         </div>
-        <div class="tbody"><h3>Pita Krem</h3><p class="tfam">Elegan &amp; Mewah</p><p>Amplop krem dengan pita satin perak yang seolah baru diikat—puncak minimalisme mewah ala referensi Sponsalia.</p><span class="topen">Lihat Contoh →</span></div>
+        <div class="tbody"><h3>Pita Krem</h3><p class="tfam">Elegan &amp; Mewah</p><p>Amplop krem dengan pita satin perak yang seolah baru diikat—puncak minimalisme mewah ala referensi Sponsalia.</p><span class="tbadge">★ Premium · Dengan Foto</span><span class="topen">Lihat Contoh →</span></div>
       </a>
-      <a class="tcard" href="tema/art-deco.html" data-family="Elegan &amp; Mewah">
+      <a class="tcard" href="tema/art-deco.html" data-foto="tema/art-deco.html" data-tanpafoto="tema/art-deco-tanpa-foto.html" data-family="Elegan &amp; Mewah">
         <div class="tvis" style="background:linear-gradient(140deg,#C9A227,#1F6F5B)">
+          <img class="timg" src="assets/art-deco/cover.webp" alt="Preview tema art-deco" loading="lazy">
           <span class="tnum">37</span><span class="tsym">◆</span><span class="tnames">Nadia &amp; Raka</span>
         </div>
-        <div class="tbody"><h3>Art Deco Emas</h3><p class="tfam">Elegan &amp; Mewah</p><p>Kipas deco, geometri simetris, dan hitam-emas ala pesta Gatsby tahun 1920-an.</p><span class="topen">Lihat Contoh →</span></div>
+        <div class="tbody"><h3>Art Deco Emas</h3><p class="tfam">Elegan &amp; Mewah</p><p>Kipas deco, geometri simetris, dan hitam-emas ala pesta Gatsby tahun 1920-an.</p><span class="tbadge">★ Premium · Dengan Foto</span><span class="topen">Lihat Contoh →</span></div>
       </a>
-      <a class="tcard" href="tema/marmer.html" data-family="Elegan &amp; Mewah">
+      <a class="tcard" href="tema/marmer.html" data-foto="tema/marmer.html" data-tanpafoto="tema/marmer-tanpa-foto.html" data-family="Elegan &amp; Mewah">
         <div class="tvis" style="background:linear-gradient(140deg,#8C8578,#C9C9C4)">
+          <img class="timg" src="assets/marmer/cover.webp" alt="Preview tema marmer" loading="lazy">
           <span class="tnum">38</span><span class="tsym">✦</span><span class="tnames">Nadia &amp; Raka</span>
         </div>
-        <div class="tbody"><h3>Marmer Putih</h3><p class="tfam">Elegan &amp; Mewah</p><p>Marmer putih dengan urat abu halus dan garis emas tipis—dingin, bersih, dan sangat premium.</p><span class="topen">Lihat Contoh →</span></div>
+        <div class="tbody"><h3>Marmer Putih</h3><p class="tfam">Elegan &amp; Mewah</p><p>Marmer putih dengan urat abu halus dan garis emas tipis—dingin, bersih, dan sangat premium.</p><span class="tbadge">★ Premium · Dengan Foto</span><span class="topen">Lihat Contoh →</span></div>
       </a>
-      <a class="tcard" href="tema/zamrud.html" data-family="Elegan &amp; Mewah">
+      <a class="tcard" href="tema/zamrud.html" data-foto="tema/zamrud.html" data-tanpafoto="tema/zamrud-tanpa-foto.html" data-family="Elegan &amp; Mewah">
         <div class="tvis" style="background:linear-gradient(140deg,#0E5B3F,#2E7D5B)">
+          <img class="timg" src="assets/zamrud/cover.webp" alt="Preview tema zamrud" loading="lazy">
           <span class="tnum">39</span><span class="tsym">♛</span><span class="tnames">Nadia &amp; Raka</span>
         </div>
-        <div class="tbody"><h3>Zamrud Royal</h3><p class="tfam">Elegan &amp; Mewah</p><p>Zamrud pekat, mahkota kecil, dan simetri klasik untuk tema royal yang tidak berlebihan.</p><span class="topen">Lihat Contoh →</span></div>
+        <div class="tbody"><h3>Zamrud Royal</h3><p class="tfam">Elegan &amp; Mewah</p><p>Zamrud pekat, mahkota kecil, dan simetri klasik untuk tema royal yang tidak berlebihan.</p><span class="tbadge">★ Premium · Dengan Foto</span><span class="topen">Lihat Contoh →</span></div>
       </a>
       <a class="tcard" href="tema/biru-malam.html" data-family="Elegan &amp; Mewah">
         <div class="tvis" style="background:linear-gradient(140deg,#7FA6C9,#44548A)">
@@ -291,11 +311,12 @@
         </div>
         <div class="tbody"><h3>Biru Tengah Malam</h3><p class="tfam">Elegan &amp; Mewah</p><p>Langit navy, bulan sabit perak, dan bintang kecil untuk malam resepsi yang syahdu.</p><span class="topen">Lihat Contoh →</span></div>
       </a>
-      <a class="tcard" href="tema/rose-gold.html" data-family="Elegan &amp; Mewah">
+      <a class="tcard" href="tema/rose-gold.html" data-foto="tema/rose-gold.html" data-tanpafoto="tema/rose-gold-tanpa-foto.html" data-family="Elegan &amp; Mewah">
         <div class="tvis" style="background:linear-gradient(140deg,#B76E79,#E3B7A7)">
+          <img class="timg" src="assets/rose-gold/cover.webp" alt="Preview tema rose-gold" loading="lazy">
           <span class="tnum">41</span><span class="tsym">❀</span><span class="tnames">Nadia &amp; Raka</span>
         </div>
-        <div class="tbody"><h3>Rose Gold</h3><p class="tfam">Elegan &amp; Mewah</p><p>Gradasi rose gold metalik, mawar blush, dan krem susu untuk kilau feminin yang modern.</p><span class="topen">Lihat Contoh →</span></div>
+        <div class="tbody"><h3>Rose Gold</h3><p class="tfam">Elegan &amp; Mewah</p><p>Gradasi rose gold metalik, mawar blush, dan krem susu untuk kilau feminin yang modern.</p><span class="tbadge">★ Premium · Dengan Foto</span><span class="topen">Lihat Contoh →</span></div>
       </a>
       <a class="tcard" href="tema/renda.html" data-family="Elegan &amp; Mewah">
         <div class="tvis" style="background:linear-gradient(140deg,#671126,#315C46)">
@@ -364,6 +385,27 @@
       });
     });
   });
+</script>
+
+<script>
+  // Toggle versi Dengan Foto / Tanpa Foto untuk kartu tema premium
+  (function(){
+    var cards = document.querySelectorAll('.tcard[data-tanpafoto]');
+    var bF = document.getElementById('vFoto'), bP = document.getElementById('vPolos');
+    function setMode(polos){
+      cards.forEach(function(c){
+        c.setAttribute('href', polos ? c.getAttribute('data-tanpafoto') : c.getAttribute('data-foto'));
+        var img = c.querySelector('.timg'); if (img) img.style.display = polos ? 'none' : 'block';
+        var sym = c.querySelector('.tsym'); if (sym) sym.style.display = polos ? '' : 'none';
+        var bd = c.querySelector('.tbadge'); if (bd) bd.textContent = polos ? '★ Premium · Tanpa Foto' : '★ Premium · Dengan Foto';
+      });
+      bF.classList.toggle('active', !polos);
+      bP.classList.toggle('active', polos);
+    }
+    bF.addEventListener('click', function(){ setMode(false); });
+    bP.addEventListener('click', function(){ setMode(true); });
+    if (new URLSearchParams(location.search).get('versi') === 'tanpafoto') setMode(true); else setMode(false);
+  })();
 </script>
 </body>
 </html>
