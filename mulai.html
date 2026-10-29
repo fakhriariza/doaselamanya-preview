@@ -6,12 +6,12 @@
 <title>Mulai — Doa Selamanya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--cream:#FBF7F0;--cream-2:#F4ECDF;--ink:#3E3A34;--ink-2:#2C2823;--soft:#6E675C;--gold:#B08D57;--gold-dark:#96733F;--gold-soft:#E9DCC2;--rose:#C48B7A;--sage:#8A9B7E;--sage-soft:#E9EDE0;--line:#E7DCC9;--bg:#F7F3EC;--shadow:0 14px 34px rgba(62,58,52,.09);--r:22px}
+  :root{--cream:#FFF6EA;--cream-2:#FFEDD3;--ink:#2A211B;--ink-2:#201812;--soft:#7A6A58;--gold:#F4654A;--gold-dark:#B93E28;--gold-soft:#FFE0D6;--rose:#E8907C;--sage:#7A9E7E;--sage-soft:#DFE9DA;--line:#EADCCB;--bg:#FFF6EA;--shadow:0 14px 34px rgba(42,33,27,.12);--r:22px}
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
-  h1,h2,.serif{font-family:'Playfair Display',Georgia,serif}
+  h1,h2,.serif{font-family:'Bricolage Grotesque',Georgia,serif}
   button{font-family:inherit;cursor:pointer}
   input,select{font-family:inherit;font-size:15px;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:#FFFDF8;color:var(--ink);width:100%}
   input:focus,select:focus{outline:2px solid var(--gold-soft);border-color:var(--gold)}
@@ -19,7 +19,7 @@
   .topbar{background:#fff;border-bottom:1px solid var(--line);padding:12px 22px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:20}
   .topbar .brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--ink)}
   .topbar .brand img{width:34px;height:34px;border-radius:9px}
-  .topbar .brand b{font-family:'Playfair Display',serif;font-size:17px}
+  .topbar .brand b{font-family:'Bricolage Grotesque',serif;font-size:17px}
   .topbar .guide{font-size:13.5px;font-weight:600;color:var(--soft)}
   .topbar .user{margin-left:auto;font-size:13.5px;font-weight:700;display:flex;gap:8px;align-items:center}
   .topbar .user i{width:28px;height:28px;border-radius:50%;background:var(--gold-soft);display:grid;place-items:center;font-style:normal;font-size:13px}
@@ -45,7 +45,7 @@
   .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .photo .shade{position:absolute;inset:0;background:linear-gradient(185deg,transparent 42%,rgba(30,20,10,.72))}
   .photo .cap{position:absolute;left:26px;right:26px;bottom:26px;color:#FFF7E8}
-  .photo .cap .init{font-family:'Playfair Display',serif;font-style:italic;font-size:21px;color:var(--gold-soft)}
+  .photo .cap .init{font-family:'Bricolage Grotesque',serif;font-style:italic;font-size:21px;color:var(--gold-soft)}
   .photo .cap .big{font-size:29px;font-weight:800;line-height:1.25;margin-top:5px}
   .panel{min-width:0}
   .step{display:none}.step.act{display:block;animation:fade .35s ease}
@@ -68,7 +68,7 @@
   .pkg{background:#fff;border:2px solid var(--line);border-radius:var(--r);padding:26px;position:relative;transition:.2s}
   .pkg.sel{border-color:var(--gold);box-shadow:0 16px 36px rgba(176,141,87,.25)}
   .pkg .rec{position:absolute;top:-13px;right:20px;background:var(--gold);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.6px;padding:5px 13px;border-radius:999px}
-  .pkg h3{font-family:'Playfair Display',serif;font-size:21px;color:var(--gold-dark)}
+  .pkg h3{font-family:'Bricolage Grotesque',serif;font-size:21px;color:var(--gold-dark)}
   .pkg .pr{font-size:31px;font-weight:800;margin:5px 0 4px}
   .pkg .pr small{font-size:13px;color:var(--soft);font-weight:600}
   .pkg ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:9px;font-size:14px}
@@ -99,6 +99,15 @@
   .sukses h1{color:var(--gold-dark)}
   .btn{display:inline-block;border:none;border-radius:999px;font-weight:700;font-size:14.5px;padding:13px 26px;text-decoration:none;cursor:pointer}
   .btn.gold{background:var(--gold);color:#fff}.btn.line{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+</style>
+<style>
+/* === Bahasa Berdua === */
+.panel{border:2.5px solid var(--ink);box-shadow:0 8px 0 rgba(42,33,27,.12)}
+.pkg{border:2px solid var(--line)}
+.pkg.sel{border-color:var(--ink);box-shadow:0 5px 0 var(--gold)}
+.lanjut{background:var(--gold);color:var(--ink);border:2.5px solid var(--ink);box-shadow:0 4px 0 var(--ink)}
+.lanjut:hover{background:#F77358}
+.lanjut:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
 </style>
 </head>
 <body>

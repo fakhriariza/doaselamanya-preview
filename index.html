@@ -7,13 +7,13 @@
 <meta name="description" content="Semua persiapan nikah beres dalam satu sistem: undangan digital dengan nama tamu personal, QR buku tamu, dan wedding planner. Sekali bayar, aktif 1 tahun penuh.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#FBF7F0; --cream-2:#F4ECDF; --ink:#3E3A34; --ink-2:#2C2823; --ink-soft:#6E675C;
-    --gold:#B08D57; --gold-dark:#96733F; --gold-soft:#E9DCC2;
-    --rose:#C48B7A; --rose-soft:#F6E7E0; --sage:#8A9B7E; --sage-soft:#E9EDE0;
-    --card:#FFFFFF; --line:#E7DCC9; --shadow:0 14px 34px rgba(62,58,52,.10);
+    --cream:#FFF6EA; --cream-2:#FFEDD3; --ink:#2A211B; --ink-2:#201812; --ink-soft:#7A6A58;
+    --gold:#F4654A; --gold-dark:#B93E28; --gold-soft:#FFE0D6;
+    --rose:#E8907C; --rose-soft:#FBE7DF; --sage:#7A9E7E; --sage-soft:#DFE9DA;
+    --card:#FFFFFF; --line:#EADCCB; --shadow:0 14px 34px rgba(62,58,52,.10);
     --r:26px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -21,7 +21,7 @@
   body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
   img{max-width:100%;display:block}
   .container{max-width:1120px;margin:0 auto;padding:0 22px}
-  h1,h2,h3,.serif{font-family:'Playfair Display',Georgia,serif}
+  h1,h2,h3,.serif{font-family:'Bricolage Grotesque',Georgia,serif}
   section{padding:88px 0;position:relative}
   .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
   .rv.in{opacity:1;transform:none}
@@ -30,7 +30,7 @@
   .hbar{display:flex;align-items:center;gap:26px;padding:13px 0}
   .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--cream)}
   .brand img{width:38px;height:38px;border-radius:11px}
-  .brand b{font-family:'Playfair Display',serif;font-size:20px;letter-spacing:.4px;line-height:1.05}
+  .brand b{font-family:'Bricolage Grotesque',serif;font-size:20px;letter-spacing:.4px;line-height:1.05}
   .brand small{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-soft)}
   nav{display:flex;gap:22px;margin-left:auto}
   nav a{color:#EDE6D6;text-decoration:none;font-size:13.5px;font-weight:600}
@@ -39,7 +39,7 @@
   .pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:700;text-decoration:none;cursor:pointer;border:none;transition:.22s;font-family:'Plus Jakarta Sans',sans-serif}
   .pill.sm{padding:9px 19px;font-size:13px}
   .pill.lg{padding:15px 30px;font-size:15px}
-  .pill.gold{background:var(--gold);color:#FFF9EE;box-shadow:0 8px 20px rgba(176,141,87,.35)}
+  .pill.gold{background:var(--gold);color:#FFF9EE;box-shadow:0 8px 20px rgba(42,33,27,.25)}
   .pill.gold:hover{background:var(--gold-dark);transform:translateY(-2px)}
   .pill.light{background:var(--cream);color:var(--ink)}
   .pill.light:hover{background:#fff;transform:translateY(-2px)}
@@ -73,7 +73,7 @@
   @media(max-width:820px){.stats{grid-template-columns:1fr}}
   .stat{border-radius:var(--r);padding:34px 26px;text-align:left;border:1px solid var(--line)}
   .stat.rose{background:var(--rose-soft)} .stat.sage{background:var(--sage-soft)} .stat.sand{background:var(--cream-2)}
-  .stat .num{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:var(--gold-dark);line-height:1}
+  .stat .num{font-family:'Bricolage Grotesque',serif;font-size:52px;font-weight:700;color:var(--gold-dark);line-height:1}
   .stat h3{font-size:20px;margin:10px 0 6px}
   .stat p{color:var(--ink-soft);font-size:14.5px}
   /* ---------- PRODUCT SECTIONS ---------- */
@@ -113,7 +113,7 @@
   /* planner mock */
   .mock{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px;text-align:left;max-width:420px;margin:0 auto}
   .mock .mhead{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:12px}
-  .mock .mhead b{font-family:'Playfair Display',serif;font-size:18px}
+  .mock .mhead b{font-family:'Bricolage Grotesque',serif;font-size:18px}
   .mock .mhead span{font-size:12px;color:var(--gold-dark);font-weight:800}
   .mock .row{display:flex;justify-content:space-between;font-size:13.5px;padding:10px 0;border-bottom:1px dashed var(--line)}
   .mock .row:last-child{border-bottom:none}
@@ -133,7 +133,7 @@
   .price.best{border:2px solid var(--gold)}
   .price .badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--gold);color:#FFF9EE;font-size:11.5px;font-weight:800;letter-spacing:1.6px;padding:6px 16px;border-radius:999px;text-transform:uppercase;white-space:nowrap}
   .price h3{font-size:21px}
-  .price .rp{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;margin:8px 0 2px}
+  .price .rp{font-family:'Bricolage Grotesque',serif;font-size:42px;font-weight:700;margin:8px 0 2px}
   .price .per{color:var(--ink-soft);font-size:13px}
   .price ul{list-style:none;margin:18px 0 24px}
   .price li{padding:7px 0 7px 28px;position:relative;font-size:14.5px;border-bottom:1px dashed var(--line)}
@@ -150,7 +150,7 @@
   .why p{color:var(--ink-soft);font-size:14px}
   /* ---------- MARQUEE ---------- */
   .marquee{background:var(--ink);color:var(--gold-soft);overflow:hidden;padding:20px 0;transform:rotate(-1.2deg) scale(1.02)}
-  .marquee .track{display:flex;gap:0;white-space:nowrap;animation:mq 40s linear infinite;font-family:'Playfair Display',serif;font-size:19px}
+  .marquee .track{display:flex;gap:0;white-space:nowrap;animation:mq 40s linear infinite;font-family:'Bricolage Grotesque',serif;font-size:19px}
   .marquee span{padding:0 14px}
   @keyframes mq{to{transform:translateX(-50%)}}
   /* ---------- FAQ ---------- */
@@ -169,14 +169,25 @@
   footer{background:var(--ink-2);color:#CFC5AE;padding:60px 0 34px;margin-top:88px}
   .fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
   @media(max-width:820px){.fgrid{grid-template-columns:1fr 1fr}}
-  footer h4{font-family:'Playfair Display',serif;color:var(--cream);font-size:16.5px;margin-bottom:13px}
+  footer h4{font-family:'Bricolage Grotesque',serif;color:var(--cream);font-size:16.5px;margin-bottom:13px}
   footer a{color:#CFC5AE;text-decoration:none;font-size:13.5px;display:block;padding:4px 0}
   footer a:hover{color:var(--gold-soft)}
   footer p{font-size:13.5px;line-height:1.7}
   .fbrand{display:flex;gap:11px;align-items:center;margin-bottom:13px}
   .fbrand img{width:36px;height:36px;border-radius:10px}
-  .fbrand b{font-family:'Playfair Display',serif;color:var(--cream);font-size:18px}
+  .fbrand b{font-family:'Bricolage Grotesque',serif;color:var(--cream);font-size:18px}
   .fbot{border-top:1px solid rgba(251,247,240,.14);margin-top:36px;padding-top:20px;font-size:12.5px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+</style>
+<style>
+/* === Bahasa Berdua === */
+header{background:#FFFDF8;color:var(--ink);border-bottom:2.5px solid var(--ink);box-shadow:none}
+.hbar nav a{color:var(--soft)}.hbar nav a:hover{color:var(--ink)}
+.pill{border:2.5px solid var(--ink);box-shadow:0 4px 0 var(--ink)}
+.pill:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.pill.gold{background:var(--gold);color:var(--ink);box-shadow:0 4px 0 var(--ink)}
+.pill.gold:hover{background:#F77358}
+.hero-panel{border:2.5px solid var(--ink);box-shadow:0 10px 0 rgba(42,33,27,.14)}
+.tool{border:2.5px solid var(--ink);box-shadow:0 8px 0 rgba(42,33,27,.12);background:#FFFDF8}
 </style>
 </head>
 <body>
