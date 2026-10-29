@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan Pernikahan Nadia &amp; Raka — Sage Minimal · Doa Selamanya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --sage:#8A9B7E; --sage-dark:#67785B; --sage-soft:#EEF1EA; --ink:#2F332E; --muted:#7C8378; --line:#E3E7DF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:#F2F3EF;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);font-weight:400}
+  .wrap{max-width:480px;margin:0 auto;background:var(--white);position:relative;overflow:hidden;box-shadow:0 0 40px rgba(47,51,46,.08)}
+  body.locked{overflow:hidden}
+
+  /* ---------- COVER ---------- */
+  .cover{position:fixed;inset:0;max-width:480px;margin:0 auto;background:var(--white);z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 30px;transition:opacity .7s ease,visibility .7s}
+  .cover.hide{opacity:0;visibility:hidden;pointer-events:none}
+  .cover .rule{width:44px;height:1.5px;background:var(--sage);margin:18px auto}
+  .cover small{letter-spacing:4px;text-transform:uppercase;font-size:10.5px;color:var(--sage-dark);font-weight:600}
+  .cover h1{font-size:42px;font-weight:300;letter-spacing:.5px;margin:6px 0 2px;line-height:1.2}
+  .cover h1 b{font-weight:700}
+  .cover h1 span{color:var(--sage);font-weight:300}
+  .cover .tgl{font-size:13px;letter-spacing:3px;color:var(--muted);margin-bottom:40px;font-weight:500}
+  .cover .tamu{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 8px;margin-bottom:30px;width:100%;max-width:330px}
+  .cover .tamu p{font-size:12px;color:var(--muted);margin-bottom:6px}
+  .cover .tamu strong{font-size:17px;font-weight:600}
+  .btn{display:inline-block;background:var(--sage);color:#fff;border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:14px;padding:13px 30px;border-radius:999px;letter-spacing:.3px;transition:.25s;text-decoration:none}
+  .btn:hover{background:var(--sage-dark)}
+  .btn.ghost{background:transparent;color:var(--sage-dark);border:1px solid var(--sage)}
+
+  /* ---------- SECTION UMUM ---------- */
+  section{padding:52px 32px;text-align:center}
+  section + section{border-top:1px solid var(--line)}
+  .kicker{font-size:10.5px;letter-spacing:3.5px;text-transform:uppercase;color:var(--sage-dark);font-weight:700;margin-bottom:10px}
+  h2{font-size:26px;font-weight:600;margin-bottom:14px;letter-spacing:.2px}
+  p{font-size:14.5px;line-height:1.8}
+  .muted{color:var(--muted);font-size:13px}
+  .rule{width:36px;height:1.5px;background:var(--sage);margin:16px auto}
+
+  /* ---------- AYAT ---------- */
+  .ayat blockquote{font-size:16.5px;font-weight:300;line-height:1.9;max-width:350px;margin:0 auto 10px}
+  .ayat cite{font-style:normal;font-size:12.5px;color:var(--sage-dark);font-weight:600;letter-spacing:1px}
+
+  /* ---------- MEMPELAI ---------- */
+  .monogram{width:104px;height:104px;margin:0 auto 20px;border:1px solid var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:300;letter-spacing:1px;color:var(--sage-dark)}
+  .monogram span{color:var(--sage);font-size:19px;margin:0 3px}
+  .mempelai h3{font-size:23px;font-weight:600;margin-bottom:6px}
+  .amp{font-size:22px;color:var(--sage);font-weight:300;margin:28px 0}
+
+  /* ---------- COUNTDOWN ---------- */
+  .cd{display:flex;justify-content:center;gap:8px;margin-top:6px}
+  .cd div{background:var(--sage-soft);border-radius:12px;width:70px;padding:13px 0}
+  .cd b{font-size:23px;font-weight:700;color:var(--sage-dark);display:block}
+  .cd small{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+  /* ---------- JADWAL ---------- */
+  .card{border:1px solid var(--line);border-radius:16px;padding:26px 22px;margin:14px auto;max-width:360px}
+  .card h3{font-size:20px;font-weight:600;margin-bottom:8px}
+  .card .hari{font-size:15px;font-weight:600}
+  .card p{font-size:13.5px}
+  .card .btn{margin-top:16px;padding:10px 24px;font-size:13px}
+
+  /* ---------- LOVE STORY ---------- */
+  .story{text-align:left;max-width:330px;margin:0 auto;position:relative;padding-left:24px}
+  .story::before{content:"";position:absolute;left:4px;top:8px;bottom:8px;width:1px;background:var(--line)}
+  .story div{margin-bottom:24px;position:relative}
+  .story div::before{content:"";position:absolute;left:-23.5px;top:7px;width:7px;height:7px;border-radius:50%;background:var(--sage)}
+  .story b{font-size:16px;font-weight:600}
+  .story span{display:block;font-size:11.5px;color:var(--sage-dark);letter-spacing:2px;font-weight:700;margin-bottom:3px}
+  .story p{font-size:13.5px;color:#555B52}
+
+  /* ---------- KARTU DOA (pengganti galeri, tanpa foto) ---------- */
+  .doa-grid{display:grid;grid-template-columns:1fr;gap:12px;max-width:360px;margin:0 auto}
+  .doa-grid div{background:var(--sage-soft);border-radius:16px;padding:22px 24px;font-size:14.5px;font-weight:300;line-height:1.85;font-style:italic}
+  .doa-grid div b{display:block;font-style:normal;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:8px}
+
+  /* ---------- RSVP ---------- */
+  form{text-align:left;max-width:330px;margin:0 auto}
+  label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:14px 0 6px}
+  input,select,textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:14px;background:#fff;color:var(--ink)}
+  input:focus,select:focus,textarea:focus{outline:1.5px solid var(--sage);border-color:var(--sage)}
+  textarea{resize:vertical;min-height:84px}
+  form .btn{width:100%;margin-top:20px}
+  .thanks{display:none;background:var(--sage-soft);border:1px solid var(--sage);border-radius:14px;padding:16px;font-size:13.5px;text-align:center;margin-top:18px}
+
+  /* ---------- AMPLOP ---------- */
+  .rekening{border:1px solid var(--line);border-radius:16px;padding:20px;max-width:330px;margin:12px auto;text-align:center}
+  .rekening .bank{font-size:16px;font-weight:700;letter-spacing:2px;color:var(--sage-dark)}
+  .rekening .nomor{font-size:19px;letter-spacing:1.5px;margin:6px 0 2px;font-weight:600}
+  .rekening .an{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+  .rekening .btn{padding:9px 22px;font-size:12.5px}
+
+  /* ---------- PENUTUP & FOOTER ---------- */
+  .penutup .ttd{font-size:24px;font-weight:600;margin-top:10px}
+  .penutup .ttd span{color:var(--sage);font-weight:300}
+  footer{text-align:center;padding:26px 20px 34px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  footer b{color:var(--sage-dark)}
+</style>
+</head>
+<body class="locked">
+<div class="wrap">
+
+  <!-- COVER -->
+  <div class="cover" id="cover">
+    <small>Undangan Pernikahan</small>
+    <div class="rule"></div>
+    <h1>Nadia <span>&amp;</span><br><b>Raka</b></h1>
+    <p class="tgl">SABTU · 20 · 03 · 2027</p>
+    <div class="tamu">
+      <p>Kepada Yth. Bapak/Ibu/Saudara/i</p>
+      <strong>Keluarga Besar Wijaya</strong>
+      <p style="margin-top:6px;font-size:11.5px">*Mohon maaf apabila terdapat kesalahan penulisan nama &amp; gelar</p>
+    </div>
+    <button class="btn" id="btnBuka">Buka Undangan</button>
+  </div>
+
+  <!-- AYAT -->
+  <section class="ayat">
+    <p class="muted" style="margin-bottom:14px">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+    <blockquote>&ldquo;Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;</blockquote>
+    <cite>QS. Ar-Rum: 21</cite>
+    <p style="margin-top:20px">Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyempurnakan separuh agama dengan ikatan pernikahan:</p>
+  </section>
+
+  <!-- MEMPELAI -->
+  <section>
+    <div class="monogram">R<span>&amp;</span>N</div>
+    <p class="kicker">Mempelai Wanita</p>
+    <div class="mempelai">
+      <h3>Nadia Prameswari, S.E.</h3>
+      <p class="muted">Putri kedua dari<br>Bapak H. Ahmad Suryana &amp; Ibu Hj. Ratna Suryana</p>
+    </div>
+    <div class="amp">&amp;</div>
+    <p class="kicker">Mempelai Pria</p>
+    <div class="mempelai">
+      <h3>Raka Aditya Pratama, S.T.</h3>
+      <p class="muted">Putra pertama dari<br>Bapak Budi Pratama &amp; Ibu Dewi Pratama</p>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section>
+    <p class="kicker">Menghitung Hari</p>
+    <h2>Momen Bahagia</h2>
+    <div class="cd">
+      <div><b id="cd-d">0</b><small>Hari</small></div>
+      <div><b id="cd-h">0</b><small>Jam</small></div>
+      <div><b id="cd-m">0</b><small>Menit</small></div>
+      <div><b id="cd-s">0</b><small>Detik</small></div>
+    </div>
+  </section>
+
+  <!-- JADWAL -->
+  <section>
+    <p class="kicker">Waktu &amp; Tempat</p>
+    <h2>Rangkaian Acara</h2>
+    <div class="card">
+      <h3>Akad Nikah</h3>
+      <p class="hari">Sabtu, 20 Maret 2027</p>
+      <p>Pukul 08.00 – 10.00 WIB</p>
+      <div class="rule"></div>
+      <p><strong>Gedung Serbaguna Al-Azhar</strong><br>Jl. Sisingamangaraja No. 2, Jakarta Selatan</p>
+      <a class="btn" href="https://maps.google.com/?q=Gedung+Al-Azhar+Jakarta+Selatan" target="_blank" rel="noopener">Lihat Lokasi</a>
+    </div>
+    <div class="card">
+      <h3>Resepsi</h3>
+      <p class="hari">Sabtu, 20 Maret 2027</p>
+      <p>Pukul 11.00 – 13.00 WIB</p>
+      <div class="rule"></div>
+      <p><strong>Gedung Serbaguna Al-Azhar</strong><br>Jl. Sisingamangaraja No. 2, Jakarta Selatan</p>
+      <a class="btn" href="https://maps.google.com/?q=Gedung+Al-Azhar+Jakarta+Selatan" target="_blank" rel="noopener">Lihat Lokasi</a>
+    </div>
+  </section>
+
+  <!-- LOVE STORY -->
+  <section>
+    <p class="kicker">Love Story</p>
+    <h2>Kisah Kami</h2>
+    <div class="story">
+      <div><span>2019</span><b>Pertama Bertemu</b><p>Di sebuah acara kampus di Jakarta, percakapan singkat tentang kopi berlanjut menjadi pertemanan yang hangat.</p></div>
+      <div><span>2024</span><b>Lamaran</b><p>Lima tahun saling mendukung, Raka memberanikan diri melamar Nadia di hadapan kedua keluarga besar.</p></div>
+      <div><span>2027</span><b>Menikah</b><p>Dengan doa dan restu orang tua, kami memutuskan menyempurnakan kisah ini dalam ikatan suci pernikahan.</p></div>
+    </div>
+  </section>
+
+  <!-- KUTIPAN & DOA (tema tanpa foto: tanpa galeri) -->
+  <section>
+    <p class="kicker">Untaian Doa</p>
+    <h2>Kutipan &amp; Doa</h2>
+    <div class="doa-grid">
+      <div><b>Doa untuk Kedua Mempelai</b>&ldquo;Semoga Allah memberkahimu dan mengumpulkan kalian berdua dalam kebaikan.&rdquo; (HR. Abu Dawud)</div>
+      <div><b>Tentang Cinta</b>&ldquo;Cinta bukan tentang seberapa lama mengenal, melainkan tentang keberanian menjaga dalam ketaatan hingga halal.&rdquo;</div>
+      <div><b>Harapan Kami</b>&ldquo;Ya Allah, jadikanlah pernikahan ini awal dari keluarga yang sakinah, mawaddah, warahmah — hingga ke surga-Mu.&rdquo;</div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section>
+    <p class="kicker">RSVP &amp; Ucapan</p>
+    <h2>Konfirmasi Kehadiran</h2>
+    <p class="muted" style="margin-bottom:8px">Kehadiran Anda adalah doa terindah bagi kami. Mohon konfirmasi dan titipkan ucapan Anda:</p>
+    <form id="formRsvp">
+      <label for="rsvp-nama">Nama</label>
+      <input id="rsvp-nama" type="text" placeholder="Nama Anda" required>
+      <label for="rsvp-hadir">Konfirmasi Kehadiran</label>
+      <select id="rsvp-hadir" required>
+        <option value="Hadir">Hadir, insya Allah</option>
+        <option value="Berhalangan">Berhalangan hadir</option>
+        <option value="Masih ragu">Masih ragu</option>
+      </select>
+      <label for="rsvp-pesan">Ucapan &amp; Doa</label>
+      <textarea id="rsvp-pesan" placeholder="Tuliskan ucapan untuk kedua mempelai..."></textarea>
+      <button class="btn" type="submit">Kirim Ucapan</button>
+      <div class="thanks" id="rsvpThanks">Terima kasih atas konfirmasi dan doa indahnya. Semoga Allah membalas kebaikan Anda.</div>
+    </form>
+  </section>
+
+  <!-- AMPLOP DIGITAL -->
+  <!-- data contoh -->
+  <section>
+    <p class="kicker">Amplop Digital</p>
+    <h2>Tanda Kasih</h2>
+    <p class="muted">Doa restu Anda adalah hadiah terindah. Namun apabila berkenan memberikan tanda kasih, kami sediakan dengan penuh terima kasih:</p>
+    <div class="rekening">
+      <p class="bank">BCA</p>
+      <p class="nomor" id="rek-bca">1234567890</p>
+      <p class="an">a.n. Nadia Prameswari</p>
+      <button class="btn ghost" onclick="salin('rek-bca',this)">Salin Nomor</button>
+    </div>
+    <div class="rekening">
+      <p class="bank">DANA</p>
+      <p class="nomor" id="rek-dana">081234567890</p>
+      <p class="an">a.n. Raka Aditya Pratama</p>
+      <button class="btn ghost" onclick="salin('rek-dana',this)">Salin Nomor</button>
+    </div>
+  </section>
+
+  <!-- PENUTUP -->
+  <section class="penutup">
+    <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami sekeluarga apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu kepada kedua mempelai.</p>
+    <p style="margin-top:14px">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
+    <p class="muted" style="margin-top:18px">Kami yang berbahagia,</p>
+    <p class="ttd">Nadia <span>&amp;</span> Raka</p>
+    <p class="muted">beserta keluarga besar Suryana &amp; Pratama</p>
+  </section>
+
+  <footer>Dibuat dengan <b>Doa Selamanya</b></footer>
+</div>
+
+<script>
+  // Buka Undangan
+  document.getElementById('btnBuka').addEventListener('click', function(){
+    document.getElementById('cover').classList.add('hide');
+    document.body.classList.remove('locked');
+    window.scrollTo({top:0});
+  });
+
+  // Countdown ke Akad Nikah
+  var target = new Date('2027-03-20T08:00:00+07:00').getTime();
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    var sisa = Math.max(0, target - Date.now());
+    var d = Math.floor(sisa/86400000), h = Math.floor(sisa%86400000/3600000),
+        m = Math.floor(sisa%3600000/60000), s = Math.floor(sisa%60000/1000);
+    document.getElementById('cd-d').textContent = d;
+    document.getElementById('cd-h').textContent = pad(h);
+    document.getElementById('cd-m').textContent = pad(m);
+    document.getElementById('cd-s').textContent = pad(s);
+  }
+  tick(); setInterval(tick, 1000);
+
+  // Salin nomor rekening
+  function salin(id, btn){
+    var teks = document.getElementById(id).textContent.trim();
+    function selesai(){ var lama = btn.textContent; btn.textContent = 'Tersalin ✓'; setTimeout(function(){ btn.textContent = lama; }, 1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(teks).then(selesai).catch(selesai); }
+    else { var ta = document.createElement('textarea'); ta.value = teks; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); selesai(); }
+  }
+
+  // RSVP
+  document.getElementById('formRsvp').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('rsvpThanks').style.display = 'block';
+    this.reset();
+  });
+</script>
+</body>
+</html>

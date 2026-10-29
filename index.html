@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doa Selamanya — Wedding Planner & Undangan Digital dalam Satu Sistem</title>
+<meta name="description" content="Semua persiapan nikah beres dalam satu sistem: checklist, budget planner, daftar tamu, sampai undangan digital. Sekali bayar, aktif 1 tahun penuh.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF7F0;
+    --cream-2:#F4ECDF;
+    --ink:#3E3A34;
+    --ink-soft:#6E675C;
+    --gold:#B08D57;
+    --gold-dark:#96733F;
+    --rose:#C48B7A;
+    --rose-soft:#F3E2DB;
+    --sage:#8A9B7E;
+    --sage-soft:#E7EBDF;
+    --card:#FFFFFF;
+    --line:#E7DCC9;
+    --shadow:0 10px 30px rgba(62,58,52,.08);
+    --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.65;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;line-height:1.2}
+  img{max-width:100%}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  section{padding:64px 0}
+  .section-head{text-align:center;max-width:640px;margin:0 auto 40px}
+  .section-head .eyebrow{
+    display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gold-dark);margin-bottom:12px;
+  }
+  .section-head h2{font-size:1.9rem;margin-bottom:12px}
+  .section-head p{color:var(--ink-soft)}
+  .btn{
+    display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;
+    padding:14px 28px;font-size:.98rem;transition:transform .15s ease, box-shadow .15s ease;
+    text-align:center;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn-gold{background:var(--gold);color:#fff;box-shadow:0 8px 20px rgba(176,141,87,.35)}
+  .btn-gold:hover{background:var(--gold-dark)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--gold)}
+  .btn-ghost:hover{background:#fff}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(251,247,240,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+  .brand{font-family:"Playfair Display",serif;font-size:1.35rem;font-weight:700;text-decoration:none;white-space:nowrap}
+  .brand span{color:var(--gold)}
+  nav.main{display:none;gap:28px}
+  nav.main a{text-decoration:none;font-weight:600;font-size:.95rem;color:var(--ink-soft)}
+  nav.main a:hover{color:var(--gold-dark)}
+  .btn-header{padding:10px 20px;font-size:.9rem}
+  @media(min-width:760px){ nav.main{display:flex} }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:56px 0 72px;
+    background:
+      radial-gradient(600px 300px at 85% -50px, var(--rose-soft), transparent 70%),
+      radial-gradient(500px 260px at 5% 110%, var(--sage-soft), transparent 70%),
+      var(--cream);
+    overflow:hidden;
+  }
+  .hero-grid{display:grid;gap:44px;align-items:center}
+  @media(min-width:920px){ .hero-grid{grid-template-columns:1.05fr .95fr} }
+  .hero h1{font-size:2.35rem;margin-bottom:18px}
+  .hero h1 em{font-style:italic;color:var(--gold-dark)}
+  .hero p.lead{font-size:1.08rem;color:var(--ink-soft);margin-bottom:28px;max-width:520px}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px}
+  .hero-note{margin-top:18px;font-size:.88rem;color:var(--ink-soft)}
+
+  /* Kartu contoh dashboard (CSS murni) */
+  .mock{
+    background:var(--card);border:1px solid var(--line);border-radius:24px;
+    box-shadow:var(--shadow);padding:26px;position:relative;
+  }
+  .mock::before{
+    content:"";position:absolute;inset:-14px -14px auto auto;width:90px;height:90px;
+    border-radius:50%;background:var(--rose-soft);z-index:-1;
+  }
+  .mock-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+  .mock-label{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rose)}
+  .mock-names{font-family:"Playfair Display",serif;font-size:1.5rem;font-weight:700}
+  .mock-date{font-size:.88rem;color:var(--ink-soft)}
+  .count-row{display:flex;gap:10px;margin:18px 0 22px}
+  .count-box{
+    flex:1;text-align:center;background:var(--cream);border:1px solid var(--line);
+    border-radius:14px;padding:12px 4px;
+  }
+  .count-box b{display:block;font-family:"Playfair Display",serif;font-size:1.45rem;color:var(--gold-dark)}
+  .count-box span{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .mock h4{font-size:.92rem;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+  .mock h4 .progress{font-size:.8rem;color:var(--sage);font-weight:700}
+  .progress-bar{height:8px;border-radius:99px;background:var(--cream-2);overflow:hidden;margin-bottom:16px}
+  .progress-bar i{display:block;height:100%;width:64%;background:linear-gradient(90deg,var(--sage),var(--gold));border-radius:99px}
+  .check-list{list-style:none;display:grid;gap:9px}
+  .check-list li{display:flex;gap:10px;align-items:center;font-size:.92rem;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:9px 12px}
+  .check-list .box{
+    width:20px;height:20px;border-radius:6px;flex:none;display:grid;place-items:center;
+    background:var(--sage);color:#fff;font-size:.75rem;font-weight:700;
+  }
+  .check-list li.pending .box{background:#fff;border:1.5px solid var(--line);color:transparent}
+  .check-list li.pending{color:var(--ink-soft)}
+  .check-list .tag{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--gold-dark);white-space:nowrap}
+
+  /* ---------- Strip kepercayaan ---------- */
+  .trust{background:var(--ink);color:var(--cream)}
+  .trust .wrap{display:flex;flex-wrap:wrap;gap:10px 34px;justify-content:center;padding-top:20px;padding-bottom:20px}
+  .trust span{font-weight:600;font-size:.95rem;display:flex;align-items:center;gap:9px}
+  .trust span::before{content:"✦";color:var(--gold)}
+
+  /* ---------- Masalah → solusi ---------- */
+  .cards-3{display:grid;gap:18px}
+  @media(min-width:820px){ .cards-3{grid-template-columns:repeat(3,1fr)} }
+  .pain-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;box-shadow:var(--shadow);
+  }
+  .pain-card .icon{font-size:1.7rem;margin-bottom:12px}
+  .pain-card h3{font-size:1.15rem;margin-bottom:8px}
+  .pain-card p{color:var(--ink-soft);font-size:.95rem}
+  .pain-card p b{color:var(--rose)}
+
+  /* ---------- Fitur ---------- */
+  .fitur{background:var(--cream-2)}
+  .fitur-groups{display:grid;gap:22px}
+  @media(min-width:880px){ .fitur-groups{grid-template-columns:1fr 1fr} }
+  .fitur-group{
+    background:var(--card);border:1px solid var(--line);border-radius:24px;
+    padding:30px;box-shadow:var(--shadow);
+  }
+  .fitur-group > h3{font-size:1.35rem;margin-bottom:4px}
+  .fitur-group > p{color:var(--ink-soft);font-size:.93rem;margin-bottom:20px}
+  .fitur-group ul{list-style:none;display:grid;gap:16px}
+  .fitur-group li{display:flex;gap:14px}
+  .fitur-group .fi{
+    width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:1.15rem;
+  }
+  .fi-rose{background:var(--rose-soft)}
+  .fi-sage{background:var(--sage-soft)}
+  .fitur-group li b{display:block;font-size:.98rem}
+  .fitur-group li span{font-size:.9rem;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="wrap header-inner">
+    <a class="brand" href="#">Doa <span>Selamanya</span></a>
+    <nav class="main">
+      <a href="#fitur">Fitur</a>
+      <a href="#tema">Tema</a>
+      <a href="#harga">Harga</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-gold btn-header" href="#harga">Pesan Sekarang</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Semua Persiapan Nikah, <em>Beres</em> dalam Satu Sistem.</h1>
+      <p class="lead">Dari checklist persiapan, budget planner, dan daftar tamu — sampai undangan digitalnya — semua menyatu dalam satu dashboard. Sekali bayar, aktif 1 tahun penuh, semua fitur terbuka.</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="#harga">Lihat Paket &amp; Harga</a>
+        <a class="btn btn-ghost" href="#tema">Lihat Contoh Undangan</a>
+      </div>
+      <p class="hero-note">Tanpa langganan bulanan. Tanpa fitur yang dikunci-kunci.</p>
+    </div>
+
+    <!-- Contoh tampilan dashboard (ilustrasi CSS) -->
+    <div class="mock" aria-hidden="true">
+      <div class="mock-head">
+        <div>
+          <div class="mock-label">Menghitung Hari</div>
+          <div class="mock-names">Raka &amp; Nadia</div>
+          <div class="mock-date">Akad &amp; Resepsi — Sabtu, 7 Maret 2027</div>
+        </div>
+        <div style="font-size:1.6rem">💌</div>
+      </div>
+      <div class="count-row">
+        <div class="count-box"><b>128</b><span>Hari lagi</span></div>
+        <div class="count-box"><b>9</b><span>Bulan</span></div>
+        <div class="count-box"><b>300</b><span>Tamu</span></div>
+      </div>
+      <h4>Checklist Persiapan <span class="progress">64% beres</span></h4>
+      <div class="progress-bar"><i></i></div>
+      <ul class="check-list">
+        <li><span class="box">✓</span> Booking venue &amp; katering <span class="tag">Beres</span></li>
+        <li><span class="box">✓</span> Dokumen KUA lengkap <span class="tag">Beres</span></li>
+        <li><span class="box">✓</span> Fitting busana pengantin <span class="tag">Beres</span></li>
+        <li class="pending"><span class="box">✓</span> Sebar undangan digital <span class="tag">H-30</span></li>
+        <li class="pending"><span class="box">✓</span> Konfirmasi RSVP tamu <span class="tag">H-14</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================= STRIP KEPERCAYAAN ================= -->
+<div class="trust">
+  <div class="wrap">
+    <span>Sekali bayar</span>
+    <span>Aktif 1 tahun penuh</span>
+    <span>Semua fitur terbuka</span>
+    <span>Tanpa langganan</span>
+  </div>
+</div>
+
+<!-- ================= MASALAH → SOLUSI ================= -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Kenapa Doa Selamanya</span>
+      <h2>Persiapan Nikah Itu Ribet. Sistemnya Jangan Ikutan Ribet.</h2>
+      <p>Tiga masalah yang hampir selalu dialami calon pengantin — dan cara kami membereskannya.</p>
+    </div>
+    <div class="cards-3">
+      <article class="pain-card">
+        <div class="icon">💸</div>
+        <h3>Undangan Cetak Mahal</h3>
+        <p>Undangan cetak untuk 300 tamu bisa habis <b>Rp3–6 juta</b> — dan berakhir menumpuk di laci tamu. Undangan digital kami mulai Rp49.000, bisa diperbarui kapan pun tanpa cetak ulang.</p>
+      </article>
+      <article class="pain-card">
+        <div class="icon">🗂️</div>
+        <h3>Persiapan Tercecer di Mana-mana</h3>
+        <p>Checklist di catatan HP, budget di spreadsheet, daftar tamu di chat, undangan di platform lain. Di Doa Selamanya semuanya <b>satu tempat</b> — data tamu dan budget mengalir langsung ke undangan, tanpa input ulang.</p>
+      </article>
+      <article class="pain-card">
+        <div class="icon">⏳</div>
+        <h3>Baru Dibeli, Sudah Kedaluwarsa</h3>
+        <p>Di platform lain, paket murah masa aktifnya cuma <b>7–30 hari</b> dan fitur pentingnya dikunci di paket mahal. Di sini: aktif <b>1 tahun penuh</b>, semua fitur terbuka sejak hari pertama.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------- Tema ---------- */
+  .tema-grid{display:grid;gap:18px}
+  @media(min-width:820px){ .tema-grid{grid-template-columns:repeat(3,1fr)} }
+  .tema-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;box-shadow:var(--shadow);text-decoration:none;display:block;
+    transition:transform .15s ease;
+  }
+  .tema-card:hover{transform:translateY(-4px)}
+  .tema-visual{height:190px;display:grid;place-items:center;position:relative}
+  .tema-visual .orn{font-size:2.6rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.15))}
+  .tema-visual .names{
+    position:absolute;bottom:14px;left:0;right:0;text-align:center;
+    font-family:"Playfair Display",serif;font-style:italic;font-size:1.05rem;
+  }
+  .tv-floral{background:linear-gradient(150deg,#F7DCD2,#F3E6D8 55%,#EFE3CE)}
+  .tv-floral .names{color:#9A5F4E}
+  .tv-jawa{background:linear-gradient(150deg,#4A3826,#6B4F30 55%,#8A6A3C)}
+  .tv-jawa .names{color:#F0DFC0}
+  .tv-sage{background:linear-gradient(150deg,#DCE3D2,#E9EDDF 55%,#F1EFE2)}
+  .tv-sage .names{color:#5F7052}
+  .tema-body{padding:20px 22px 24px}
+  .tema-body h3{font-size:1.2rem;margin-bottom:6px}
+  .tema-body p{color:var(--ink-soft);font-size:.93rem;margin-bottom:12px}
+  .tema-body .open{font-weight:700;color:var(--gold-dark);font-size:.92rem}
+
+  /* ---------- Cara kerja ---------- */
+  .steps{display:grid;gap:18px;counter-reset:step}
+  @media(min-width:820px){ .steps{grid-template-columns:repeat(3,1fr)} }
+  .step{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;box-shadow:var(--shadow);position:relative;
+  }
+  .step .num{
+    width:40px;height:40px;border-radius:50%;background:var(--gold);color:#fff;
+    display:grid;place-items:center;font-family:"Playfair Display",serif;font-weight:700;
+    font-size:1.1rem;margin-bottom:14px;
+  }
+  .step h3{font-size:1.12rem;margin-bottom:8px}
+  .step p{color:var(--ink-soft);font-size:.94rem}
+
+  /* ---------- Harga ---------- */
+  .harga{background:var(--cream-2)}
+  .price-grid{display:grid;gap:22px;max-width:860px;margin:0 auto}
+  @media(min-width:820px){ .price-grid{grid-template-columns:1fr 1fr} }
+  .price-card{
+    background:var(--card);border:1px solid var(--line);border-radius:24px;
+    padding:32px 28px;box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column;
+  }
+  .price-card.featured{border:2px solid var(--gold)}
+  .badge{
+    position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+    background:var(--gold);color:#fff;font-size:.78rem;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;padding:6px 16px;border-radius:999px;white-space:nowrap;
+  }
+  .price-card h3{font-size:1.3rem;text-align:center}
+  .price{text-align:center;margin:14px 0 4px;font-family:"Playfair Display",serif}
+  .price b{font-size:2.4rem;font-weight:700}
+  .price-note{text-align:center;color:var(--ink-soft);font-size:.88rem;margin-bottom:22px}
+  .price-card ul{list-style:none;display:grid;gap:11px;margin-bottom:28px}
+  .price-card li{display:flex;gap:10px;font-size:.95rem}
+  .price-card li::before{content:"✓";color:var(--sage);font-weight:700;flex:none}
+  .price-card .btn{margin-top:auto}
+  .harga-note{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:26px}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{max-width:760px;margin:0 auto;display:grid;gap:12px}
+  .faq-item{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .faq-q{
+    width:100%;background:none;border:none;cursor:pointer;text-align:left;
+    font-family:inherit;font-size:1rem;font-weight:700;color:var(--ink);
+    padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px;
+  }
+  .faq-q .chev{color:var(--gold-dark);font-size:1.2rem;transition:transform .2s ease;flex:none}
+  .faq-item.open .faq-q .chev{transform:rotate(180deg)}
+  .faq-a{display:none;padding:0 20px 18px;color:var(--ink-soft);font-size:.95rem}
+  .faq-item.open .faq-a{display:block}
+
+  /* ---------- CTA penutup & footer ---------- */
+  .closing{
+    background:linear-gradient(140deg,#4A4238,#3E3A34);color:var(--cream);text-align:center;
+  }
+  .closing h2{font-size:2rem;margin-bottom:14px}
+  .closing h2 em{font-style:italic;color:#E4C88F}
+  .closing p{color:#CFC7B8;max-width:520px;margin:0 auto 28px}
+  footer{padding:36px 0 42px;text-align:center;color:var(--ink-soft);font-size:.92rem}
+  footer .fbrand{font-family:"Playfair Display",serif;font-size:1.2rem;color:var(--ink);margin-bottom:6px}
+  footer .tagline{font-style:italic;margin-bottom:14px}
+</style>
+
+<!-- ================= FITUR ================= -->
+<section class="fitur" id="fitur">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Fitur</span>
+      <h2>Dua Kekuatan, Satu Dashboard</h2>
+      <p>Planner untuk menyiapkan hari bahagia, undangan digital untuk menyebarkannya — datanya saling terhubung.</p>
+    </div>
+    <div class="fitur-groups">
+
+      <div class="fitur-group">
+        <h3>🗓️ Wedding Planner</h3>
+        <p>Tersedia di Paket Lengkap — pendamping persiapanmu dari lamaran sampai hari H.</p>
+        <ul>
+          <li><span class="fi fi-rose">⏳</span><div><b>Countdown Hari H</b><span>Hitung mundur otomatis ke tanggal akad &amp; resepsi, selalu terlihat di beranda dashboard.</span></div></li>
+          <li><span class="fi fi-rose">✅</span><div><b>Checklist Berbasis Timeline</b><span>Template persiapan lengkap — dokumen KUA, venue, katering, MUA, busana, sampai seserahan — dengan tenggat relatif ke hari H dan progress yang terlihat.</span></div></li>
+          <li><span class="fi fi-rose">💰</span><div><b>Budget Planner</b><span>Catat estimasi vs realisasi per kategori, pantau total terpakai dan sisa anggaran tanpa spreadsheet terpisah.</span></div></li>
+          <li><span class="fi fi-rose">👥</span><div><b>Daftar Tamu Terpadu</b><span>Kelompokkan tamu (keluarga, teman, kantor) dan pantau statusnya: terkirim → dibuka → RSVP.</span></div></li>
+          <li><span class="fi fi-rose">🔗</span><div><b>Terhubung ke Undangan</b><span>Nama tamu yang sudah kamu susun langsung jadi link personal undangan — tidak ada input ulang.</span></div></li>
+        </ul>
+      </div>
+
+      <div class="fitur-group">
+        <h3>💌 Undangan Digital</h3>
+        <p>Ada di semua paket — undangan website yang siap sebar lewat WhatsApp.</p>
+        <ul>
+          <li><span class="fi fi-sage">🎟️</span><div><b>Link Personal per Tamu</b><span>Setiap tamu menerima link dengan namanya sendiri di sampul undangan — terasa personal, seperti undangan cetak.</span></div></li>
+          <li><span class="fi fi-sage">📩</span><div><b>RSVP &amp; Ucapan Masuk Dashboard</b><span>Konfirmasi kehadiran dan doa dari tamu terkumpul rapi, tidak tercecer di chat.</span></div></li>
+          <li><span class="fi fi-sage">🎁</span><div><b>Amplop Digital</b><span>Nomor rekening, QRIS, dan alamat kirim kado fisik — tamu yang berhalangan tetap bisa memberi tanda kasih.</span></div></li>
+          <li><span class="fi fi-sage">📸</span><div><b>Galeri &amp; Love Story</b><span>Foto prewedding dan cerita perjalanan cintamu, plus detail acara dengan petunjuk lokasi.</span></div></li>
+          <li><span class="fi fi-sage">💬</span><div><b>Kirim WA per Tamu</b><span>Template pesan personal siap kirim untuk tiap tamu, lengkap dengan status sudah dibuka atau belum.</span></div></li>
+          <li><span class="fi fi-sage">🌿</span><div><b>Opsi Tanpa Foto</b><span>Ada tema yang tampil elegan tanpa foto pasangan — untukmu yang menjaga privasi.</span></div></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= TEMA ================= -->
+<section id="tema">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Contoh Tema</span>
+      <h2>Pilih Tema yang Paling "Kamu Banget"</h2>
+      <p>Klik untuk melihat contoh undangannya secara penuh. Tema lain akan terus bertambah.</p>
+    </div>
+    <div class="tema-grid">
+      <a class="tema-card" href="tema/floral.html">
+        <div class="tema-visual tv-floral">
+          <span class="orn">🌸</span>
+          <span class="names">Raka &amp; Nadia</span>
+        </div>
+        <div class="tema-body">
+          <h3>Arunika Floral</h3>
+          <p>Nuansa bunga lembut dan cahaya pagi — romantis, hangat, dan feminin.</p>
+          <span class="open">Lihat Contoh →</span>
+        </div>
+      </a>
+      <a class="tema-card" href="tema/jawa.html">
+        <div class="tema-visual tv-jawa">
+          <span class="orn">🏵️</span>
+          <span class="names">Bagas &amp; Sekar</span>
+        </div>
+        <div class="tema-body">
+          <h3>Klasik Jawa</h3>
+          <p>Palet cokelat sogan dan emas yang anggun — untuk resepsi adat yang sakral dan berkelas.</p>
+          <span class="open">Lihat Contoh →</span>
+        </div>
+      </a>
+      <a class="tema-card" href="tema/minimal.html">
+        <div class="tema-visual tv-sage">
+          <span class="orn">🌿</span>
+          <span class="names">Dimas &amp; Laras</span>
+        </div>
+        <div class="tema-body">
+          <h3>Sage Minimal (Tanpa Foto)</h3>
+          <p>Bersih, tenang, dan modern — tampil penuh tanpa satu pun foto pasangan.</p>
+          <span class="open">Lihat Contoh →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CARA KERJA ================= -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Cara Kerja</span>
+      <h2>Tiga Langkah, Langsung Bisa Disebar</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Pilih Paket &amp; Checkout</h3>
+        <p>Pilih Undangan Saja atau Paket Lengkap, lalu checkout lewat Shopee atau WhatsApp. Sekali bayar — selesai, tidak ada tagihan bulanan.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Isi Data Lewat Form</h3>
+        <p>Isi nama, tanggal, lokasi, foto, dan daftar tamu lewat form yang kami kirim. Semua serba form — tidak perlu keahlian teknis apa pun.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Link Jadi, Tinggal Sebar</h3>
+        <p>Undanganmu tayang di link sendiri, lengkap dengan link personal per tamu. Sebar lewat WhatsApp dan pantau RSVP-nya masuk.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HARGA ================= -->
+<section class="harga" id="harga">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Harga</span>
+      <h2>Sekali Bayar, Aktif Setahun Penuh</h2>
+      <p>Harga final, bukan harga pancingan. Bandingkan dengan undangan cetak Rp3–6 juta untuk 300 tamu.</p>
+    </div>
+    <div class="price-grid">
+
+      <div class="price-card">
+        <h3>Undangan Saja</h3>
+        <div class="price"><b>Rp49.000</b></div>
+        <p class="price-note">sekali bayar · aktif 1 tahun</p>
+        <ul>
+          <li>1 undangan digital (pilih tema)</li>
+          <li>Semua fitur undangan terbuka</li>
+          <li>Link personal per tamu</li>
+          <li>RSVP &amp; kolom ucapan</li>
+          <li>Amplop digital (rekening + QRIS)</li>
+          <li>Galeri foto &amp; love story</li>
+          <li>Kirim undangan lewat WhatsApp</li>
+          <li>Masa aktif 1 tahun penuh</li>
+        </ul>
+        <a class="btn btn-ghost" href="#faq">Pesan Paket Ini</a>
+      </div>
+
+      <div class="price-card featured">
+        <span class="badge">Paling Lengkap</span>
+        <h3>Paket Lengkap</h3>
+        <div class="price"><b>Rp99.000</b></div>
+        <p class="price-note">sekali bayar · aktif 1 tahun</p>
+        <ul>
+          <li><b>Semua</b> yang ada di Undangan Saja</li>
+          <li>Wedding Planner penuh</li>
+          <li>Countdown hari H</li>
+          <li>Checklist persiapan berbasis timeline</li>
+          <li>Budget planner (estimasi vs realisasi)</li>
+          <li>Daftar tamu + status terkirim / dibuka / RSVP</li>
+          <li>Data tamu terhubung otomatis ke undangan</li>
+          <li>Masa aktif 1 tahun penuh</li>
+        </ul>
+        <a class="btn btn-gold" href="#faq">Pesan Paket Ini</a>
+      </div>
+
+    </div>
+    <p class="harga-note">Kedua paket <b>sekali bayar, bukan langganan</b>. Tidak ada biaya bulanan, tidak ada fitur yang dikunci di tengah jalan.</p>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">FAQ</span>
+      <h2>Sering Ditanyakan</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" type="button">Berapa lama undangan saya jadi?<span class="chev">⌄</span></button>
+        <div class="faq-a">Setelah pembayaran terkonfirmasi dan form data terisi lengkap, undangan langsung kami proses dan kamu menerima link-nya begitu selesai. Kalau ada data yang berubah setelahnya, kamu tetap bisa memperbaruinya — undangan digital tidak seperti cetak yang sekali jadi tidak bisa diubah.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button">Kalau mau revisi, batasnya bagaimana?<span class="chev">⌄</span></button>
+        <div class="faq-a">Revisi minor — perubahan teks, nama, tanggal, atau foto — bebas selama masa aktif. Ganti tema diperbolehkan 1 kali. Di luar itu (misalnya ganti tema berkali-kali atau permintaan desain custom di luar tema) akan dikenakan biaya tambahan yang kami sampaikan di awal, tanpa kejutan.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button">Masa aktif 1 tahun dihitung dari kapan?<span class="chev">⌄</span></button>
+        <div class="faq-a">Sejak paketmu diaktifkan saat pembelian terkonfirmasi — bukan sejak hari H. Jadi kamu bisa membeli dan menyiapkan semuanya jauh-jauh hari, dan link undangan tetap hidup sampai setahun penuh, termasuk untuk dibagikan kembali setelah acara.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button">Bisa buat undangan tanpa foto pasangan?<span class="chev">⌄</span></button>
+        <div class="faq-a">Bisa. Kami punya tema tanpa foto — contohnya tema Sage Minimal — yang tetap tampil elegan dengan tipografi dan ilustrasi. Cocok untuk pasangan yang menjaga privasi atau menginginkan nuansa yang lebih syar'i. Musik di undangan juga bisa dimatikan.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button">Cara pesannya bagaimana — lewat Shopee atau WhatsApp?<span class="chev">⌄</span></button>
+        <div class="faq-a">Dua-duanya bisa. Checkout lewat Shopee kami [link Shopee menyusul] untuk pembayaran yang tercatat rapi di platform, atau chat WhatsApp kami di [WA menyusul] kalau mau tanya-tanya dulu. Setelah pembayaran terkonfirmasi, kami kirimkan form pengisian data dan proses pembuatan dimulai.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button">Data tamu dan RSVP masuknya ke mana?<span class="chev">⌄</span></button>
+        <div class="faq-a">Semua masuk ke dashboard pasanganmu (Paket Lengkap). Dari sana kamu bisa melihat siapa saja yang sudah menerima, membuka, dan mengonfirmasi kehadiran lewat RSVP, lengkap dengan ucapan doa dari tamu — tidak perlu lagi mengecek chat satu per satu.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA PENUTUP ================= -->
+<section class="closing">
+  <div class="wrap">
+    <h2>Hari Bahagiamu Layak Disiapkan <em>dengan Tenang.</em></h2>
+    <p>Satu sistem untuk semua persiapan — dari checklist pertama sampai undangan tersebar. Sekali bayar, aktif setahun penuh.</p>
+    <a class="btn btn-gold" href="#harga">Mulai Siapkan Sekarang</a>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="fbrand">Doa Selamanya</div>
+    <p class="tagline">Doa Selamanya — dibuat dengan doa, untuk selamanya.</p>
+    <p>Pesan &amp; tanya-tanya: WhatsApp [WA menyusul] · Shopee [menyusul]</p>
+    <p style="margin-top:14px">© 2026 Doa Selamanya. Seluruh hak cipta dilindungi.</p>
+  </div>
+</footer>
+
+<script>
+  // FAQ accordion sederhana
+  document.querySelectorAll('.faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.parentElement;
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function (el) {
+        el.classList.remove('open');
+      });
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
