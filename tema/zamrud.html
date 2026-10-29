@@ -150,9 +150,28 @@
   .penutup .ttd{font-family:'Great Vibes',cursive;font-size:36px;color:#FFF6E3;margin-top:12px}
   footer{text-align:center;padding:26px 20px 36px;background:#081711;font-size:12.5px;color:#A08F6E}
   footer b{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:15px}
+
+  /* ---------- LOADER ---------- */
+  #loader{position:fixed;inset:0;z-index:200;background:#171310;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;transition:opacity .7s ease,visibility .7s}
+  #loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+  #loader .ring{width:64px;height:64px;border-radius:50%;border:2px solid rgba(201,162,75,.25);border-top-color:var(--gold,#C9A24B);animation:ldspin 1s linear infinite;display:grid;place-items:center;position:relative}
+  #loader .ring span{position:absolute;inset:0;display:grid;place-items:center;font-size:19px;color:var(--gold,#C9A24B);animation:ldspin 1s linear infinite reverse}
+  @keyframes ldspin{to{transform:rotate(360deg)}}
+  #loader .brand{font-size:11px;letter-spacing:5px;color:#E9DCC2;text-transform:uppercase}
+  #loader .msg{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:#B9A888}
+  #loader .pct{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold,#C9A24B);letter-spacing:2px}
+  img{opacity:0;transition:opacity .7s ease}
+  img.ld{opacity:1}
 </style>
 </head>
 <body class="locked">
+<div id="loader" aria-hidden="true">
+  <div class="ring"><span>✦</span></div>
+  <p class="brand">Doa Selamanya</p>
+  <p class="msg">Memuat undangan…</p>
+  <p class="pct" id="loaderPct">0%</p>
+</div>
+
 <div class="wrap">
 
   <!-- COVER -->
@@ -419,6 +438,36 @@
     entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
   }, {threshold:.08});
   document.querySelectorAll('section').forEach(function(s){ io.observe(s); });
+</script>
+
+<script>
+  // Loader: persen dari foto yang sudah termuat, hilang saat semua siap
+  (function(){
+    var loader = document.getElementById('loader');
+    var pctEl = document.getElementById('loaderPct');
+    var imgs = Array.prototype.slice.call(document.querySelectorAll('img'));
+    var total = Math.max(imgs.length, 1), done = 0, hidden = false, t0 = Date.now();
+    function hide(){
+      if (hidden) return; hidden = true;
+      var wait = Math.max(0, 600 - (Date.now() - t0));
+      setTimeout(function(){ loader.classList.add('hide'); }, wait);
+    }
+    function step(img){
+      if (img) img.classList.add('ld');
+      done++;
+      if (pctEl) pctEl.textContent = Math.min(100, Math.round(done / total * 100)) + '%';
+      if (done >= total) hide();
+    }
+    imgs.forEach(function(img){
+      if (img.complete && img.naturalWidth > 0) { step(img); }
+      else {
+        img.addEventListener('load', function(){ step(img); });
+        img.addEventListener('error', function(){ step(img); });
+      }
+    });
+    window.addEventListener('load', hide);
+    setTimeout(hide, 5000); // pengaman: loader tidak pernah menahan tamu
+  })();
 </script>
 </body>
 </html>
