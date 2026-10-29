@@ -172,9 +172,6 @@
   .hero .init{font-family:'Great Vibes',cursive;font-size:68px;line-height:1.05;text-shadow:0 4px 24px rgba(0,0,0,.55)}
   .hero .hnames{font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:2.5px;margin-top:9px;color:#F3EAD8}
   .hero .hdate{font-size:11px;letter-spacing:3px;color:#D9C9A8;margin-top:5px;text-transform:uppercase}
-
-  /* ---------- VARIAN TANPA FOTO ---------- */
-  .bgcss{position:absolute;left:0;top:0;width:100%;height:100%}
 </style>
 </head>
 <body class="locked">
@@ -189,7 +186,7 @@
 
   <!-- COVER -->
   <div class="cover" id="cover">
-    <div class="bg bgcss" style="background:linear-gradient(168deg,#0A1830 0%,#10264A 55%,#1D3E73 135%)"></div>
+    <img class="bg" src="../assets/amplop-navy/cover.webp" alt="Tirai beludru biru malam dengan amplop navy bersegel lilin emas">
     <div class="shade"></div>
     <div class="inner">
       <p class="brandline">Doa Selamanya · Tema Premium · Tanpa Foto</p>
@@ -211,9 +208,11 @@
   <button class="music-btn" id="btnMusik" aria-label="Putar atau hentikan musik">♪</button>
 
   
-  <!-- HERO MEMPELAI (TANPA FOTO) -->
-  <section class="hero" style="background:linear-gradient(168deg,#0A1830 0%,#10264A 55%,#1D3E73 135%);height:min(62vh,520px)">
-    <div class="hinner" style="bottom:auto;top:50%;transform:translateY(-50%)">
+  <!-- HERO MEMPELAI -->
+  <section class="hero">
+    <img src="../assets/amplop-navy/cover.webp" alt="Artwork sampul tema">
+    <div class="hshade"></div>
+    <div class="hinner">
       <p class="hkick">The Wedding Of</p>
       <p class="init">N &amp; R</p>
       <p class="hnames">Nadia &amp; Raka</p>
@@ -246,7 +245,8 @@
   </section>
 
   <!-- COUNTDOWN -->
-  <section class="darkband" style="background:linear-gradient(160deg,#10264A,#0A1830)">
+  <section class="darkband">
+    <img class="bgimg" src="../assets/amplop-navy/cover.webp" alt="">
     <div class="shade"></div>
     <p class="kicker">Menghitung Hari</p>
     <h2>Momen Bahagia</h2>
@@ -294,21 +294,37 @@
     <h2>Kisah Kami</h2>
     <div class="story">
       <article>
+        <img src="../assets/samudra-burgundy/story-coffee.webp" alt="Dua cangkir kopi dan buku catatan di meja kafe yang hangat">
         <p class="yr">2019 · Awal Pertemuan</p>
         <h3>Tidak Ada yang Kebetulan</h3>
         <p>Berawal dari sebuah perkenalan sederhana di acara kampus di Jakarta — percakapan singkat tentang kopi yang entah mengapa tidak pernah benar-benar selesai. Setiap pertemuan setelahnya terasa seperti kelanjutan yang sudah diatur dengan indah, hanya menunggu waktu yang tepat.</p>
       </article>
       <article>
+        <img src="../assets/samudra-burgundy/story-journey.webp" alt="Kamera, peta, dan tiket di meja dekat jendela kereta saat senja">
         <p class="yr">2024 · Perjalanan Bersama</p>
         <h3>Tumbuh Saling Melengkapi</h3>
         <p>Lima tahun berbagi cerita: ada tawa, ada juga tantangan. Dari situlah kami belajar saling memahami, menerima, dan melengkapi — hingga perjalanan ini bukan lagi tentang dua orang yang berjalan sendiri, melainkan dua hati yang memilih melangkah bersama.</p>
       </article>
       <article>
+        <img src="../assets/samudra-burgundy/rings.webp" alt="Dua cincin emas di atas sutra krem dengan mawar putih">
         <p class="yr">2027 · Komitmen</p>
         <h3>Janji Suci</h3>
         <p>Dengan penuh rasa syukur, restu kedua orang tua, dan keyakinan yang matang, kami memutuskan mengikat janji suci — memulai babak baru kehidupan sebagai keluarga. Doa Anda adalah bagian terindah dari babak ini.</p>
       </article>
     </div>
+  </section>
+
+  <!-- GALERI -->
+  <section>
+    <p class="kicker">Galeri</p>
+    <h2>Momen Kami</h2>
+    <div class="galeri-grid">
+      <figure class="wide"><img src="../assets/amplop-navy/cover.webp" alt="Artwork sampul tema"><figcaption>Samudra Malam</figcaption></figure>
+      <figure><img src="../assets/samudra-burgundy/story-coffee.webp" alt="Dua cangkir kopi di meja kafe"><figcaption>Awal Pertemuan</figcaption></figure>
+      <figure><img src="../assets/samudra-burgundy/story-journey.webp" alt="Perjalanan dengan kereta saat senja"><figcaption>Perjalanan Bersama</figcaption></figure>
+      <figure><img src="../assets/samudra-burgundy/rings.webp" alt="Dua cincin emas di atas sutra krem dengan mawar putih"><figcaption>Dua Cincin</figcaption></figure>
+    </div>
+    <p class="muted" style="margin-top:14px">Panel contoh — versi tanpa foto mempelai: galeri berisi detail &amp; momen pilihan, tanpa foto kedua mempelai.</p>
   </section>
 
   <!-- RSVP -->
@@ -350,6 +366,7 @@
   <section>
     <p class="kicker">Amplop Digital</p>
     <h2>Tanda Kasih</h2>
+    <div class="hairline" style="margin-bottom:20px"><img src="../assets/amplop-navy/cover.webp" alt="Amplop navy bersegel lilin emas di depan tirai beludru biru malam" style="aspect-ratio:1.35"></div>
     <p class="muted">Doa restu Anda adalah hadiah terindah. Namun apabila berkenan memberikan tanda kasih, kami sediakan dengan penuh terima kasih:</p>
     <div class="rekening">
       <p class="bank">BCA</p>
@@ -372,7 +389,8 @@
   </section>
 
   <!-- PENUTUP -->
-  <section class="penutup" style="background:linear-gradient(165deg,#0A1830,#10264A)">
+  <section class="penutup">
+    <img class="bgimg" src="../assets/amplop-navy/cover.webp" alt="">
     <div class="shade"></div>
     <p>Menjadi sebuah kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dalam hari bahagia kami. Terima kasih atas segala ucapan, doa, dan perhatian yang diberikan.</p>
     <p style="margin-top:14px">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
