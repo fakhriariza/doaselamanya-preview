@@ -99,6 +99,14 @@
   .strip img{width:52px;height:52px;object-fit:cover;display:block}
   .strip .bawaan{display:flex;align-items:center;padding:0 14px;height:52px;font-size:12.5px;font-weight:700;color:var(--soft)}
   .strip button.sel .bawaan{color:var(--gold-dark)}
+.chk-group{margin-top:20px}.chk-group h4{font-family:'Playfair Display',serif;font-size:17px;color:var(--gold-dark);margin-bottom:6px}
+  .chk-item{display:flex;gap:11px;align-items:flex-start;padding:10px 4px;border-bottom:1px solid var(--line);font-size:14.5px}
+  .chk-item:last-child{border-bottom:none}
+  .chk-item input{width:19px;height:19px;margin-top:2px;accent-color:var(--gold);flex:0 0 auto}
+  .chk-item.done span{color:var(--soft);text-decoration:line-through}
+  .chk-item button{margin-left:auto;background:none;border:none;color:#B0492F;font-size:15px;cursor:pointer}
+  .bud-in{padding:8px 10px;font-size:13.5px;text-align:right}
+  .neg{color:#B0492F;font-weight:700}
 </style>
 </head>
 <body>
@@ -107,6 +115,7 @@
     <a class="brand" href="index"><img src="logo-mark.png" alt="Logo Doa Selamanya"><span><b>Doa Selamanya</b><small>Dashboard</small></span></a>
     <div class="nav">
       <button data-page="beranda" class="act">🏠 Beranda</button>
+      <button data-page="planner">📋 Planner</button>
       <button data-page="editor">💌 Editor Undangan</button>
       <button data-page="tamu">👥 Tamu &amp; RSVP</button>
       <button data-page="bagikan">📲 Bagikan via WA</button>
@@ -118,7 +127,7 @@
     <!-- ================= BERANDA ================= -->
     <section class="page act" id="page-beranda">
       <div class="phead">
-        <div><h1 id="haloNama">Halo, Nadia &amp; Raka</h1><p>Atur fondasi acaramu di sini — tanggal dan target biaya dulu; checklist &amp; budgeting menyusul.</p></div>
+        <div><h1 id="haloNama">Halo, Nadia &amp; Raka</h1><p>Atur fondasi acaramu di sini — tanggal dan target biaya; rincian persiapan ada di tab Planner.</p></div>
         <span class="demotag">DEMO · DATA CONTOH</span>
       </div>
 
@@ -133,7 +142,7 @@
           <input id="inTanggal" type="date">
           <label>Target Biaya Total (Rp)</label>
           <input id="inBudget" type="number" min="0" step="500000" placeholder="cth: 40000000">
-          <p class="hint">Target biaya ini jadi patokan Budget Planner di tahap berikutnya.</p>
+          <p class="hint">Target biaya ini jadi patokan Budget Planner di tab Planner.</p>
           <button class="btn gold" id="btnSimpanSetup" style="margin-top:16px">Simpan Pengaturan</button>
           <span id="setupMsg" class="hint" style="margin-left:10px"></span>
         </div>
@@ -150,10 +159,55 @@
             <div id="cdTgl" style="margin-top:12px;font-size:13.5px;color:#CFC5AE"></div>
           </div>
           <div class="grid2" style="gap:18px">
-            <div class="card stat"><div class="k">Target Biaya Total</div><div class="v" id="statBudget">–</div><div class="s">Budget planner menyusul</div></div>
+            <div class="card stat"><div class="k">Target Biaya Total</div><div class="v" id="statBudget">–</div><div class="s">Rincian posnya di tab Planner</div></div>
             <div class="card stat"><div class="k">Status Undangan</div><div class="v" style="font-size:19px" id="statLive">–</div><div class="s" id="statSub">Belum memilih subdomain</div></div>
           </div>
           <div class="card stat"><div class="k">Tamu &amp; RSVP</div><div class="v"><span id="statTamu">0</span> tamu · <span id="statRsvp">0</span> RSVP masuk</div><div class="s">Kelola di menu Tamu &amp; RSVP, sebarkan lewat menu Bagikan via WA.</div></div>
+        </div>
+      </div>
+    </section>
+
+    
+    <!-- ================= PLANNER ================= -->
+    <section class="page" id="page-planner">
+      <div class="phead">
+        <div><h1>Wedding Planner</h1><p>Otak persiapan acaramu: checklist timeline &amp; budget planner yang nyambung ke target biaya total di Beranda.</p></div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">
+          <h3 style="font-size:20px">Checklist Persiapan</h3>
+          <span class="hint" id="chkProgText" style="margin:0"></span>
+        </div>
+        <div class="prog" style="margin-top:12px"><i id="chkProgBar" style="width:0%"></i></div>
+        <div id="checklistWrap"></div>
+        <div style="display:grid;grid-template-columns:1fr 1.6fr auto;gap:10px;margin-top:18px">
+          <select id="chkGrup"></select>
+          <input id="chkBaru" type="text" placeholder="Tulis tugas tambahanmu…">
+          <button class="btn line" id="btnAddChk">+ Tambah</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:20px">Budget Planner</h3>
+        <p class="hint">Target biaya total diambil dari Beranda — ubah anggarannya di sana, rincian posnya di sini.</p>
+        <div class="grid3" style="margin:16px 0">
+          <div class="stat"><div class="k">Target Total (Beranda)</div><div class="v" id="budTarget" style="font-size:21px">–</div></div>
+          <div class="stat"><div class="k">Total Terpakai</div><div class="v" id="budPakai" style="font-size:21px">–</div></div>
+          <div class="stat"><div class="k">Sisa dari Target</div><div class="v" id="budSisa" style="font-size:21px">–</div></div>
+        </div>
+        <div class="prog"><i id="budBar" style="width:0%"></i></div>
+        <p class="hint" id="budWarn" style="margin-top:8px"></p>
+        <div style="overflow-x:auto;margin-top:8px">
+        <table>
+          <thead><tr><th>Pos Pengeluaran</th><th style="text-align:right">Anggaran</th><th style="text-align:right">Realisasi</th><th style="text-align:right">Sisa Pos</th><th></th></tr></thead>
+          <tbody id="budBody"></tbody>
+        </table>
+        </div>
+        <div style="display:grid;grid-template-columns:1.6fr 1fr auto;gap:10px;margin-top:16px">
+          <input id="budNama" type="text" placeholder="Pos baru (cth: Sewa Mobil Pengantin)">
+          <input id="budAnggaran" type="number" min="0" step="100000" placeholder="Anggaran (Rp)">
+          <button class="btn line" id="btnAddBud">+ Pos</button>
         </div>
       </div>
     </section>
@@ -369,7 +423,7 @@ function renderStats(){
 }
 $('btnSimpanSetup').addEventListener('click', function(){
   setup = {wanita:$('inWanita').value.trim() || DEF_SETUP.wanita, pria:$('inPria').value.trim() || DEF_SETUP.pria, tanggal:$('inTanggal').value || DEF_SETUP.tanggal, budget:Number($('inBudget').value) || 0};
-  save('ds2_setup', setup); tick(); renderStats(); $('setupMsg').innerHTML = '<span class="ok">Tersimpan ✓</span>'; toast('Pengaturan dasar tersimpan');
+  save('ds2_setup', setup); tick(); renderStats(); renderBudget(); $('setupMsg').innerHTML = '<span class="ok">Tersimpan ✓</span>'; toast('Pengaturan dasar tersimpan');
 });
 
 /* ---------- Editor ---------- */
@@ -517,8 +571,97 @@ $('waTemplate').value = tpl;
 $('waTemplate').addEventListener('input', function(){ tpl = this.value; save('ds2_tpl', tpl); renderShare(); });
 $('btnResetTpl').addEventListener('click', function(){ tpl = DEF_TPL; save('ds2_tpl', tpl); $('waTemplate').value = tpl; renderShare(); toast('Template dikembalikan ke awal'); });
 
+
+/* ---------- Planner: Checklist ---------- */
+var CHK_GROUPS = [
+  ['12–9 Bulan Sebelumnya', ['Tentukan tanggal pernikahan & booking venue','Susun target anggaran & daftar tamu awal','Booking vendor utama: katering, dekorasi, dokumentasi','Tentukan tema & warna pernikahan']],
+  ['6 Bulan Sebelumnya', ['Urus berkas pernikahan (KUA / catatan sipil)','Pilih & pesan cincin pernikahan','Booking MUA, hiburan, dan MC','Fitting busana pengantin pertama']],
+  ['3 Bulan Sebelumnya', ['Foto prewedding','Buat undangan digital & siapkan daftar tamu final','Pesan souvenir & mahar','Tes makeup & fitting lanjutan']],
+  ['1 Bulan Sebelumnya', ['Konfirmasi final ke semua vendor','Bagikan undangan ke tamu (menu Bagikan via WA)','Gladi resik / technical meeting keluarga','Siapkan QR buku tamu & susunan acara']],
+  ['Minggu Terakhir', ['Ambil busana, cincin, dan perlengkapan hari H','Perawatan & istirahat cukup untuk kedua mempelai','Briefing keluarga & penanggung jawab acara','Siapkan dokumen, mahar, dan amplop cadangan']]
+];
+var checks = load('ds2_check', {});
+var chkCustom = load('ds2_check_custom', []);
+function allChkItems(){
+  var items = [];
+  CHK_GROUPS.forEach(function(g, gi){ g[1].forEach(function(t, ii){ items.push({id:'g'+gi+'i'+ii, grup:g[0], teks:t, custom:false}); }); });
+  chkCustom.forEach(function(c){ items.push({id:c.id, grup:c.grup, teks:c.teks, custom:true}); });
+  return items;
+}
+function renderChecklist(){
+  var items = allChkItems();
+  $('checklistWrap').innerHTML = CHK_GROUPS.map(function(g){
+    var gi = items.filter(function(it){ return it.grup === g[0]; });
+    if (!gi.length) return '';
+    return '<div class="chk-group"><h4>' + g[0] + '</h4>' + gi.map(function(it){
+      var done = !!checks[it.id];
+      return '<label class="chk-item' + (done ? ' done' : '') + '"><input type="checkbox" data-chk="' + it.id + '"' + (done ? ' checked' : '') + '><span>' + esc(it.teks) + '</span>' +
+        (it.custom ? '<button type="button" data-delchk="' + it.id + '" title="Hapus">✕</button>' : '') + '</label>';
+    }).join('') + '</div>';
+  }).join('');
+  document.querySelectorAll('[data-chk]').forEach(function(cb){
+    cb.addEventListener('change', function(){ checks[cb.dataset.chk] = cb.checked; if (!cb.checked) delete checks[cb.dataset.chk]; save('ds2_check', checks); renderChecklist(); });
+  });
+  document.querySelectorAll('[data-delchk]').forEach(function(b){
+    b.addEventListener('click', function(e){ e.preventDefault(); chkCustom = chkCustom.filter(function(c){ return c.id !== b.dataset.delchk; }); delete checks[b.dataset.delchk]; save('ds2_check_custom', chkCustom); save('ds2_check', checks); renderChecklist(); });
+  });
+  var doneN = items.filter(function(it){ return checks[it.id]; }).length;
+  var pct = items.length ? Math.round(doneN / items.length * 100) : 0;
+  $('chkProgBar').style.width = pct + '%';
+  $('chkProgText').textContent = doneN + ' dari ' + items.length + ' tugas selesai (' + pct + '%)';
+  var sel = $('chkGrup'); if (sel && !sel.options.length) sel.innerHTML = CHK_GROUPS.map(function(g){ return '<option>' + g[0] + '</option>'; }).join('');
+}
+$('btnAddChk').addEventListener('click', function(){
+  var t = $('chkBaru').value.trim(); if (!t) { toast('Tulis dulu tugasnya'); return; }
+  chkCustom.push({id:'c' + Date.now(), grup:$('chkGrup').value, teks:t});
+  save('ds2_check_custom', chkCustom); $('chkBaru').value = ''; renderChecklist(); toast('Tugas ditambahkan');
+});
+
+/* ---------- Planner: Budget ---------- */
+var DEF_BUDGET = [
+  {nama:'Venue & Katering', anggaran:18000000, realisasi:5000000},
+  {nama:'Dekorasi', anggaran:6000000, realisasi:0},
+  {nama:'Dokumentasi (Foto & Video)', anggaran:5000000, realisasi:1000000},
+  {nama:'Busana & Rias', anggaran:6000000, realisasi:0},
+  {nama:'Undangan & Souvenir', anggaran:2000000, realisasi:99000},
+  {nama:'Musik & Hiburan', anggaran:2000000, realisasi:0},
+  {nama:'Lainnya & Cadangan', anggaran:1000000, realisasi:0}
+];
+var budget = load('ds2_budget', DEF_BUDGET);
+function renderBudget(){
+  $('budBody').innerHTML = budget.map(function(r, i){
+    var sisa = r.anggaran - r.realisasi;
+    return '<tr><td><b>' + esc(r.nama) + '</b></td>' +
+      '<td><input class="bud-in" type="number" min="0" step="50000" value="' + r.anggaran + '" data-bi="' + i + '" data-bf="anggaran"></td>' +
+      '<td><input class="bud-in" type="number" min="0" step="50000" value="' + r.realisasi + '" data-bi="' + i + '" data-bf="realisasi"></td>' +
+      '<td style="text-align:right" class="' + (sisa < 0 ? 'neg' : '') + '">' + rp(sisa) + '</td>' +
+      '<td><button class="btn line sm" data-delbud="' + i + '">✕</button></td></tr>';
+  }).join('') || '<tr><td colspan="5" style="color:var(--soft)">Belum ada pos. Tambahkan di bawah.</td></tr>';
+  document.querySelectorAll('.bud-in').forEach(function(inp){
+    inp.addEventListener('change', function(){ budget[Number(inp.dataset.bi)][inp.dataset.bf] = Math.max(0, Number(inp.value) || 0); save('ds2_budget', budget); renderBudget(); });
+  });
+  document.querySelectorAll('[data-delbud]').forEach(function(b){
+    b.addEventListener('click', function(){ budget.splice(Number(b.dataset.delbud), 1); save('ds2_budget', budget); renderBudget(); });
+  });
+  var pakai = budget.reduce(function(a, r){ return a + (Number(r.realisasi) || 0); }, 0);
+  var target = Number(setup.budget) || 0;
+  $('budTarget').textContent = rp(target);
+  $('budPakai').textContent = rp(pakai);
+  var sisaT = target - pakai;
+  $('budSisa').innerHTML = target ? '<span class="' + (sisaT < 0 ? 'neg' : '') + '">' + rp(sisaT) + '</span>' : '–';
+  $('budBar').style.width = target ? Math.min(100, Math.round(pakai / target * 100)) + '%' : '0%';
+  $('budWarn').innerHTML = !target ? 'Isi dulu target biaya total di Beranda.' :
+    (sisaT < 0 ? '<span class="err">Realisasi sudah melewati target sebesar ' + rp(-sisaT) + ' — cek lagi pos yang bengkak.</span>' :
+    'Sudah terpakai ' + (target ? Math.round(pakai / target * 100) : 0) + '% dari target. Anggaran terpantau aman.');
+}
+$('btnAddBud').addEventListener('click', function(){
+  var n = $('budNama').value.trim(); if (!n) { toast('Isi nama pos dulu'); return; }
+  budget.push({nama:n, anggaran:Number($('budAnggaran').value) || 0, realisasi:0});
+  save('ds2_budget', budget); $('budNama').value = ''; $('budAnggaran').value = ''; renderBudget(); toast('Pos ditambahkan');
+});
+
 /* ---------- Init ---------- */
-fillSetup(); fillInvite(); renderThemes(); renderGuests(); renderRsvps(); renderShare(); renderStats(); tick(); setInterval(tick, 1000);
+fillSetup(); fillInvite(); renderThemes(); renderGuests(); renderRsvps(); renderShare(); renderStats(); renderChecklist(); renderBudget(); tick(); setInterval(tick, 1000);
 </script>
 </body>
 </html>
