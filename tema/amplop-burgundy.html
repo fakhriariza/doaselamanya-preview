@@ -162,6 +162,16 @@
   #loader .pct{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold,#C9A24B);letter-spacing:2px}
   img{opacity:0;transition:opacity .7s ease}
   img.ld{opacity:1}
+
+  /* ---------- HERO MEMPELAI ---------- */
+  .hero{padding:0;height:min(80vh,660px);overflow:hidden;background:#241C15}
+  .hero>img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
+  .hero .hshade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,9,6,.22) 0%,rgba(12,9,6,0) 34%,rgba(12,9,6,.28) 62%,rgba(12,9,6,.72) 100%)}
+  .hero .hinner{position:absolute;left:0;right:0;bottom:30px;z-index:1;text-align:center;color:#FFF6E3;padding:0 24px}
+  .hero .hkick{font-size:10.5px;letter-spacing:4.5px;text-transform:uppercase;color:var(--gold-soft,#E4C88F);margin-bottom:10px}
+  .hero .init{font-family:'Great Vibes',cursive;font-size:68px;line-height:1.05;text-shadow:0 4px 24px rgba(0,0,0,.55)}
+  .hero .hnames{font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:2.5px;margin-top:9px;color:#F3EAD8}
+  .hero .hdate{font-size:11px;letter-spacing:3px;color:#D9C9A8;margin-top:5px;text-transform:uppercase}
 </style>
 </head>
 <body class="locked">
@@ -196,6 +206,19 @@
   <!-- MUSIK: ID lagu contoh — diganti lagu pilihan pasangan -->
   <div id="ytWrap" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none"></div>
   <button class="music-btn" id="btnMusik" aria-label="Putar atau hentikan musik">♪</button>
+
+  
+  <!-- HERO MEMPELAI -->
+  <section class="hero">
+    <img src="../assets/samudra-burgundy/couple.webp" alt="Foto mempelai Nadia dan Raka">
+    <div class="hshade"></div>
+    <div class="hinner">
+      <p class="hkick">The Wedding Of</p>
+      <p class="init">N &amp; R</p>
+      <p class="hnames">Nadia &amp; Raka</p>
+      <p class="hdate">Sabtu · 20 Maret 2027</p>
+    </div>
+  </section>
 
   <!-- AYAT -->
   <section class="ayat">
