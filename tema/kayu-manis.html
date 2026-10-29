@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kayu Manis — Nadia &amp; Raka · Doa Selamanya</title>
+<meta name="description" content="Tema Kayu Manis Doa Selamanya: undangan yang digerakkan foto — panel kayu cokelat gelap, script kuning hangat, dan foto kasual pasangan sebagai bintang utama. Semua slot foto diisi foto Anda sendiri.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wood:#2E1F16; --wood2:#3B281A; --panel:#211509; --cream:#F5EDDE; --cream2:#EFE3CC;
+    --yellow:#F2C14E; --ink:#2A1B10; --terra:#B3402A; --sand:#CBB79B; --mutd:#A68F73; --mutl:#7A6753;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:#17100A;font-family:'EB Garamond',Georgia,serif;color:var(--cream)}
+  body.locked{overflow:hidden}
+  .wrap{max-width:480px;margin:0 auto;background:var(--wood);position:relative;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,.6)}
+  img{display:block;max-width:100%}
+  .script{font-family:'Yellowtail',cursive;font-weight:400;color:var(--yellow)}
+  .sans{font-family:'Plus Jakarta Sans',sans-serif}
+
+  /* ---------- LOADER ---------- */
+  #loader{position:fixed;inset:0;z-index:200;background:var(--panel);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;transition:opacity .7s ease,visibility .7s}
+  #loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+  #loader .ring{width:64px;height:64px;border-radius:50%;border:2px solid rgba(242,193,78,.25);border-top-color:var(--yellow);animation:ldspin 1s linear infinite;display:grid;place-items:center;position:relative}
+  #loader .ring span{position:absolute;inset:0;display:grid;place-items:center;font-size:19px;color:var(--yellow);animation:ldspin 1s linear infinite reverse}
+  @keyframes ldspin{to{transform:rotate(360deg)}}
+  #loader .brand{font-size:11px;letter-spacing:5px;color:var(--sand);text-transform:uppercase}
+  #loader .msg{font-family:'Yellowtail',cursive;font-size:24px;color:var(--yellow)}
+  #loader .pct{font-size:13px;color:var(--cream);letter-spacing:2px}
+  img{opacity:0;transition:opacity .7s ease}
+  img.ld{opacity:1}
+
+  /* ---------- COVER ---------- */
+  .cover{position:fixed;inset:0;max-width:480px;margin:0 auto;z-index:60;overflow:hidden;display:flex;flex-direction:column;color:var(--cream);transition:opacity .9s ease,visibility .9s;background:#17100A}
+  .cover.hide{opacity:0;visibility:hidden;pointer-events:none}
+  .cover .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .cover .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,16,10,.45) 0%,rgba(23,16,10,.05) 34%,rgba(23,16,10,.12) 55%,rgba(23,16,10,.88) 100%)}
+  .cover .inner{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:44px 30px 36px}
+  .cover .brandline{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(245,237,222,.85)}
+  .cover .spacer{flex:1}
+  .cover .the{font-size:15px;letter-spacing:5px;text-transform:uppercase}
+  .cover h1{font-family:'Yellowtail',cursive;font-weight:400;font-size:58px;line-height:1.12;color:var(--yellow);margin:6px 0 2px;text-shadow:0 4px 26px rgba(0,0,0,.5)}
+  .cover .tag{font-style:italic;font-size:17px;color:var(--cream)}
+  .cover .tamu{margin:22px 0 16px;padding:0 10px}
+  .cover .tamu p{font-size:14px;color:rgba(245,237,222,.85)}
+  .cover .tamu strong{font-family:'EB Garamond',serif;font-weight:600;font-size:20px;color:#FFF;letter-spacing:.4px}
+  .cover .tamu .note{margin-top:5px;font-size:12px;font-style:italic;color:rgba(245,237,222,.65)}
+  .btn{display:inline-block;background:transparent;color:var(--yellow);border:1.5px solid var(--yellow);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;letter-spacing:1.2px;padding:13px 30px;border-radius:999px;transition:.25s;text-decoration:none;text-transform:uppercase}
+  .btn:hover{background:var(--yellow);color:var(--ink)}
+  .btn.solid{background:var(--yellow);color:var(--ink)}
+  .btn.terra{background:var(--terra);border-color:var(--terra);color:#FFF}
+  .btn.terra:hover{background:#93331F;border-color:#93331F;color:#FFF}
+  .btn.dark{border-color:var(--ink);color:var(--ink)}
+  .btn.dark:hover{background:var(--ink);color:var(--cream)}
+
+  /* ---------- MUSIK ---------- */
+  .music-btn{position:fixed;right:16px;bottom:18px;z-index:55;width:50px;height:50px;border-radius:50%;border:1.5px solid var(--yellow);background:rgba(23,16,10,.85);color:var(--yellow);font-size:19px;cursor:pointer;display:none;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.5)}
+  .music-btn.show{display:grid}
+  .music-btn.playing{animation:spin 5s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---------- SECTION ---------- */
+  section{padding:64px 30px;text-align:center;position:relative;opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s ease}
+  section.in{opacity:1;transform:none}
+  section.cream{background:var(--cream);color:var(--ink)}
+  .kicker{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--mutd);margin-bottom:10px}
+  section.cream .kicker{color:var(--mutl)}
+  h2.script{font-size:42px;line-height:1.15;margin-bottom:14px}
+  section.cream h2.script{color:#B98A1F}
+  p{font-size:17.5px;line-height:1.75}
+  .muted{color:var(--mutd);font-size:15.5px}
+  section.cream .muted{color:var(--mutl)}
+  .fullbleed{padding:0;height:520px;overflow:hidden}
+  .fullbleed img.ph{width:100%;height:100%;object-fit:cover}
+  .fullbleed .ovl{position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,16,10,.28),rgba(23,16,10,0) 40%,rgba(23,16,10,.82));display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:30px 28px 34px}
+
+  /* ---------- COUNTDOWN ---------- */
+  .cd{display:flex;justify-content:center;gap:9px;margin-top:6px}
+  .cd div{background:rgba(245,237,222,.07);border:1px solid rgba(242,193,78,.4);border-radius:12px;width:70px;padding:12px 0}
+  .cd b{font-family:'EB Garamond',serif;font-weight:600;font-size:27px;color:var(--yellow);display:block}
+  .cd small{font-family:'Plus Jakarta Sans',sans-serif;font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--sand)}
+
+  /* ---------- MEMPELAI ---------- */
+  .arch{width:225px;max-width:78vw;margin:0 auto;border-radius:999px 999px 16px 16px;overflow:hidden;border:2px solid rgba(242,193,78,.55);box-shadow:0 18px 38px rgba(0,0,0,.5)}
+  .arch img{width:100%;aspect-ratio:.8;object-fit:cover;object-position:top}
+  .mempelai h3{font-family:'Yellowtail',cursive;font-weight:400;font-size:36px;color:var(--yellow);margin:18px 0 4px}
+  .amp{font-family:'Yellowtail',cursive;font-size:44px;color:var(--yellow);margin:30px 0 6px;line-height:1}
+
+  /* ---------- JADWAL ---------- */
+  .card{background:#FFFDF7;border:1px solid #E3D3B4;border-radius:18px;padding:26px 22px;margin:18px auto;max-width:360px;box-shadow:0 12px 28px rgba(42,27,16,.14)}
+  .card h3{font-family:'Yellowtail',cursive;font-weight:400;font-size:30px;color:#B98A1F;margin-bottom:6px}
+  .card .hari{font-weight:600;color:var(--ink)}
+  .card p{font-size:16.5px;color:#4A3826}
+  .card .btn{margin-top:15px;padding:10px 24px;font-size:12.5px}
+  .swatches{display:flex;justify-content:center;gap:18px;margin:16px 0 8px}
+  .swatches div{text-align:center}
+  .swatches i{display:block;width:48px;height:48px;border-radius:50%;border:2px solid #FFF;box-shadow:0 5px 14px rgba(42,27,16,.25);margin-bottom:7px}
+  .swatches span{font-size:14px;color:var(--mutl);font-style:italic}
+
+  /* ---------- LOVE STORY ---------- */
+  .story{text-align:left;max-width:345px;margin:0 auto}
+  .story article{margin-bottom:30px;border-left:2px solid rgba(242,193,78,.35);padding-left:18px}
+  .story .yr{font-size:12.5px;letter-spacing:3px;color:var(--sand);text-transform:uppercase}
+  .story h3{font-family:'Yellowtail',cursive;font-weight:400;font-size:27px;color:var(--yellow);margin:3px 0 6px}
+  .story p{font-size:16.5px;color:#E8DCC4}
+
+  /* ---------- GALERI ---------- */
+  .galeri-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:360px;margin:0 auto}
+  .galeri-grid img{width:100%;aspect-ratio:.84;object-fit:cover;border-radius:14px;box-shadow:0 10px 24px rgba(42,27,16,.2)}
+
+  /* ---------- FORM ---------- */
+  form{text-align:left;max-width:340px;margin:0 auto;font-family:'Plus Jakarta Sans',sans-serif}
+  label{display:block;font-size:13px;color:var(--sand);margin:14px 0 6px;font-weight:600}
+  input,select,textarea{width:100%;padding:12px 14px;border:1px solid rgba(242,193,78,.45);border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;background:rgba(245,237,222,.06);color:var(--cream)}
+  input::placeholder,textarea::placeholder{color:var(--mutd)}
+  select option{color:#2A1B10}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--yellow)}
+  textarea{resize:vertical;min-height:84px}
+  form .btn{width:100%;margin-top:20px}
+  .thanks{display:none;background:rgba(242,193,78,.12);border:1px solid rgba(242,193,78,.5);border-radius:14px;padding:16px;font-size:14.5px;text-align:center;margin-top:18px;color:var(--cream)}
+
+  /* ---------- QR ---------- */
+  .qr-card{max-width:330px;margin:6px auto 0;background:#FFFDF7;border:1px solid #E3D3B4;border-radius:20px;padding:26px 24px 22px;box-shadow:0 14px 30px rgba(42,27,16,.16);text-align:center}
+  .qr-card img{width:215px;height:215px;margin:2px auto 12px;border-radius:10px}
+  .qr-card .guest{font-weight:600;font-size:20px;color:var(--ink);margin-bottom:6px}
+  .qr-card p{font-size:15px;color:var(--mutl);line-height:1.65}
+  .qr-card .code{display:inline-block;margin-top:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:2.5px;color:#B98A1F;border:1px solid #E3D3B4;border-radius:999px;padding:6px 14px}
+
+  /* ---------- AMPLOP ---------- */
+  .rek{background:var(--panel);border:1px dashed rgba(242,193,78,.5);border-radius:16px;padding:22px;max-width:340px;margin:14px auto;text-align:center}
+  .rek .bank{font-size:15px;letter-spacing:3px;color:var(--sand);text-transform:uppercase}
+  .rek .nomor{font-size:23px;letter-spacing:2.5px;margin:7px 0 2px;font-weight:600;color:var(--cream)}
+  .rek .an{font-size:15px;color:var(--mutd);font-style:italic;margin-bottom:14px}
+  .rek .btn{padding:9px 22px;font-size:12px}
+  .gift{background:rgba(245,237,222,.06);border:1px solid rgba(242,193,78,.4);border-radius:18px;padding:24px 22px;max-width:340px;margin:16px auto;text-align:center}
+  .gift h3{font-family:'Yellowtail',cursive;font-weight:400;font-size:28px;color:var(--yellow);margin-bottom:8px}
+  .gift p{font-size:16px;color:#E8DCC4}
+  .gift .btn{margin-top:14px;padding:10px 24px;font-size:12.5px}
+
+  /* ---------- PENUTUP ---------- */
+  .penutup{height:560px;padding:0;overflow:hidden}
+  .penutup img.ph{width:100%;height:100%;object-fit:cover}
+  .penutup .ovl{position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,16,10,.55),rgba(23,16,10,.25) 45%,rgba(23,16,10,.9));display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:30px 28px 40px}
+  .penutup .ttd{font-family:'Yellowtail',cursive;font-size:44px;color:var(--yellow);line-height:1.15}
+  footer{text-align:center;padding:26px 20px 36px;background:#120B06;font-size:13.5px;color:var(--mutd)}
+  footer b{color:var(--yellow);font-family:'Yellowtail',cursive;font-size:18px;font-weight:400}
+</style>
+</head>
+<body class="locked">
+<div id="loader" aria-hidden="true">
+  <div class="ring"><span>♡</span></div>
+  <p class="brand">Doa Selamanya</p>
+  <p class="msg">menyiapkan foto-foto kami…</p>
+  <p class="pct sans" id="loaderPct">0%</p>
+</div>
+<div class="wrap">
+
+  <!-- COVER: slot foto utama — diisi foto terbaik pasangan -->
+  <div class="cover" id="cover">
+    <img class="bg" src="../assets/kayu-manis/cover.webp" alt="Foto Nadia dan Raka di depan dinding kayu">
+    <div class="shade"></div>
+    <div class="inner">
+      <p class="brandline">Doa Selamanya · Tema Kayu Manis</p>
+      <div class="spacer"></div>
+      <p class="the">The Wedding Of</p>
+      <h1>Nadia &amp; Raka</h1>
+      <p class="tag">Forever starts here — Sabtu, 20 Maret 2027</p>
+      <div class="tamu">
+        <p>Kepada Yth. Bapak/Ibu/Saudara/i</p>
+        <strong>Keluarga Besar Wijaya</strong>
+        <p class="note">*Mohon maaf apabila terdapat kesalahan penulisan nama &amp; gelar</p>
+      </div>
+      <button class="btn" id="btnBuka">Buka Undangan</button>
+    </div>
+  </div>
+
+  <!-- MUSIK: ID lagu contoh — diganti lagu pilihan pasangan -->
+  <div id="ytWrap" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none"></div>
+  <button class="music-btn" id="btnMusik" aria-label="Putar atau hentikan musik">♪</button>
+
+  <!-- SAVE THE DATE + COUNTDOWN -->
+  <section class="fullbleed">
+    <img class="ph" src="../assets/kayu-manis/sofa.webp" alt="Nadia dan Raka tertawa di depan sofa biru">
+    <div class="ovl">
+      <h2 class="script" style="margin-bottom:2px">Save The Date</h2>
+      <p style="letter-spacing:3px;font-size:16px">SABTU · 20 MARET 2027</p>
+    </div>
+  </section>
+  <section style="padding-top:44px;padding-bottom:52px">
+    <p class="kicker">menghitung hari</p>
+    <div class="cd">
+      <div><b id="cd-d">0</b><small>Hari</small></div>
+      <div><b id="cd-h">0</b><small>Jam</small></div>
+      <div><b id="cd-m">0</b><small>Menit</small></div>
+      <div><b id="cd-s">0</b><small>Detik</small></div>
+    </div>
+  </section>
+
+  <!-- AYAT -->
+  <section class="cream">
+    <p style="font-style:italic;font-size:19px;line-height:1.8;max-width:350px;margin:0 auto">&ldquo;Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;</p>
+    <p style="margin-top:14px;font-size:13px;letter-spacing:3px;color:#B98A1F" class="sans">QS. AR-RUM : 21</p>
+    <p style="margin-top:22px">Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyempurnakan separuh agama dengan ikatan pernikahan:</p>
+  </section>
+
+  <!-- MEMPELAI -->
+  <section>
+    <p class="kicker">the bride &amp; groom</p>
+    <h2 class="script">Dua Hati, Satu Cerita</h2>
+    <div class="mempelai">
+      <div class="arch"><img src="../assets/kayu-manis/bride.webp" alt="Potret mempelai wanita, Nadia"></div>
+      <h3>Nadia Prameswari, S.E.</h3>
+      <p class="muted">Putri kedua dari<br>Bapak H. Ahmad Suryana &amp; Ibu Hj. Ratna Suryana</p>
+    </div>
+    <div class="amp">&amp;</div>
+    <div class="mempelai">
+      <div class="arch"><img src="../assets/kayu-manis/groom.webp" alt="Potret mempelai pria, Raka"></div>
+      <h3>Raka Aditya Pratama, S.T.</h3>
+      <p class="muted">Putra pertama dari<br>Bapak Budi Pratama &amp; Ibu Dewi Pratama</p>
+    </div>
+  </section>
+
+  <!-- JADWAL -->
+  <section class="cream">
+    <p class="kicker">akad &amp; resepsi</p>
+    <h2 class="script">Waktu &amp; Tempat</h2>
+    <div class="card">
+      <h3>Akad Nikah</h3>
+      <p class="hari">Sabtu, 20 Maret 2027</p>
+      <p>Pukul 08.00 – 10.00 WIB</p>
+      <p style="margin-top:8px"><strong>Gedung Serbaguna Al-Azhar</strong><br>Jl. Sisingamangaraja No. 2, Jakarta Selatan</p>
+      <a class="btn terra" href="https://maps.google.com/?q=Gedung+Al-Azhar+Jakarta+Selatan" target="_blank" rel="noopener">Lihat Maps</a>
+    </div>
+    <div class="card">
+      <h3>Resepsi</h3>
+      <p class="hari">Sabtu, 20 Maret 2027</p>
+      <p>Pukul 11.00 – 13.00 WIB</p>
+      <p style="margin-top:8px"><strong>Gedung Serbaguna Al-Azhar</strong><br>Jl. Sisingamangaraja No. 2, Jakarta Selatan</p>
+      <a class="btn terra" href="https://maps.google.com/?q=Gedung+Al-Azhar+Jakarta+Selatan" target="_blank" rel="noopener">Lihat Maps</a>
+    </div>
+    <p class="kicker" style="margin-top:32px">dress code</p>
+    <div class="swatches">
+      <div><i style="background:#FFFFFF"></i><span>Putih</span></div>
+      <div><i style="background:#EFE3CC"></i><span>Krem</span></div>
+      <div><i style="background:#6B4226"></i><span>Cokelat</span></div>
+    </div>
+    <p class="muted" style="color:var(--mutl)">Kami akan senang sekali bila Anda berkenan memakai warna-warna hangat di atas.</p>
+  </section>
+
+  <!-- FOTO BREAK -->
+  <section class="fullbleed">
+    <img class="ph" src="../assets/kayu-manis/makan.webp" alt="Nadia dan Raka makan pizza bersama di rumah">
+    <div class="ovl">
+      <p style="font-style:italic;font-size:19px;line-height:1.7">&ldquo;Setiap foto bercerita tentang cinta, tawa,<br>dan janji untuk seumur hidup.&rdquo;</p>
+    </div>
+  </section>
+
+  <!-- LOVE STORY -->
+  <section>
+    <p class="kicker">cerita kami</p>
+    <h2 class="script">Love Story</h2>
+    <div class="story">
+      <article>
+        <p class="yr">2019 · Awal Pertemuan</p>
+        <h3>Tidak Ada yang Kebetulan</h3>
+        <p>Berawal dari sebuah perkenalan sederhana di acara kampus di Jakarta — percakapan singkat tentang kopi yang entah mengapa tidak pernah benar-benar selesai. Setiap pertemuan setelahnya terasa seperti kelanjutan yang sudah diatur dengan indah.</p>
+      </article>
+      <article>
+        <p class="yr">2024 · Perjalanan Bersama</p>
+        <h3>Tumbuh Saling Melengkapi</h3>
+        <p>Lima tahun berbagi cerita: ada tawa, ada juga tantangan. Dari situlah kami belajar saling memahami, menerima, dan melengkapi — hingga perjalanan ini bukan lagi tentang dua orang yang berjalan sendiri.</p>
+      </article>
+      <article>
+        <p class="yr">2027 · Komitmen</p>
+        <h3>Janji Suci</h3>
+        <p>Dengan penuh rasa syukur, restu kedua orang tua, dan keyakinan yang matang, kami memutuskan mengikat janji suci — memulai babak baru kehidupan sebagai keluarga. Doa Anda adalah bagian terindah dari babak ini.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- GALERI -->
+  <section class="cream">
+    <p class="kicker">galeri</p>
+    <h2 class="script">Momen Kami</h2>
+    <div class="galeri-grid">
+      <img src="../assets/kayu-manis/cover.webp" alt="Nadia dan Raka bergandengan tangan">
+      <img src="../assets/kayu-manis/sofa.webp" alt="Nadia dan Raka tertawa bersama">
+      <img src="../assets/kayu-manis/makan.webp" alt="Nadia dan Raka makan pizza bersama">
+      <img src="../assets/kayu-manis/minum.webp" alt="Nadia dan Raka minum kopi bersama">
+    </div>
+    <p class="muted" style="margin-top:14px;color:var(--mutl)">Panel contoh — pada undangan asli, galeri berisi foto-foto pilihan kedua mempelai.</p>
+  </section>
+
+  <!-- RSVP -->
+  <section>
+    <p class="kicker">rsvp &amp; ucapan</p>
+    <h2 class="script">Konfirmasi Kehadiran</h2>
+    <p class="muted" style="margin-bottom:8px">Kehadiran Anda adalah doa terindah bagi kami. Mohon konfirmasi dan titipkan ucapan Anda:</p>
+    <form id="formRsvp">
+      <label for="rsvp-nama">Nama</label>
+      <input id="rsvp-nama" type="text" placeholder="Nama Anda" required>
+      <label for="rsvp-hadir">Konfirmasi Kehadiran</label>
+      <select id="rsvp-hadir" required>
+        <option value="Hadir">Hadir, insya Allah</option>
+        <option value="Berhalangan">Berhalangan hadir</option>
+        <option value="Masih ragu">Masih ragu</option>
+      </select>
+      <label for="rsvp-pesan">Ucapan &amp; Doa</label>
+      <textarea id="rsvp-pesan" placeholder="Tuliskan ucapan untuk kedua mempelai..."></textarea>
+      <button class="btn solid" type="submit">Kirim Ucapan</button>
+      <div class="thanks" id="rsvpThanks">Terima kasih atas konfirmasi dan doa indahnya. Semoga Allah membalas kebaikan Anda. ♡</div>
+    </form>
+  </section>
+
+  <!-- CHECK-IN QR -->
+  <section class="cream">
+    <p class="kicker">check-in kehadiran</p>
+    <h2 class="script">QR Buku Tamu</h2>
+    <div class="qr-card">
+      <img src="../assets/kayu-manis/qr-checkin.png" alt="QR code check-in kehadiran untuk ditunjukkan kepada resepsionis">
+      <p class="guest">Keluarga Besar Wijaya</p>
+      <p>Tunjukkan QR ini kepada resepsionis wedding kami untuk buku tamu.</p>
+      <span class="code">DS · NR · 2027</span>
+    </div>
+    <p class="muted" style="margin-top:16px;color:var(--mutl)">Satu QR berlaku untuk seluruh rombongan.<br>Simpan atau screenshot halaman ini sebelum berangkat.</p>
+  </section>
+
+  <!-- AMPLOP DIGITAL -->
+  <!-- data contoh -->
+  <section>
+    <p class="kicker">amplop digital</p>
+    <h2 class="script">Wedding Gift</h2>
+    <p class="muted">Doa restu Anda adalah hadiah terindah. Namun apabila berkenan memberikan tanda kasih, kami sediakan dengan penuh terima kasih:</p>
+    <div class="rek">
+      <p class="bank">BCA</p>
+      <p class="nomor" id="rek-bca">1234567890</p>
+      <p class="an">a.n. Nadia Prameswari</p>
+      <button class="btn" onclick="salin('rek-bca',this)">Salin Nomor</button>
+    </div>
+    <div class="rek">
+      <p class="bank">DANA</p>
+      <p class="nomor" id="rek-dana">081234567890</p>
+      <p class="an">a.n. Raka Aditya Pratama</p>
+      <button class="btn" onclick="salin('rek-dana',this)">Salin Nomor</button>
+    </div>
+    <div class="gift">
+      <h3>Kirim Hadiah Fisik</h3>
+      <p>Bagi yang ingin mengirimkan hadiah fisik, silakan kirim ke:<br><strong>Rumah Mempelai Wanita</strong><br>Jl. Kenanga No. 8, Kebayoran Baru, Jakarta Selatan 12120</p>
+      <p style="margin-top:10px">Mohon konfirmasi setelah pengiriman ke WhatsApp kami:</p>
+      <a class="btn solid" href="https://wa.me/6281234567890?text=Halo%20Nadia%20%26%20Raka%2C%20saya%20sudah%20mengirimkan%20hadiah%20pernikahan." target="_blank" rel="noopener">Konfirmasi via WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- PENUTUP -->
+  <section class="penutup">
+    <img class="ph" src="../assets/kayu-manis/minum.webp" alt="Nadia dan Raka minum kopi bersama">
+    <div class="ovl">
+      <p style="max-width:340px">Menjadi sebuah kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dalam hari bahagia kami. Terima kasih atas segala ucapan, doa, dan perhatian yang diberikan.</p>
+      <p style="margin-top:12px;font-size:15.5px">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
+      <p style="margin-top:18px;font-size:12px;letter-spacing:3px;color:var(--sand)" class="sans">WITH LOVE,</p>
+      <p class="ttd">Nadia &amp; Raka</p>
+    </div>
+  </section>
+
+  <footer>Dibuat dengan <b>Doa Selamanya</b> · Tema Kayu Manis Premium</footer>
+</div>
+
+<script>
+  // Musik latar (YouTube embed, mulai setelah undangan dibuka)
+  var ytId = 'Ul5EfCtQ3Wc'; // ID lagu contoh
+  var musikJalan = false;
+  function setMusik(jalan){
+    musikJalan = jalan;
+    document.getElementById('ytWrap').innerHTML = jalan
+      ? '<iframe width="1" height="1" src="https://www.youtube-nocookie.com/embed/' + ytId + '?autoplay=1&loop=1&playlist=' + ytId + '" allow="autoplay" title="Musik latar"></iframe>'
+      : '';
+    document.getElementById('btnMusik').classList.toggle('playing', jalan);
+  }
+  document.getElementById('btnMusik').addEventListener('click', function(){ setMusik(!musikJalan); });
+
+  // Buka Undangan
+  document.getElementById('btnBuka').addEventListener('click', function(){
+    document.getElementById('cover').classList.add('hide');
+    document.body.classList.remove('locked');
+    document.getElementById('btnMusik').classList.add('show');
+    setMusik(true);
+    window.scrollTo({top:0});
+  });
+
+  // Countdown ke Akad Nikah
+  var target = new Date('2027-03-20T08:00:00+07:00').getTime();
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    var sisa = Math.max(0, target - Date.now());
+    var d = Math.floor(sisa/86400000), h = Math.floor(sisa%86400000/3600000),
+        m = Math.floor(sisa%3600000/60000), s = Math.floor(sisa%60000/1000);
+    document.getElementById('cd-d').textContent = d;
+    document.getElementById('cd-h').textContent = pad(h);
+    document.getElementById('cd-m').textContent = pad(m);
+    document.getElementById('cd-s').textContent = pad(s);
+  }
+  tick(); setInterval(tick, 1000);
+
+  // Salin nomor rekening
+  function salin(id, btn){
+    var teks = document.getElementById(id).textContent.trim();
+    function selesai(){ var lama = btn.textContent; btn.textContent = 'Tersalin ✓'; setTimeout(function(){ btn.textContent = lama; }, 1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(teks).then(selesai).catch(selesai); }
+    else { var ta = document.createElement('textarea'); ta.value = teks; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); selesai(); }
+  }
+
+  // RSVP
+  document.getElementById('formRsvp').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('rsvpThanks').style.display = 'block';
+    this.reset();
+  });
+
+  // Animasi masuk per section
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {threshold:.08});
+  document.querySelectorAll('section').forEach(function(s){ io.observe(s); });
+</script>
+<script>
+  // Loader: persen dari foto yang sudah termuat, hilang saat semua siap
+  (function(){
+    var loader = document.getElementById('loader');
+    var pctEl = document.getElementById('loaderPct');
+    var imgs = Array.prototype.slice.call(document.querySelectorAll('img'));
+    var total = Math.max(imgs.length, 1), done = 0, hidden = false, t0 = Date.now();
+    function hide(){
+      if (hidden) return; hidden = true;
+      var wait = Math.max(0, 600 - (Date.now() - t0));
+      setTimeout(function(){ loader.classList.add('hide'); }, wait);
+    }
+    function step(img){
+      if (img) img.classList.add('ld');
+      done++;
+      if (pctEl) pctEl.textContent = Math.min(100, Math.round(done / total * 100)) + '%';
+      if (done >= total) hide();
+    }
+    imgs.forEach(function(img){
+      if (img.complete && img.naturalWidth > 0) { step(img); }
+      else {
+        img.addEventListener('load', function(){ step(img); });
+        img.addEventListener('error', function(){ step(img); });
+      }
+    });
+    window.addEventListener('load', hide);
+    setTimeout(hide, 5000);
+  })();
+</script>
+</body>
+</html>
