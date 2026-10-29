@@ -148,6 +148,42 @@
   .penutup .ttd{font-family:'Yellowtail',cursive;font-size:44px;color:var(--yellow);line-height:1.15}
   footer{text-align:center;padding:26px 20px 36px;background:#120B06;font-size:13.5px;color:var(--mutd)}
   footer b{color:var(--yellow);font-family:'Yellowtail',cursive;font-size:18px;font-weight:400}
+
+  /* ---------- ANIMASI (upgrade ala situs Canva) ---------- */
+  section{opacity:1;transform:none}
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .9s ease var(--d,0s),transform .9s cubic-bezier(.22,.8,.3,1) var(--d,0s)}
+  .rv.rv-zoom{transform:translateY(14px) scale(.93)}
+  .rv.rv-rot{transform:translateY(16px) rotate(-3deg)}
+  .rv.in{opacity:1;transform:none}
+  h2.script.rv.in{transform:rotate(-1deg)}
+  .story article:nth-child(2){--d:.14s}
+  .story article:nth-child(3){--d:.28s}
+  .galeri-grid img:nth-child(2){--d:.1s}
+  .galeri-grid img:nth-child(3){--d:.2s}
+  .galeri-grid img:nth-child(4){--d:.3s}
+  .fullbleed img.ph,.penutup img.ph{animation:kb 16s ease-in-out infinite alternate}
+  .cover .bg{animation:kb 22s ease-in-out infinite alternate}
+  @keyframes kb{from{transform:scale(1) translateY(0)}to{transform:scale(1.12) translateY(-2.5%)}}
+  .cover{transition:transform 1s cubic-bezier(.76,0,.24,1),opacity .5s ease .45s,visibility 1s}
+  .cover.hide{transform:translateY(-103%);opacity:.55;visibility:hidden}
+  .cover .inner>*:not(.sp){animation:crise .9s cubic-bezier(.22,.8,.3,1) both}
+  .cover .brandline{animation-delay:.15s}
+  .cover .the{animation-delay:.4s}
+  .cover h1{animation-delay:.55s}
+  .cover .tag{animation-delay:.75s}
+  .cover .tamu{animation-delay:.9s}
+  .cover #btnBuka{animation-delay:1.05s}
+  @keyframes crise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  .sp{position:absolute;color:var(--yellow);opacity:0;animation:floaty 5s ease-in-out infinite;pointer-events:none;z-index:3}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(0deg);opacity:.15}50%{transform:translateY(-16px) rotate(24deg);opacity:.85}}
+  .marquee{overflow:hidden;background:var(--panel);border-top:1px solid rgba(242,193,78,.35);border-bottom:1px solid rgba(242,193,78,.35);padding:12px 0;white-space:nowrap}
+  .mq-in{display:inline-block;font-family:'Yellowtail',cursive;font-size:19px;color:var(--yellow);animation:mq 24s linear infinite;will-change:transform}
+  @keyframes mq{to{transform:translateX(-50%)}}
+  .cd b.pop{animation:pop .35s ease}
+  @keyframes pop{40%{transform:scale(1.22)}}
+  .galeri-grid img{transition:transform .5s ease,opacity .7s ease}
+  .galeri-grid img:hover{transform:scale(1.04)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
 </head>
 <body class="locked">
@@ -165,6 +201,7 @@
     <div class="shade"></div>
     <div class="inner">
       <p class="brandline">Doa Selamanya · Tema Kayu Manis</p>
+      <span class="sp" style="top:16%;left:12%;font-size:15px">✦</span><span class="sp" style="top:24%;right:14%;font-size:11px;animation-delay:1.2s">✦</span><span class="sp" style="top:55%;left:8%;font-size:12px;animation-delay:2s">✦</span><span class="sp" style="top:64%;right:9%;font-size:16px;animation-delay:.6s">✦</span><span class="sp" style="top:38%;right:22%;font-size:10px;animation-delay:2.8s">✦</span>
       <div class="spacer"></div>
       <p class="the">The Wedding Of</p>
       <h1>Nadia &amp; Raka</h1>
@@ -186,13 +223,14 @@
   <section class="fullbleed">
     <img class="ph" src="../assets/kayu-manis/sofa.webp" alt="Nadia dan Raka tertawa di depan sofa biru">
     <div class="ovl">
-      <h2 class="script" style="margin-bottom:2px">Save The Date</h2>
+      <h2 class="script rv rv-rot" style="margin-bottom:2px">Save The Date</h2>
       <p style="letter-spacing:3px;font-size:16px">SABTU · 20 MARET 2027</p>
     </div>
   </section>
+  <div class="marquee" aria-hidden="true"><div class="mq-in">Nadia ✦ Raka ✦ 20 . 03 . 2027 ✦ Forever Starts Here ✦ Nadia ✦ Raka ✦ 20 . 03 . 2027 ✦ Forever Starts Here ✦ Nadia ✦ Raka ✦ 20 . 03 . 2027 ✦ Forever Starts Here ✦ Nadia ✦ Raka ✦ 20 . 03 . 2027 ✦ Forever Starts Here ✦ Nadia ✦ Raka ✦ 20 . 03 . 2027 ✦ Forever Starts Here ✦ Nadia ✦ Raka ✦ 20 . 03 . 2027 ✦ Forever Starts Here ✦ Nadia ✦ Raka ✦ 20 . 03 . 2027 ✦ Forever Starts Here ✦ Nadia ✦ Raka ✦ 20 . 03 . 2027 ✦ Forever Starts Here ✦ </div></div>
   <section style="padding-top:44px;padding-bottom:52px">
     <p class="kicker">menghitung hari</p>
-    <div class="cd">
+    <div class="cd rv">
       <div><b id="cd-d">0</b><small>Hari</small></div>
       <div><b id="cd-h">0</b><small>Jam</small></div>
       <div><b id="cd-m">0</b><small>Menit</small></div>
@@ -202,7 +240,7 @@
 
   <!-- AYAT -->
   <section class="cream">
-    <p style="font-style:italic;font-size:19px;line-height:1.8;max-width:350px;margin:0 auto">&ldquo;Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;</p>
+    <p class="rv" style="font-style:italic;font-size:19px;line-height:1.8;max-width:350px;margin:0 auto">&ldquo;Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;</p>
     <p style="margin-top:14px;font-size:13px;letter-spacing:3px;color:#B98A1F" class="sans">QS. AR-RUM : 21</p>
     <p style="margin-top:22px">Dengan memohon rahmat dan ridha Allah SWT, kami bermaksud menyempurnakan separuh agama dengan ikatan pernikahan:</p>
   </section>
@@ -210,16 +248,16 @@
   <!-- MEMPELAI -->
   <section>
     <p class="kicker">the bride &amp; groom</p>
-    <h2 class="script">Dua Hati, Satu Cerita</h2>
+    <h2 class="script rv rv-rot">Dua Hati, Satu Cerita</h2>
     <div class="mempelai">
-      <div class="arch"><img src="../assets/kayu-manis/bride.webp" alt="Potret mempelai wanita, Nadia"></div>
-      <h3>Nadia Prameswari, S.E.</h3>
+      <div class="arch rv rv-zoom"><img src="../assets/kayu-manis/bride.webp" alt="Potret mempelai wanita, Nadia"></div>
+      <h3 class="rv">Nadia Prameswari, S.E.</h3>
       <p class="muted">Putri kedua dari<br>Bapak H. Ahmad Suryana &amp; Ibu Hj. Ratna Suryana</p>
     </div>
     <div class="amp">&amp;</div>
     <div class="mempelai">
-      <div class="arch"><img src="../assets/kayu-manis/groom.webp" alt="Potret mempelai pria, Raka"></div>
-      <h3>Raka Aditya Pratama, S.T.</h3>
+      <div class="arch rv rv-zoom" style="--d:.14s"><img src="../assets/kayu-manis/groom.webp" alt="Potret mempelai pria, Raka"></div>
+      <h3 class="rv">Raka Aditya Pratama, S.T.</h3>
       <p class="muted">Putra pertama dari<br>Bapak Budi Pratama &amp; Ibu Dewi Pratama</p>
     </div>
   </section>
@@ -227,15 +265,15 @@
   <!-- JADWAL -->
   <section class="cream">
     <p class="kicker">akad &amp; resepsi</p>
-    <h2 class="script">Waktu &amp; Tempat</h2>
-    <div class="card">
+    <h2 class="script rv rv-rot">Waktu &amp; Tempat</h2>
+    <div class="card rv">
       <h3>Akad Nikah</h3>
       <p class="hari">Sabtu, 20 Maret 2027</p>
       <p>Pukul 08.00 – 10.00 WIB</p>
       <p style="margin-top:8px"><strong>Gedung Serbaguna Al-Azhar</strong><br>Jl. Sisingamangaraja No. 2, Jakarta Selatan</p>
       <a class="btn terra" href="https://maps.google.com/?q=Gedung+Al-Azhar+Jakarta+Selatan" target="_blank" rel="noopener">Lihat Maps</a>
     </div>
-    <div class="card">
+    <div class="card rv" style="--d:.14s">
       <h3>Resepsi</h3>
       <p class="hari">Sabtu, 20 Maret 2027</p>
       <p>Pukul 11.00 – 13.00 WIB</p>
@@ -262,19 +300,19 @@
   <!-- LOVE STORY -->
   <section>
     <p class="kicker">cerita kami</p>
-    <h2 class="script">Love Story</h2>
+    <h2 class="script rv rv-rot">Love Story</h2>
     <div class="story">
-      <article>
+      <article class="rv">
         <p class="yr">2019 · Awal Pertemuan</p>
         <h3>Tidak Ada yang Kebetulan</h3>
         <p>Berawal dari sebuah perkenalan sederhana di acara kampus di Jakarta — percakapan singkat tentang kopi yang entah mengapa tidak pernah benar-benar selesai. Setiap pertemuan setelahnya terasa seperti kelanjutan yang sudah diatur dengan indah.</p>
       </article>
-      <article>
+      <article class="rv">
         <p class="yr">2024 · Perjalanan Bersama</p>
         <h3>Tumbuh Saling Melengkapi</h3>
         <p>Lima tahun berbagi cerita: ada tawa, ada juga tantangan. Dari situlah kami belajar saling memahami, menerima, dan melengkapi — hingga perjalanan ini bukan lagi tentang dua orang yang berjalan sendiri.</p>
       </article>
-      <article>
+      <article class="rv">
         <p class="yr">2027 · Komitmen</p>
         <h3>Janji Suci</h3>
         <p>Dengan penuh rasa syukur, restu kedua orang tua, dan keyakinan yang matang, kami memutuskan mengikat janji suci — memulai babak baru kehidupan sebagai keluarga. Doa Anda adalah bagian terindah dari babak ini.</p>
@@ -285,12 +323,12 @@
   <!-- GALERI -->
   <section class="cream">
     <p class="kicker">galeri</p>
-    <h2 class="script">Momen Kami</h2>
+    <h2 class="script rv rv-rot">Momen Kami</h2>
     <div class="galeri-grid">
-      <img src="../assets/kayu-manis/cover.webp" alt="Nadia dan Raka bergandengan tangan">
-      <img src="../assets/kayu-manis/sofa.webp" alt="Nadia dan Raka tertawa bersama">
-      <img src="../assets/kayu-manis/makan.webp" alt="Nadia dan Raka makan pizza bersama">
-      <img src="../assets/kayu-manis/minum.webp" alt="Nadia dan Raka minum kopi bersama">
+      <img class="rv" src="../assets/kayu-manis/cover.webp" alt="Nadia dan Raka bergandengan tangan">
+      <img class="rv" src="../assets/kayu-manis/sofa.webp" alt="Nadia dan Raka tertawa bersama">
+      <img class="rv" src="../assets/kayu-manis/makan.webp" alt="Nadia dan Raka makan pizza bersama">
+      <img class="rv" src="../assets/kayu-manis/minum.webp" alt="Nadia dan Raka minum kopi bersama">
     </div>
     <p class="muted" style="margin-top:14px;color:var(--mutl)">Panel contoh — pada undangan asli, galeri berisi foto-foto pilihan kedua mempelai.</p>
   </section>
@@ -298,9 +336,9 @@
   <!-- RSVP -->
   <section>
     <p class="kicker">rsvp &amp; ucapan</p>
-    <h2 class="script">Konfirmasi Kehadiran</h2>
+    <h2 class="script rv rv-rot">Konfirmasi Kehadiran</h2>
     <p class="muted" style="margin-bottom:8px">Kehadiran Anda adalah doa terindah bagi kami. Mohon konfirmasi dan titipkan ucapan Anda:</p>
-    <form id="formRsvp">
+    <form id="formRsvp" class="rv">
       <label for="rsvp-nama">Nama</label>
       <input id="rsvp-nama" type="text" placeholder="Nama Anda" required>
       <label for="rsvp-hadir">Konfirmasi Kehadiran</label>
@@ -319,8 +357,8 @@
   <!-- CHECK-IN QR -->
   <section class="cream">
     <p class="kicker">check-in kehadiran</p>
-    <h2 class="script">QR Buku Tamu</h2>
-    <div class="qr-card">
+    <h2 class="script rv rv-rot">QR Buku Tamu</h2>
+    <div class="qr-card rv rv-zoom">
       <img src="../assets/kayu-manis/qr-checkin.png" alt="QR code check-in kehadiran untuk ditunjukkan kepada resepsionis">
       <p class="guest">Keluarga Besar Wijaya</p>
       <p>Tunjukkan QR ini kepada resepsionis wedding kami untuk buku tamu.</p>
@@ -333,21 +371,21 @@
   <!-- data contoh -->
   <section>
     <p class="kicker">amplop digital</p>
-    <h2 class="script">Wedding Gift</h2>
+    <h2 class="script rv rv-rot">Wedding Gift</h2>
     <p class="muted">Doa restu Anda adalah hadiah terindah. Namun apabila berkenan memberikan tanda kasih, kami sediakan dengan penuh terima kasih:</p>
-    <div class="rek">
+    <div class="rek rv">
       <p class="bank">BCA</p>
       <p class="nomor" id="rek-bca">1234567890</p>
       <p class="an">a.n. Nadia Prameswari</p>
       <button class="btn" onclick="salin('rek-bca',this)">Salin Nomor</button>
     </div>
-    <div class="rek">
+    <div class="rek rv" style="--d:.12s">
       <p class="bank">DANA</p>
       <p class="nomor" id="rek-dana">081234567890</p>
       <p class="an">a.n. Raka Aditya Pratama</p>
       <button class="btn" onclick="salin('rek-dana',this)">Salin Nomor</button>
     </div>
-    <div class="gift">
+    <div class="gift rv">
       <h3>Kirim Hadiah Fisik</h3>
       <p>Bagi yang ingin mengirimkan hadiah fisik, silakan kirim ke:<br><strong>Rumah Mempelai Wanita</strong><br>Jl. Kenanga No. 8, Kebayoran Baru, Jakarta Selatan 12120</p>
       <p style="margin-top:10px">Mohon konfirmasi setelah pengiriman ke WhatsApp kami:</p>
@@ -401,7 +439,8 @@
     document.getElementById('cd-d').textContent = d;
     document.getElementById('cd-h').textContent = pad(h);
     document.getElementById('cd-m').textContent = pad(m);
-    document.getElementById('cd-s').textContent = pad(s);
+    var es = document.getElementById('cd-s');
+    if (es.textContent !== pad(s)) { es.textContent = pad(s); es.classList.remove('pop'); void es.offsetWidth; es.classList.add('pop'); }
   }
   tick(); setInterval(tick, 1000);
 
@@ -424,7 +463,7 @@
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
   }, {threshold:.08});
-  document.querySelectorAll('section').forEach(function(s){ io.observe(s); });
+  document.querySelectorAll('section,.rv').forEach(function(s){ io.observe(s); });
 </script>
 <script>
   // Loader: persen dari foto yang sudah termuat, hilang saat semua siap
@@ -453,6 +492,24 @@
     });
     window.addEventListener('load', hide);
     setTimeout(hide, 5000);
+  })();
+</script>
+<script>
+  // Parallax halus untuk teks di atas foto full-bleed
+  (function(){
+    var ovls = document.querySelectorAll('.fullbleed .ovl, .penutup .ovl');
+    var busy = false;
+    function par(){
+      busy = false;
+      ovls.forEach(function(o){
+        var r = o.parentElement.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;
+        var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+        o.style.transform = 'translateY(' + (p * -20).toFixed(1) + 'px)';
+      });
+    }
+    addEventListener('scroll', function(){ if (!busy) { busy = true; requestAnimationFrame(par); } }, {passive:true});
+    par();
   })();
 </script>
 </body>
