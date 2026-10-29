@@ -24,6 +24,8 @@
   .brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--ink)}
   .brand img{width:37px;height:37px;border-radius:11px;border:2px solid var(--ink)}
   .brand b{font-family:'Bricolage Grotesque',sans-serif;font-size:19px;line-height:1.05;letter-spacing:-.02em}
+  .brand .logotype{height:27px;width:auto;border:none;border-radius:0}
+  .brand .dashcap{background:var(--butter);border:2px solid var(--ink);border-radius:999px;padding:3px 10px;font-size:9.5px;letter-spacing:1.8px}
   .brand small{display:block;font-size:8.5px;letter-spacing:2.6px;text-transform:uppercase;color:var(--gold-dark);font-family:'Plus Jakarta Sans',sans-serif;font-weight:800}
   .top-actions{margin-left:auto;display:flex;gap:9px;align-items:center}
   /* BOTTOM NAV — gaya Berdua */
@@ -147,7 +149,7 @@
 <body>
 <div class="layout">
   <header class="topbar">
-    <a class="brand" href="./"><img src="logo-mark.png" alt="Logo Doa Selamanya"><span><b>Doa Selamanya</b><small>Dashboard</small></span></a>
+    <a class="brand" href="./"><img class="logotype" src="logo-type.png" alt="Doa Selamanya"><small class="dashcap">Dashboard</small></a>
     <div class="top-actions">
       <a class="btn line sm" href="./">← Landing</a>
       <a class="btn gold sm" href="katalog">Katalog Tema</a>
