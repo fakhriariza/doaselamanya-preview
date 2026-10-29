@@ -123,6 +123,13 @@
   form .btn{width:100%;margin-top:20px}
   .thanks{display:none;background:#F3E9D8;border:1px solid var(--gold);border-radius:14px;padding:16px;font-size:14px;text-align:center;margin-top:18px}
 
+  /* ---------- CHECK-IN QR ---------- */
+  .qr-card{max-width:330px;margin:6px auto 0;background:#FFFDF8;border:1px solid var(--line);border-radius:22px;padding:26px 24px 22px;box-shadow:0 14px 30px rgba(51,38,31,.12);text-align:center}
+  .qr-card img{width:215px;height:215px;margin:2px auto 12px;border-radius:10px}
+  .qr-card .guest{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--emerald);margin-bottom:6px}
+  .qr-card p{font-size:13.5px;color:var(--muted);line-height:1.65}
+  .qr-card .code{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:2.5px;color:var(--gold);border:1px dashed var(--line);border-radius:999px;padding:6px 14px}
+
   /* ---------- AMPLOP ---------- */
   .rekening{background:#FFFDF8;border:1px solid var(--line);border-radius:18px;padding:22px;max-width:340px;margin:14px auto;text-align:center;box-shadow:0 10px 24px rgba(51,38,31,.09)}
   .rekening .bank{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--burgundy);letter-spacing:2px}
@@ -300,6 +307,19 @@
       <button class="btn burgundy" type="submit">Kirim Ucapan</button>
       <div class="thanks" id="rsvpThanks">Terima kasih atas konfirmasi dan doa indahnya. Semoga Allah membalas kebaikan Anda. ✦</div>
     </form>
+  </section>
+
+  <!-- CHECK-IN QR -->
+  <section>
+    <p class="kicker">Check-in Kehadiran</p>
+    <h2>QR Buku Tamu</h2>
+    <div class="qr-card">
+      <img src="../assets/samudra-burgundy/qr-checkin.png" alt="QR code check-in kehadiran untuk ditunjukkan kepada resepsionis">
+      <p class="guest">Keluarga Besar Wijaya</p>
+      <p>Tunjukkan QR ini kepada resepsionis wedding kami untuk buku tamu.</p>
+      <span class="code">DS · NR · 2027</span>
+    </div>
+    <p class="muted" style="margin-top:16px;font-size:12.5px">Satu QR berlaku untuk seluruh rombongan.<br>Simpan atau screenshot halaman ini sebelum berangkat.</p>
   </section>
 
   <!-- AMPLOP DIGITAL -->
