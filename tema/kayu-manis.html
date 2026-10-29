@@ -163,6 +163,7 @@
   .galeri-grid img:nth-child(4){--d:.3s}
   .fullbleed img.ph,.penutup img.ph{animation:kb 16s ease-in-out infinite alternate}
   .cover .bg{animation:kb 22s ease-in-out infinite alternate}
+  .cover .bgv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   @keyframes kb{from{transform:scale(1) translateY(0)}to{transform:scale(1.12) translateY(-2.5%)}}
   .cover{transition:transform 1s cubic-bezier(.76,0,.24,1),opacity .5s ease .45s,visibility 1s}
   .cover.hide{transform:translateY(-103%);opacity:.55;visibility:hidden}
@@ -198,6 +199,7 @@
   <!-- COVER: slot foto utama — diisi foto terbaik pasangan -->
   <div class="cover" id="cover">
     <img class="bg" src="../assets/kayu-manis/cover.webp" alt="Foto Nadia dan Raka di depan dinding kayu">
+    <video class="bgv" id="bgVideo" autoplay muted loop playsinline preload="auto" poster="../assets/kayu-manis/cover.webp" aria-hidden="true"><source src="../assets/kayu-manis/bg-video.mp4" type="video/mp4"></video>
     <div class="shade"></div>
     <div class="inner">
       <p class="brandline">Doa Selamanya · Tema Kayu Manis</p>
@@ -510,6 +512,16 @@
     }
     addEventListener('scroll', function(){ if (!busy) { busy = true; requestAnimationFrame(par); } }, {passive:true});
     par();
+  })();
+</script>
+<script>
+  // Video latar cover: nonaktif bila user hemat data / reduced motion
+  (function(){
+    var v = document.getElementById('bgVideo');
+    if (!v) return;
+    var hemat = (navigator.connection && navigator.connection.saveData) ||
+                (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (hemat) { v.remove(); }
   })();
 </script>
 </body>
