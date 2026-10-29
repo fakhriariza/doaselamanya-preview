@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mulai — Doa Selamanya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#FBF7F0;--cream-2:#F4ECDF;--ink:#3E3A34;--ink-2:#2C2823;--soft:#6E675C;--gold:#B08D57;--gold-dark:#96733F;--gold-soft:#E9DCC2;--rose:#C48B7A;--sage:#8A9B7E;--sage-soft:#E9EDE0;--line:#E7DCC9;--bg:#F7F3EC;--shadow:0 14px 34px rgba(62,58,52,.09);--r:22px}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  h1,h2,.serif{font-family:'Playfair Display',Georgia,serif}
+  button{font-family:inherit;cursor:pointer}
+  input,select{font-family:inherit;font-size:15px;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:#FFFDF8;color:var(--ink);width:100%}
+  input:focus,select:focus{outline:2px solid var(--gold-soft);border-color:var(--gold)}
+  label{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-dark);display:block;margin:16px 0 6px}
+  .topbar{background:#fff;border-bottom:1px solid var(--line);padding:12px 22px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:20}
+  .topbar .brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--ink)}
+  .topbar .brand img{width:34px;height:34px;border-radius:9px}
+  .topbar .brand b{font-family:'Playfair Display',serif;font-size:17px}
+  .topbar .guide{font-size:13.5px;font-weight:600;color:var(--soft)}
+  .topbar .user{margin-left:auto;font-size:13.5px;font-weight:700;display:flex;gap:8px;align-items:center}
+  .topbar .user i{width:28px;height:28px;border-radius:50%;background:var(--gold-soft);display:grid;place-items:center;font-style:normal;font-size:13px}
+  /* STEPPER */
+  .stepper{max-width:820px;margin:26px auto 6px;padding:0 20px;display:flex;align-items:flex-start}
+  .stp{display:flex;flex-direction:column;align-items:center;gap:7px;flex:0 0 auto;width:92px;text-align:center}
+  .stp .dot{width:30px;height:30px;border-radius:50%;background:#E3DAC6;color:var(--soft);font-weight:800;font-size:13.5px;display:grid;place-items:center;transition:.25s}
+  .stp .lb{font-size:12.5px;color:var(--soft);font-weight:600}
+  .stp.act .dot{background:var(--gold);color:#fff;box-shadow:0 6px 16px rgba(176,141,87,.45)}
+  .stp.act .lb{color:var(--ink);font-weight:800}
+  .stp.done .dot{background:var(--sage);color:#fff}
+  .stp.done .lb{color:var(--ink)}
+  .bar{flex:1;height:2px;background:#E3DAC6;margin-top:15px;position:relative}
+  .bar i{position:absolute;inset:0;background:var(--sage);transform-origin:left;transform:scaleX(0);transition:transform .4s}
+  .bar.fill i{transform:scaleX(1)}
+  .backrow{max-width:1180px;margin:8px auto 0;padding:0 22px}
+  .backbtn{background:none;border:none;font-size:14px;font-weight:700;color:var(--soft)}
+  .backbtn:hover{color:var(--ink)}
+  /* SPLIT */
+  .split{max-width:1180px;margin:10px auto 60px;padding:0 22px;display:grid;grid-template-columns:400px 1fr;gap:44px;align-items:start}
+  @media(max-width:900px){.split{grid-template-columns:1fr}.photo{display:none}}
+  .photo{position:sticky;top:96px;border-radius:26px;overflow:hidden;min-height:600px;box-shadow:var(--shadow)}
+  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .photo .shade{position:absolute;inset:0;background:linear-gradient(185deg,transparent 42%,rgba(30,20,10,.72))}
+  .photo .cap{position:absolute;left:26px;right:26px;bottom:26px;color:#FFF7E8}
+  .photo .cap .init{font-family:'Playfair Display',serif;font-style:italic;font-size:21px;color:var(--gold-soft)}
+  .photo .cap .big{font-size:29px;font-weight:800;line-height:1.25;margin-top:5px}
+  .panel{min-width:0}
+  .step{display:none}.step.act{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  .step h1{font-size:33px;font-weight:600;color:var(--gold-dark)}
+  .step .sub{color:var(--soft);font-size:15px;margin-top:6px;max-width:560px}
+  .q{font-weight:700;font-size:16.5px;margin-top:26px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+  .subwrap{display:flex;align-items:stretch}
+  .subwrap input{border-radius:12px 0 0 12px}
+  .subwrap span{display:flex;align-items:center;background:var(--cream-2);border:1px solid var(--line);border-left:none;border-radius:0 12px 12px 0;padding:0 15px;font-weight:700;color:var(--gold-dark);white-space:nowrap}
+  .hint{font-size:12.5px;color:var(--soft);margin-top:6px}
+  .ok{color:#4E5D45;font-weight:700}.err{color:#B0492F;font-weight:700}
+  .lanjut{width:100%;margin-top:32px;background:var(--ink);color:var(--cream);border:none;font-size:16px;font-weight:700;padding:17px;border-radius:999px;transition:.2s}
+  .lanjut:hover{background:var(--ink-2)}
+  /* PAKET */
+  .pkgs{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+  @media(max-width:760px){.pkgs{grid-template-columns:1fr}}
+  .pkg{background:#fff;border:2px solid var(--line);border-radius:var(--r);padding:26px;position:relative;transition:.2s}
+  .pkg.sel{border-color:var(--gold);box-shadow:0 16px 36px rgba(176,141,87,.25)}
+  .pkg .rec{position:absolute;top:-13px;right:20px;background:var(--gold);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.6px;padding:5px 13px;border-radius:999px}
+  .pkg h3{font-family:'Playfair Display',serif;font-size:21px;color:var(--gold-dark)}
+  .pkg .pr{font-size:31px;font-weight:800;margin:5px 0 4px}
+  .pkg .pr small{font-size:13px;color:var(--soft);font-weight:600}
+  .pkg ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:9px;font-size:14px}
+  .pkg li{display:flex;gap:9px}
+  .pkg li::before{content:"✓";color:var(--sage);font-weight:800}
+  .pkg .pilih{width:100%;margin-top:20px;background:var(--gold);color:#fff;border:none;font-weight:700;font-size:14.5px;padding:13px;border-radius:999px}
+  .pkg.sel .pilih{background:var(--ink)}
+  /* RINCIAN */
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px;margin-top:22px}
+  .card h3{font-size:19px;font-weight:800}
+  .rowb{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+  .rowb:last-child{border-bottom:none}
+  .rowb b{white-space:nowrap}
+  .vrow{display:flex;gap:10px;margin-top:12px}
+  .vrow input{flex:1}
+  .vrow button{background:#fff;border:1.5px solid var(--gold);color:var(--gold-dark);font-weight:800;padding:0 20px;border-radius:12px}
+  /* STICKY TOTAL */
+  .stickybar{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);box-shadow:0 -10px 26px rgba(62,58,52,.08);padding:14px 22px;display:none}
+  .stickybar.show{display:block}
+  .stickybar .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:18px}
+  .stickybar .tot small{display:block;font-size:11.5px;color:var(--soft);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+  .stickybar .tot b{font-size:23px}
+  .stickybar .go{margin-left:auto;background:var(--gold);color:#fff;border:none;font-weight:800;font-size:15px;padding:14px 30px;border-radius:999px}
+  .stickybar .go:hover{background:var(--gold-dark)}
+  /* SUKSES */
+  .sukses{text-align:center;padding:30px 10px}
+  .sukses .ring{width:78px;height:78px;border-radius:50%;background:var(--sage-soft);display:grid;place-items:center;font-size:35px;margin:0 auto 16px}
+  .sukses h1{color:var(--gold-dark)}
+  .btn{display:inline-block;border:none;border-radius:999px;font-weight:700;font-size:14.5px;padding:13px 26px;text-decoration:none;cursor:pointer}
+  .btn.gold{background:var(--gold);color:#fff}.btn.line{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="./"><img src="logo-mark.png" alt="Logo Doa Selamanya"><b>Doa Selamanya</b></a>
+  <span class="guide">Panduan</span>
+  <span class="user"><i>👤</i> Tamu Demo</span>
+</header>
+
+<div class="backrow"><button class="backbtn" id="btnBack">‹ Back</button></div>
+
+<div class="stepper" id="stepper">
+  <div class="stp act" data-s="1"><span class="dot">1</span><span class="lb">Mulai</span></div>
+  <div class="bar" data-b="1"><i></i></div>
+  <div class="stp" data-s="2"><span class="dot">2</span><span class="lb">Detail Pernikahan</span></div>
+  <div class="bar" data-b="2"><i></i></div>
+  <div class="stp" data-s="3"><span class="dot">3</span><span class="lb">Paket</span></div>
+  <div class="bar" data-b="3"><i></i></div>
+  <div class="stp" data-s="4"><span class="dot">4</span><span class="lb">Pembayaran</span></div>
+</div>
+
+<div class="split">
+  <aside class="photo">
+    <img id="phImg" src="assets/jawa-royal/couple.webp" alt="Foto pasangan pengantin">
+    <div class="shade"></div>
+    <div class="cap"><div class="init" id="phInit"></div><div class="big" id="phCap">Setiap kisah selamanya dimulai dari satu langkah kecil.</div></div>
+  </aside>
+
+  <div class="panel">
+    <!-- STEP 1 -->
+    <section class="step act" id="step1">
+      <h1>Mari kita mulai</h1>
+      <p class="sub">Isi formulir ini untuk memulai pemesanan. Tenang — semua data masih bisa diubah lagi nanti di dashboard.</p>
+      <div class="q">Informasi Mempelai</div>
+      <div class="grid2">
+        <div><label>Nama Mempelai Wanita</label><input id="oWanita" type="text" placeholder="cth: Nadia Prameswari"></div>
+        <div><label>Nama Mempelai Pria</label><input id="oPria" type="text" placeholder="cth: Raka Aditya Pratama"></div>
+      </div>
+      <div class="grid2">
+        <div><label>Judul Undangan</label><input id="oJudul" type="text" placeholder="cth: Nadia dan Raka"></div>
+        <div><label>URL Undangan Website</label>
+          <div class="subwrap"><input id="oSub" type="text" placeholder="nadia-raka"><span>.doaselamanya.com</span></div>
+          <p class="hint" id="subMsg"></p>
+        </div>
+      </div>
+      <div class="q">Kapan acara pernikahanmu diselenggarakan?</div>
+      <label>Tanggal Pernikahan</label>
+      <input id="oTanggal" type="date">
+      <p class="hint">Jangan khawatir, kamu masih bisa mengubahnya di dashboard!</p>
+      <div class="q">Berapa target biaya total pernikahanmu?</div>
+      <label>Target Biaya Total (Rp) — jadi patokan Budget Planner</label>
+      <input id="oBudget" type="number" min="0" step="500000" placeholder="cth: 40000000">
+      <div class="q">Sudah sejauh mana persiapan yang kamu lakukan?</div>
+      <label>Tahap Persiapan</label>
+      <select id="oTahap">
+        <option value="">Pilih</option>
+        <option>Baru mulai merencanakan</option>
+        <option>Sudah booking venue</option>
+        <option>Sebagian vendor sudah dibooking</option>
+        <option>Tinggal sebar undangan</option>
+      </select>
+      <p class="hint err" id="err1"></p>
+      <button class="lanjut" data-next="2">Lanjut</button>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="step" id="step2">
+      <h1>Detail Pernikahan</h1>
+      <p class="sub">Jika kamu belum yakin, masukkan perkiraan terbaikmu dulu — bisa diubah kapan saja di editor undangan.</p>
+      <div class="q">Di mana lokasi pernikahanmu diselenggarakan?</div>
+      <label>Nama Gedung / Venue</label>
+      <input id="oVenue" type="text" placeholder="cth: Gedung Serbaguna Al-Azhar">
+      <label>Alamat Lengkap</label>
+      <input id="oAlamat" type="text" placeholder="Nama jalan, nama gedung, kota">
+      <label>Link Google Maps</label>
+      <input id="oMaps" type="text" placeholder="Tempel link Google Maps venue (opsional)">
+      <div class="grid2">
+        <div><label>Jam Akad</label><input id="oAkad" type="text" placeholder="08.00 – 10.00 WIB"></div>
+        <div><label>Jam Resepsi</label><input id="oResepsi" type="text" placeholder="11.00 – 13.00 WIB"></div>
+      </div>
+      <p class="hint err" id="err2"></p>
+      <button class="lanjut" data-next="3">Lanjut</button>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step" id="step3">
+      <h1>Pilih dan Bayar <span style="color:var(--rose)">Sesuai Kebutuhan</span></h1>
+      <p class="sub">Dua paket sekali bayar — tanpa langganan, tanpa biaya per tamu. Masa aktif 1 tahun penuh, semua fitur paket terbuka.</p>
+      <div class="pkgs">
+        <div class="pkg" id="pkg-undangan">
+          <h3>Undangan Saja</h3>
+          <div class="pr">Rp 49.000 <small>sekali bayar</small></div>
+          <ul>
+            <li>Semua 24 tema premium</li>
+            <li>Undangan website + subdomain sendiri</li>
+            <li>Nama tamu personal di cover</li>
+            <li>QR Buku Tamu per tamu/rombongan</li>
+            <li>RSVP &amp; ucapan masuk dashboard</li>
+            <li>Amplop digital + alamat kirim kado</li>
+            <li>Musik latar &amp; galeri foto</li>
+            <li>Edit tanpa batas, aktif 1 tahun</li>
+          </ul>
+          <button class="pilih" data-pkg="undangan">Pilih Paket</button>
+        </div>
+        <div class="pkg sel" id="pkg-lengkap">
+          <span class="rec">PALING DIPILIH</span>
+          <h3>Paket Lengkap</h3>
+          <div class="pr">Rp 99.000 <small>sekali bayar</small></div>
+          <ul>
+            <li><b>Semua fitur Undangan Saja</b></li>
+            <li>Wedding Planner: checklist timeline</li>
+            <li>Budget planner nyambung ke target biaya</li>
+            <li>Dashboard tamu: terkirim · dibuka · RSVP</li>
+            <li>Bagikan undangan via WhatsApp per tamu</li>
+            <li>Countdown persiapan di dashboard</li>
+            <li>Edit tanpa batas, aktif 1 tahun</li>
+          </ul>
+          <button class="pilih" data-pkg="lengkap">Pilih Paket</button>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:16px">Harga transparan, sama untuk semua — tidak ada biaya tersembunyi per tamu atau per fitur.</p>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="step" id="step4">
+      <h1>Rincian Pemesanan</h1>
+      <p class="sub">Cek pesananmu sebelum melakukan pembayaran.</p>
+      <div class="card">
+        <h3>Fitur <span id="rProduk">Undangan Website + Planner</span></h3>
+        <div class="rowb"><span id="rPaket">Paket Lengkap</span><b id="rHarga">Rp 99.000</b></div>
+        <div class="rowb"><span>Subdomain</span><b id="rSub">—</b></div>
+        <div class="rowb"><span>Tanggal Acara</span><b id="rTanggal">—</b></div>
+        <h3 style="margin-top:22px">Detail Pembayaran</h3>
+        <p class="hint" id="rWaktu" style="margin:2px 0 4px"></p>
+        <div class="vrow"><input id="oVoucher" type="text" placeholder="Masukkan Kode Voucher"><button id="btnVoucher">Gunakan</button></div>
+        <p class="hint" id="vMsg"></p>
+        <div class="vrow"><input id="oReferral" type="text" placeholder="Masukkan Kode Referral"><button id="btnReferral">Gunakan</button></div>
+        <p class="hint" id="refMsg"></p>
+        <div class="rowb"><span>Subtotal</span><b id="rSubtotal">Rp 99.000</b></div>
+        <div class="rowb" id="rDiskonRow" style="display:none"><span>Diskon voucher</span><b id="rDiskon" style="color:#4E5D45">—</b></div>
+      </div>
+      <p class="hint" style="margin-top:14px">Mode demo: tombol Buat Pesanan mensimulasikan pembayaran berhasil dan langsung mengaktifkan dashboard-mu. Di versi produksi, langkah ini diganti pembayaran QRIS sekali bayar.</p>
+    </section>
+
+    <!-- SUKSES -->
+    <section class="step" id="step5">
+      <div class="sukses">
+        <div class="ring">🎉</div>
+        <h1>Pesanan Dibuat!</h1>
+        <p class="sub" style="margin:8px auto 0">Selamat, <b id="sNama"></b>! Paketmu sudah aktif (simulasi demo). Data dari onboarding ini sudah terisi otomatis di dashboard — tinggal pilih tema, atur foto, dan publikasikan undanganmu.</p>
+        <div class="card" style="text-align:left;max-width:480px;margin-left:auto;margin-right:auto">
+          <div class="rowb"><span>Paket</span><b id="sPaket">—</b></div>
+          <div class="rowb"><span>Total Bayar</span><b id="sTotal">—</b></div>
+          <div class="rowb"><span>Alamat Undangan</span><b id="sSub">—</b></div>
+          <div class="rowb"><span>Status</span><b style="color:#4E5D45">Aktif · 1 Tahun</b></div>
+        </div>
+        <div style="margin-top:24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <a class="btn gold" href="dashboard">Masuk ke Dashboard →</a>
+          <a class="btn line" href="katalog">Lihat Katalog Tema</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="stickybar" id="stickybar">
+  <div class="in">
+    <div class="tot"><small>Total</small><b id="sbTotal">Rp 0</b></div>
+    <span class="hint" id="sbLabel" style="margin:0"></span>
+    <button class="go" id="sbGo">Beli Sekarang</button>
+  </div>
+</div>
+
+<script>
+var PRICES = {undangan:49000, lengkap:99000};
+var PNAMES = {undangan:'Undangan Saja', lengkap:'Paket Lengkap'};
+var PPRODUK = {undangan:'Undangan Website', lengkap:'Undangan Website + Planner'};
+var PHOTOS = {1:'assets/jawa-royal/couple.webp', 2:'assets/samudra-burgundy/couple.webp', 3:'assets/samudra-burgundy/cover.webp', 4:'assets/jawa-royal/cover.webp'};
+var CAPS = {1:'Setiap kisah selamanya dimulai dari satu langkah kecil.', 3:'Pilih yang paling pas buat kalian berdua.', 4:'Sedikit lagi — undanganmu hampir siap.'};
+var cur = 1;
+var order = {paket:'lengkap', diskon:0, voucher:'', referral:''};
+function $(id){ return document.getElementById(id); }
+function rp(n){ return 'Rp ' + Number(n||0).toLocaleString('id-ID'); }
+function load(k, def){ try { var v = localStorage.getItem(k); return v ? Object.assign(JSON.parse(JSON.stringify(def)), JSON.parse(v)) : JSON.parse(JSON.stringify(def)); } catch(e){ return JSON.parse(JSON.stringify(def)); } }
+function save(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+function subValid(v){ return /^[a-z0-9]([a-z0-9-]{1,28}[a-z0-9])?$/.test(v) && ['www','app','admin','dashboard','katalog','mail','support','mulai'].indexOf(v) < 0; }
+function initials(){ var w = ($('oWanita').value.trim().split(' ')[0] || 'Nadia'); var p = ($('oPria').value.trim().split(' ')[0] || 'Raka'); return {w:w, p:p, txt:w + ' & ' + p + ', yay!'}; }
+
+function renderStepper(){
+  document.querySelectorAll('.stp').forEach(function(el){
+    var n = Number(el.dataset.s);
+    el.classList.toggle('act', n === cur); el.classList.toggle('done', n < cur || cur === 5);
+    el.querySelector('.dot').textContent = (n < cur || cur === 5) ? '✓' : n;
+  });
+  document.querySelectorAll('.bar').forEach(function(el){ el.classList.toggle('fill', Number(el.dataset.b) < cur || cur === 5); });
+}
+function renderPhoto(){
+  if (cur >= 5) return;
+  $('phImg').src = PHOTOS[cur] || PHOTOS[1];
+  if (cur === 2) { $('phInit').textContent = initials().txt; $('phCap').textContent = 'Kami senang banget akhirnya kalian resmi menikah!'; }
+  else { $('phInit').textContent = ''; $('phCap').textContent = CAPS[cur] || CAPS[1]; }
+}
+function renderSticky(){
+  var show = (cur === 3 || cur === 4);
+  $('stickybar').classList.toggle('show', show);
+  if (!show) return;
+  var total = PRICES[order.paket] - order.diskon;
+  $('sbTotal').textContent = rp(total);
+  $('sbLabel').textContent = cur === 3 ? PNAMES[order.paket] + ' · sekali bayar' : 'Total pembayaranmu';
+  $('sbGo').textContent = cur === 3 ? 'Beli Sekarang' : 'Buat Pesanan';
+}
+function go(n){
+  if (n > cur) {
+    if (cur === 1 && !valid1()) return;
+    if (cur === 2 && !valid2()) return;
+  }
+  cur = n;
+  document.querySelectorAll('.step').forEach(function(el){ el.classList.remove('act'); });
+  $('step' + n).classList.add('act');
+  if (n === 4) renderRincian();
+  renderStepper(); renderPhoto(); renderSticky();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function valid1(){
+  var w = $('oWanita').value.trim(), p = $('oPria').value.trim(), sub = $('oSub').value.trim().toLowerCase(), tgl = $('oTanggal').value;
+  if (!w || !p) { $('err1').textContent = 'Isi dulu nama kedua mempelai.'; return false; }
+  if (!subValid(sub)) { $('err1').textContent = 'Subdomain belum valid — pakai huruf kecil, angka, tanda hubung (3–30 karakter).'; return false; }
+  if (!tgl) { $('err1').textContent = 'Pilih dulu tanggal pernikahannya.'; return false; }
+  $('err1').textContent = ''; return true;
+}
+function valid2(){
+  if (!$('oVenue').value.trim() || !$('oAlamat').value.trim()) { $('err2').textContent = 'Isi dulu nama venue dan alamatnya (perkiraan juga boleh).'; return false; }
+  $('err2').textContent = ''; return true;
+}
+$('oSub').addEventListener('input', function(){
+  var v = this.value.trim().toLowerCase();
+  if (!v) { $('subMsg').textContent = ''; return; }
+  $('subMsg').innerHTML = subValid(v) ? '<span class="ok">✓ ' + v + '.doaselamanya.com tersedia (simulasi demo)</span>' : '<span class="err">Format belum valid</span> — huruf kecil, angka, tanda hubung saja.';
+});
+document.querySelectorAll('[data-next]').forEach(function(b){ b.addEventListener('click', function(){ go(Number(b.dataset.next)); }); });
+$('btnBack').addEventListener('click', function(){ if (cur <= 1) location.href = './'; else if (cur === 5) location.href = 'dashboard'; else go(cur - 1); });
+document.querySelectorAll('.pilih').forEach(function(b){
+  b.addEventListener('click', function(){
+    order.paket = b.dataset.pkg;
+    document.querySelectorAll('.pkg').forEach(function(el){ el.classList.remove('sel'); });
+    $('pkg-' + order.paket).classList.add('sel');
+    document.querySelectorAll('.pilih').forEach(function(x){ x.textContent = 'Pilih Paket'; });
+    b.textContent = '✓ Paket Dipilih';
+    renderSticky();
+  });
+});
+document.querySelector('#pkg-lengkap .pilih').textContent = '✓ Paket Dipilih';
+
+function fmtTgl(iso){ try { return new Date(iso + 'T08:00:00+07:00').toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'}); } catch(e){ return iso; } }
+function renderRincian(){
+  $('rProduk').textContent = PPRODUK[order.paket];
+  $('rPaket').textContent = PNAMES[order.paket];
+  $('rHarga').textContent = rp(PRICES[order.paket]);
+  $('rSub').textContent = ($('oSub').value.trim().toLowerCase() || 'nadia-raka') + '.doaselamanya.com';
+  $('rTanggal').textContent = fmtTgl($('oTanggal').value || '2027-03-20');
+  $('rWaktu').textContent = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'}) + ' | ' + new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}).replace('.', ':');
+  hitung();
+}
+function hitung(){
+  var sub = PRICES[order.paket];
+  $('rSubtotal').textContent = rp(sub);
+  $('rDiskonRow').style.display = order.diskon > 0 ? 'flex' : 'none';
+  $('rDiskon').textContent = '− ' + rp(order.diskon);
+  renderSticky();
+}
+$('btnVoucher').addEventListener('click', function(){
+  var code = $('oVoucher').value.trim().toUpperCase();
+  if (code === 'DOAHEMAT10') { order.diskon = Math.round(PRICES[order.paket] * 0.10); order.voucher = code; $('vMsg').innerHTML = '<span class="ok">✓ Voucher dipakai — diskon 10%.</span>'; }
+  else if (!code) { $('vMsg').innerHTML = '<span class="err">Isi dulu kode vouchernya.</span>'; return; }
+  else { order.diskon = 0; order.voucher = ''; $('vMsg').innerHTML = '<span class="err">Kode voucher tidak ditemukan.</span>'; }
+  hitung();
+});
+$('btnReferral').addEventListener('click', function(){
+  var code = $('oReferral').value.trim();
+  if (!code) { $('refMsg').innerHTML = '<span class="err">Isi dulu kode referralnya.</span>'; return; }
+  order.referral = code; $('refMsg').innerHTML = '<span class="ok">✓ Kode referral tercatat — terima kasih!</span>';
+});
+
+$('sbGo').addEventListener('click', function(){
+  if (cur === 3) { go(4); return; }
+  if (cur === 4) buatPesanan();
+});
+function buatPesanan(){
+  var wanita = $('oWanita').value.trim(), pria = $('oPria').value.trim();
+  var sub = $('oSub').value.trim().toLowerCase(), tgl = $('oTanggal').value;
+  var setup = load('ds2_setup', {}); 
+  save('ds2_setup', Object.assign(setup, {wanita:wanita, pria:pria, tanggal:tgl, budget:Number($('oBudget').value) || setup.budget || 0}));
+  var invite = load('ds2_invite', {});
+  save('ds2_invite', Object.assign(invite, {
+    wanita:wanita, pria:pria, tanggal:tgl, subdomain:sub,
+    venue:$('oVenue').value.trim(), alamat:$('oAlamat').value.trim(),
+    maps:$('oMaps').value.trim() || invite.maps || '',
+    akad:$('oAkad').value.trim() || '08.00 – 10.00 WIB',
+    resepsi:$('oResepsi').value.trim() || '11.00 – 13.00 WIB'
+  }));
+  var total = PRICES[order.paket] - order.diskon;
+  save('ds2_order', {paket:order.paket, namaPaket:PNAMES[order.paket], harga:PRICES[order.paket], diskon:order.diskon, total:total, voucher:order.voucher, referral:order.referral, tahap:$('oTahap').value, waktu:new Date().toISOString(), status:'Aktif (demo)'});
+  $('sNama').textContent = (wanita.split(' ')[0] || 'Nadia') + ' & ' + (pria.split(' ')[0] || 'Raka');
+  $('sPaket').textContent = PNAMES[order.paket];
+  $('sTotal').textContent = rp(total);
+  $('sSub').textContent = sub + '.doaselamanya.com';
+  go(5);
+}
+
+/* Prefill dari data demo yang sudah ada */
+(function(){
+  var setup = load('ds2_setup', null), invite = load('ds2_invite', null);
+  if (setup) { $('oWanita').value = setup.wanita || ''; $('oPria').value = setup.pria || ''; $('oTanggal').value = setup.tanggal || ''; $('oBudget').value = setup.budget || ''; }
+  if (invite) {
+    if (invite.subdomain) $('oSub').value = invite.subdomain;
+    $('oJudul').value = ((setup && setup.wanita) ? setup.wanita.split(' ')[0] : 'Nadia') + ' dan ' + ((setup && setup.pria) ? setup.pria.split(' ')[0] : 'Raka');
+    $('oVenue').value = invite.venue || ''; $('oAlamat').value = invite.alamat || ''; $('oMaps').value = invite.maps || '';
+    $('oAkad').value = invite.akad || ''; $('oResepsi').value = invite.resepsi || '';
+  }
+  renderStepper(); renderPhoto(); renderSticky();
+})();
+</script>
+</body>
+</html>
