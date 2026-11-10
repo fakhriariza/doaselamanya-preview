@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Undangan Nadia &amp; Raka — Kolase Cinta (Prototipe Editor)</title>
+<style>
+  html,body{margin:0;padding:0;background:#111;min-height:100dvh}
+  #loading{min-height:100vh;display:grid;place-items:center;background:#1c1410;color:#e8dcc8;font-family:Georgia,serif}
+  iframe{width:100%;height:100dvh;border:0;display:block;background:#111}
+</style>
+</head>
+<body>
+<div id="loading">Memuat undangan…</div>
+<script>
+"use strict";
+/* Port statis PERSIS dari web/src/app/prototype/theme-overrides.ts —
+   format ?t= (base64url JSON diff dari nilai bawaan) kompatibel dua arah
+   dengan editor Next.js /prototype/editor. */
+const TC_DEFAULTS = { primary:"#E4572E", accent:"#E9C46A", bg:"#FAF6EE", backdrop:"#E7DFCE", ink:"#1E1B16", fontDisplay:"Caveat", fontBody:"Plus Jakarta Sans" };
+const TC_FONT_STACKS = {
+  "Caveat":"'Caveat',cursive",
+  "Great Vibes":"'Great Vibes',cursive",
+  "Dancing Script":"'Dancing Script',cursive",
+  "Playfair Display":"'Playfair Display',Georgia,serif",
+  "Cormorant Garamond":"'Cormorant Garamond',Georgia,serif",
+  "Montserrat":"'Montserrat','Plus Jakarta Sans',sans-serif",
+  "Plus Jakarta Sans":"'Plus Jakarta Sans',system-ui,sans-serif"
+};
+const FONT_WEIGHTS = {
+  "Caveat":"wght@500;600;700",
+  "Great Vibes":"wght@400",
+  "Dancing Script":"wght@500;600;700",
+  "Playfair Display":"wght@500;600;700;800",
+  "Cormorant Garamond":"wght@500;600;700",
+  "Montserrat":"wght@400;500;600;700;800",
+  "Plus Jakarta Sans":"wght@400;500;600;700;800"
+};
+function tcFontsHref(families){
+  const fams = [...new Set(families)].filter((f) => FONT_WEIGHTS[f]);
+  if (!fams.length) return "";
+  const parts = fams.map((f) => "family=" + f.replace(/ /g, "+") + ":" + FONT_WEIGHTS[f]);
+  return "https://fonts.googleapis.com/css2?" + parts.join("&") + "&display=swap";
+}
+function tcOverrideCss(o){
+  const disp = TC_FONT_STACKS[o.fontDisplay] || "'" + o.fontDisplay + "',sans-serif";
+  const body = TC_FONT_STACKS[o.fontBody] || "'" + o.fontBody + "',sans-serif";
+  return ":root{--tc-primary:" + o.primary + ";--tc-accent:" + o.accent + ";--tc-bg:" + o.bg +
+    ";--tc-backdrop:" + o.backdrop + ";--tc-ink:" + o.ink +
+    ";--tc-font-display:" + disp + ";--tc-font-body:" + body + "}";
+}
+const HEX = /^#[0-9a-fA-F]{6}$/;
+function sanitize(diff){
+  const out = {};
+  ["primary","accent","bg","backdrop","ink"].forEach((k) => {
+    const v = diff[k];
+    if (typeof v === "string" && HEX.test(v)) out[k] = v;
+  });
+  if (typeof diff.fontDisplay === "string" && TC_FONT_STACKS[diff.fontDisplay]) out.fontDisplay = diff.fontDisplay;
+  if (typeof diff.fontBody === "string" && TC_FONT_STACKS[diff.fontBody]) out.fontBody = diff.fontBody;
+  return out;
+}
+function tcDecode(s){
+  if (!s) return { ...TC_DEFAULTS };
+  try {
+    const b64 = s.replace(/-/g, "+").replace(/_/g, "/");
+    const diff = JSON.parse(decodeURIComponent(escape(atob(b64))));
+    return { ...TC_DEFAULTS, ...sanitize(diff) };
+  } catch { return { ...TC_DEFAULTS }; }
+}
+/* Sama seperti tcBakeIntoHtml: sisipkan <link> font + <style> override sebelum </head>.
+   HTML undangan bawaan sudah memuat pasangan bake nilai bawaan — buang dulu
+   pasangan lama itu agar tidak dobel. */
+function tcBakeIntoHtml(html, o){
+  html = html.replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]*"><style id="ds-tc-override">[\s\S]*?<\/style>/, "");
+  html = html.replace(/<style id="ds-tc-override">[\s\S]*?<\/style>/, "");
+  const href = tcFontsHref([o.fontDisplay, o.fontBody]);
+  const link = href ? '<link rel="stylesheet" href="' + href + '">' : "";
+  return html.replace("</head>", link + '<style id="ds-tc-override">' + tcOverrideCss(o) + "</style></head>");
+}
+(async () => {
+  const qp = new URLSearchParams(window.location.search);
+  const ov = tcDecode(qp.get("t"));
+  const file = qp.get("open") === "1" ? "undangan-open.html" : "undangan.html";
+  try {
+    const res = await fetch(file);
+    const raw = await res.text();
+    const html = tcBakeIntoHtml(raw, ov);
+    const frame = document.createElement("iframe");
+    frame.title = "Undangan Nadia & Raka — Kolase Cinta (prototipe)";
+    frame.srcdoc = html;
+    document.getElementById("loading").replaceWith(frame);
+  } catch (e) {
+    document.getElementById("loading").textContent = "Gagal memuat undangan: " + e.message;
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor Undangan — Prototipe (Kolase Cinta)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{min-height:100dvh;background:#171310;color:#F3EAD8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;display:flex;flex-direction:column}
+  header{padding:14px 22px;border-bottom:1px solid #3A2F24;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  header h1{font-size:19px;font-weight:800;letter-spacing:.2px;margin:0}
+  header .sub{font-size:12.5px;color:#C9B998}
+  header .sub b{color:#E9C46A}
+  .layout{flex:1;display:flex;align-items:stretch;flex-wrap:wrap}
+  aside{width:330px;max-width:100%;padding:20px 22px 28px;border-right:1px solid #3A2F24;overflow-y:auto}
+  h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#E9C46A;margin:0 0 10px}
+  .presets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
+  .preset{text-align:left;background:#241C15;border:1px solid #4A3B2A;border-radius:10px;padding:9px 11px;cursor:pointer;color:#F3EAD8;font-family:inherit}
+  .preset .dots{display:flex;gap:4px;margin-bottom:6px}
+  .preset .dots i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,.35);display:block}
+  .preset .nm{font-size:12.5px;font-weight:700}
+  .crow{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed #3A2F24;cursor:pointer}
+  .crow input[type=color]{width:42px;height:32px;border:none;background:none;cursor:pointer;padding:0}
+  .crow .lab{flex:1}
+  .crow .lab .a{display:block;font-size:13px;font-weight:700}
+  .crow .lab .b{display:block;font-size:11px;color:#A79C86}
+  .crow input[type=text]{width:76px;background:#241C15;border:1px solid #4A3B2A;border-radius:6px;color:#F3EAD8;font-size:12px;padding:5px 7px;text-transform:uppercase}
+  label.flab{display:block;font-size:12.5px;font-weight:700;margin-bottom:5px}
+  select{width:100%;background:#241C15;border:1px solid #4A3B2A;border-radius:8px;color:#F3EAD8;font-size:14px;padding:9px 10px;font-family:inherit}
+  .btns{display:flex;gap:8px;margin-top:26px}
+  #btnSimpan{flex:1;background:#E4572E;color:#FFF;border:none;border-radius:9px;padding:12px 0;font-weight:800;font-size:14px;cursor:pointer;letter-spacing:.4px;font-family:inherit}
+  #btnReset{background:transparent;color:#C9B998;border:1px solid #4A3B2A;border-radius:9px;padding:12px 16px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+  .note{font-size:11.5px;color:#A79C86;margin-top:10px}
+  .saved{font-size:12px;color:#9FD3A8;margin-top:10px;line-height:1.55}
+  #shareBox{margin-top:12px;display:none}
+  #shareBox input{width:100%;background:#100C09;border:1px solid #4A3B2A;border-radius:7px;color:#E9C46A;font-size:11.5px;padding:8px 9px}
+  #shareBox a{display:inline-block;margin-top:8px;color:#F2A7BB;font-size:12.5px;font-weight:700}
+  main{flex:1;display:grid;place-items:center;padding:26px 18px;background:radial-gradient(900px 500px at 50% 0%, #2A211A 0%, #171310 60%)}
+  .phone{width:400px;max-width:94vw;border-radius:30px;border:10px solid #0B0908;box-shadow:0 30px 80px rgba(0,0,0,.55);overflow:hidden;background:#000}
+  .phone iframe{width:100%;height:78dvh;border:0;display:block}
+  .phone .wait{height:78dvh;display:grid;place-items:center;color:#C9B998;font-size:13.5px}
+  main p{font-size:12px;color:#A79C86;margin-top:14px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>Editor Undangan — Prototipe</h1>
+  <span class="sub">Tema <b>Kolase Cinta</b> · data contoh Nadia &amp; Raka · warna &amp; font saja (edit teks/foto menyusul) · versi statis publik</span>
+</header>
+<div class="layout">
+  <aside>
+    <h2 class="sec">Palet Siap Pakai</h2>
+    <div class="presets" id="presets"></div>
+
+    <h2 class="sec">Warna Custom</h2>
+    <div id="colorFields"></div>
+
+    <h2 class="sec" style="margin-top:22px">Font</h2>
+    <label class="flab" for="selDisplay">Font Judul / Tulisan Tangan</label>
+    <select id="selDisplay" style="margin-bottom:14px"></select>
+    <label class="flab" for="selBody">Font Isi</label>
+    <select id="selBody"></select>
+
+    <div class="btns">
+      <button id="btnSimpan">Simpan</button>
+      <button id="btnReset">Reset</button>
+    </div>
+    <p class="note" id="defaultNote">Saat ini memakai desain asli tema (belum ada override).</p>
+    <p class="saved" id="savedNote" style="display:none"></p>
+    <div id="shareBox">
+      <label class="flab">URL tampilan publik</label>
+      <input id="shareUrl" readonly>
+      <a id="shareOpen" href="#" target="_blank" rel="noopener">Buka tampilan publik ↗</a>
+    </div>
+  </aside>
+
+  <main>
+    <div class="phone" id="phone"><div class="wait">Menyiapkan pratinjau…</div></div>
+    <p>Pratinjau berubah seketika — gulir di dalam bingkai HP untuk melihat semua section.</p>
+  </main>
+</div>
+
+<script>
+"use strict";
+/* Port statis PERSIS dari web/src/app/prototype/theme-overrides.ts +
+   editor/page.tsx — perilaku & format ?t= identik dengan versi Next.js. */
+const TC_DEFAULTS = { primary:"#E4572E", accent:"#E9C46A", bg:"#FAF6EE", backdrop:"#E7DFCE", ink:"#1E1B16", fontDisplay:"Caveat", fontBody:"Plus Jakarta Sans" };
+const TC_PRESETS = [
+  { id:"asli", nama:"Kolase Asli", colors:{ primary:"#E4572E", accent:"#E9C46A", bg:"#FAF6EE", backdrop:"#E7DFCE", ink:"#1E1B16" } },
+  { id:"burgundy", nama:"Burgundy Anggur", colors:{ primary:"#7A1F2B", accent:"#C9A24B", bg:"#FAF3EC", backdrop:"#E7D5C9", ink:"#2A1518" } },
+  { id:"sage", nama:"Sage Daun", colors:{ primary:"#556F4A", accent:"#D9A05B", bg:"#F5F6EE", backdrop:"#DEE4D0", ink:"#232B1E" } },
+  { id:"navy", nama:"Navy Malam", colors:{ primary:"#1D3A5F", accent:"#C9A24B", bg:"#F2F4F8", backdrop:"#D3DCE9", ink:"#131C28" } },
+  { id:"terracotta", nama:"Terracotta Tanah", colors:{ primary:"#A34A24", accent:"#7FB5A8", bg:"#FBF3EA", backdrop:"#ECDAC6", ink:"#2B1A12" } }
+];
+const TC_FONT_STACKS = {
+  "Caveat":"'Caveat',cursive",
+  "Great Vibes":"'Great Vibes',cursive",
+  "Dancing Script":"'Dancing Script',cursive",
+  "Playfair Display":"'Playfair Display',Georgia,serif",
+  "Cormorant Garamond":"'Cormorant Garamond',Georgia,serif",
+  "Montserrat":"'Montserrat','Plus Jakarta Sans',sans-serif",
+  "Plus Jakarta Sans":"'Plus Jakarta Sans',system-ui,sans-serif"
+};
+const TC_DISPLAY_FONTS = ["Caveat","Great Vibes","Dancing Script","Playfair Display","Cormorant Garamond","Montserrat"];
+const TC_BODY_FONTS = ["Plus Jakarta Sans","Montserrat","Cormorant Garamond","Playfair Display"];
+const FONT_WEIGHTS = {
+  "Caveat":"wght@500;600;700",
+  "Great Vibes":"wght@400",
+  "Dancing Script":"wght@500;600;700",
+  "Playfair Display":"wght@500;600;700;800",
+  "Cormorant Garamond":"wght@500;600;700",
+  "Montserrat":"wght@400;500;600;700;800",
+  "Plus Jakarta Sans":"wght@400;500;600;700;800"
+};
+const COLOR_FIELDS = [
+  { key:"primary", label:"Warna Utama", hint:"Kicker, tombol aksen, cincin tanggal" },
+  { key:"accent", label:"Warna Aksen", hint:"Huruf ransom emas, judul amplop" },
+  { key:"bg", label:"Latar Undangan", hint:"Kertas utama halaman" },
+  { key:"backdrop", label:"Latar Luar", hint:"Area di sekeliling undangan" },
+  { key:"ink", label:"Tinta / Teks Judul", hint:"Judul, tombol utama, penutup" }
+];
+const TC_STORAGE_KEY = "ds-tc-proto-kolase-cinta";
+
+function tcFontsHref(families){
+  const fams = [...new Set(families)].filter((f) => FONT_WEIGHTS[f]);
+  if (!fams.length) return "";
+  const parts = fams.map((f) => "family=" + f.replace(/ /g, "+") + ":" + FONT_WEIGHTS[f]);
+  return "https://fonts.googleapis.com/css2?" + parts.join("&") + "&display=swap";
+}
+function tcEncode(o){
+  const diff = {};
+  Object.keys(TC_DEFAULTS).forEach((k) => { if (o[k] !== TC_DEFAULTS[k]) diff[k] = o[k]; });
+  if (!Object.keys(diff).length) return "";
+  const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(diff))));
+  return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function tcIsDefault(o){ return Object.keys(TC_DEFAULTS).every((k) => o[k] === TC_DEFAULTS[k]); }
+
+/* ---------- state ---------- */
+let ov = { ...TC_DEFAULTS };
+try {
+  const raw = localStorage.getItem(TC_STORAGE_KEY);
+  if (raw) ov = { ...TC_DEFAULTS, ...JSON.parse(raw) };
+} catch (e) { /* abaikan */ }
+
+const frameHolder = document.getElementById("phone");
+let frame = null;
+
+function applyLive(){
+  if (!frame) return;
+  const doc = frame.contentDocument;
+  if (!doc) return;
+  const root = doc.documentElement;
+  root.style.setProperty("--tc-primary", ov.primary);
+  root.style.setProperty("--tc-accent", ov.accent);
+  root.style.setProperty("--tc-bg", ov.bg);
+  root.style.setProperty("--tc-backdrop", ov.backdrop);
+  root.style.setProperty("--tc-ink", ov.ink);
+  root.style.setProperty("--tc-font-display", TC_FONT_STACKS[ov.fontDisplay] || ov.fontDisplay);
+  root.style.setProperty("--tc-font-body", TC_FONT_STACKS[ov.fontBody] || ov.fontBody);
+  let link = doc.getElementById("ds-tc-fonts-live");
+  if (!link) {
+    link = doc.createElement("link");
+    link.id = "ds-tc-fonts-live";
+    link.rel = "stylesheet";
+    doc.head.appendChild(link);
+  }
+  link.href = tcFontsHref([ov.fontDisplay, ov.fontBody]);
+}
+
+function syncControls(){
+  COLOR_FIELDS.forEach(({ key }) => {
+    document.querySelector('input[type=color][data-key="' + key + '"]').value = ov[key];
+    document.querySelector('input[type=text][data-key="' + key + '"]').value = ov[key];
+  });
+  document.getElementById("selDisplay").value = ov.fontDisplay;
+  document.getElementById("selBody").value = ov.fontBody;
+  document.getElementById("defaultNote").style.display = tcIsDefault(ov) ? "" : "none";
+}
+function set(patch){
+  ov = { ...ov, ...patch };
+  document.getElementById("savedNote").style.display = "none";
+  syncControls();
+  applyLive();
+}
+
+/* ---------- bangun kontrol ---------- */
+const presetsEl = document.getElementById("presets");
+TC_PRESETS.forEach((p) => {
+  const b = document.createElement("button");
+  b.className = "preset";
+  b.innerHTML = '<span class="dots">' + [p.colors.primary, p.colors.accent, p.colors.bg, p.colors.ink].map((c) => '<i style="background:' + c + '"></i>').join("") + '</span><span class="nm">' + p.nama + "</span>";
+  b.addEventListener("click", () => set({ ...p.colors }));
+  presetsEl.appendChild(b);
+});
+const cfEl = document.getElementById("colorFields");
+COLOR_FIELDS.forEach(({ key, label, hint }) => {
+  const row = document.createElement("label");
+  row.className = "crow";
+  row.innerHTML = '<input type="color" data-key="' + key + '">' +
+    '<span class="lab"><span class="a">' + label + '</span><span class="b">' + hint + "</span></span>" +
+    '<input type="text" data-key="' + key + '">';
+  cfEl.appendChild(row);
+});
+cfEl.addEventListener("input", (e) => {
+  const k = e.target.getAttribute("data-key");
+  if (!k) return;
+  if (e.target.type === "color") set({ [k]: e.target.value });
+  else if (/^#[0-9a-fA-F]{0,6}$/.test(e.target.value)) set({ [k]: e.target.value });
+});
+const selD = document.getElementById("selDisplay");
+TC_DISPLAY_FONTS.forEach((f) => { const o = document.createElement("option"); o.value = f; o.textContent = f; o.style.fontFamily = TC_FONT_STACKS[f]; selD.appendChild(o); });
+selD.addEventListener("change", () => set({ fontDisplay: selD.value }));
+const selB = document.getElementById("selBody");
+TC_BODY_FONTS.forEach((f) => { const o = document.createElement("option"); o.value = f; o.textContent = f; o.style.fontFamily = TC_FONT_STACKS[f]; selB.appendChild(o); });
+selB.addEventListener("change", () => set({ fontBody: selB.value }));
+
+document.getElementById("btnSimpan").addEventListener("click", () => {
+  try { localStorage.setItem(TC_STORAGE_KEY, JSON.stringify(ov)); } catch (e) { /* abaikan */ }
+  const t = tcEncode(ov);
+  const url = new URL("view.html", window.location.href);
+  if (t) url.searchParams.set("t", t);
+  const input = document.getElementById("shareUrl");
+  input.value = url.toString();
+  document.getElementById("shareOpen").href = url.toString();
+  document.getElementById("shareBox").style.display = "";
+  const note = document.getElementById("savedNote");
+  note.textContent = "Tersimpan. URL di bawah adalah tampilan publiknya — buka untuk membuktikan link berubah tanpa editor.";
+  note.style.display = "";
+});
+document.getElementById("shareUrl").addEventListener("focus", (e) => e.target.select());
+document.getElementById("btnReset").addEventListener("click", () => {
+  try { localStorage.removeItem(TC_STORAGE_KEY); } catch (e) { /* abaikan */ }
+  document.getElementById("shareBox").style.display = "none";
+  set({ ...TC_DEFAULTS });
+  const note = document.getElementById("savedNote");
+  note.textContent = "Kembali ke desain asli Kolase Cinta.";
+  note.style.display = "";
+});
+
+/* ---------- pratinjau: render awal dgn override tersimpan (spt versi Next) ---------- */
+(async () => {
+  try {
+    const res = await fetch("undangan-open.html");
+    const html = await res.text();
+    frame = document.createElement("iframe");
+    frame.title = "Pratinjau Undangan Kolase Cinta";
+    frame.addEventListener("load", applyLive);
+    frame.srcdoc = html;
+    frameHolder.replaceChildren(frame);
+    syncControls();
+  } catch (e) {
+    frameHolder.innerHTML = '<div class="wait">Gagal memuat pratinjau: ' + e.message + "</div>";
+  }
+})();
+</script>
+</body>
+</html>
