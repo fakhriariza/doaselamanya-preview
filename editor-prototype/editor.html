@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Editor Undangan — Prototipe (Kolase Cinta)</title>
+<title>Editor Undangan v2 — Prototipe Per-Section (Kolase Cinta)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
@@ -14,26 +14,59 @@
   header h1{font-size:19px;font-weight:800;letter-spacing:.2px;margin:0}
   header .sub{font-size:12.5px;color:#C9B998}
   header .sub b{color:#E9C46A}
+  .badge{background:#E4572E;color:#fff;font-size:11px;font-weight:800;border-radius:20px;padding:3px 10px;letter-spacing:.6px}
   .layout{flex:1;display:flex;align-items:stretch;flex-wrap:wrap}
-  aside{width:330px;max-width:100%;padding:20px 22px 28px;border-right:1px solid #3A2F24;overflow-y:auto}
-  h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#E9C46A;margin:0 0 10px}
-  .presets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
+  aside{width:348px;max-width:100%;padding:18px 20px 28px;border-right:1px solid #3A2F24;overflow-y:auto}
+  h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#E9C46A;margin:20px 0 10px}
+  h2.sec:first-child{margin-top:0}
+  /* daftar section */
+  .seclist{display:flex;flex-direction:column;gap:6px}
+  .secbtn{display:flex;align-items:center;gap:8px;text-align:left;background:#241C15;border:1px solid #4A3B2A;border-radius:9px;padding:9px 12px;cursor:pointer;color:#F3EAD8;font-family:inherit;font-size:13.5px;font-weight:700}
+  .secbtn:hover{border-color:#E9C46A}
+  .secbtn.on{background:#E4572E;border-color:#E4572E;color:#fff}
+  .secbtn .dot{width:8px;height:8px;border-radius:50%;background:#E9C46A;visibility:hidden;flex:none}
+  .secbtn.has .dot{visibility:visible}
+  .secbtn .cnt{margin-left:auto;font-size:11px;font-weight:600;color:#A79C86}
+  .secbtn.on .cnt{color:#FFE1D6}
+  /* kontrol global (v1) */
+  .presets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
   .preset{text-align:left;background:#241C15;border:1px solid #4A3B2A;border-radius:10px;padding:9px 11px;cursor:pointer;color:#F3EAD8;font-family:inherit}
   .preset .dots{display:flex;gap:4px;margin-bottom:6px}
   .preset .dots i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,.35);display:block}
   .preset .nm{font-size:12.5px;font-weight:700}
   .crow{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed #3A2F24;cursor:pointer}
-  .crow input[type=color]{width:42px;height:32px;border:none;background:none;cursor:pointer;padding:0}
-  .crow .lab{flex:1}
+  .crow input[type=color]{width:42px;height:32px;border:none;background:none;cursor:pointer;padding:0;flex:none}
+  .crow .lab{flex:1;min-width:0}
   .crow .lab .a{display:block;font-size:13px;font-weight:700}
   .crow .lab .b{display:block;font-size:11px;color:#A79C86}
   .crow input[type=text]{width:76px;background:#241C15;border:1px solid #4A3B2A;border-radius:6px;color:#F3EAD8;font-size:12px;padding:5px 7px;text-transform:uppercase}
+  .crow .clr{flex:none;background:none;border:1px solid #4A3B2A;color:#C9B998;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:12px;line-height:1}
   label.flab{display:block;font-size:12.5px;font-weight:700;margin-bottom:5px}
   select{width:100%;background:#241C15;border:1px solid #4A3B2A;border-radius:8px;color:#F3EAD8;font-size:14px;padding:9px 10px;font-family:inherit}
-  .btns{display:flex;gap:8px;margin-top:26px}
+  input[type=text].wide,textarea.tarea{width:100%;background:#241C15;border:1px solid #4A3B2A;border-radius:8px;color:#F3EAD8;font-size:13px;padding:8px 10px;font-family:inherit}
+  textarea.tarea{resize:vertical;min-height:38px;line-height:1.45}
+  .tfield{margin-bottom:12px}
+  .tfield label{display:block;font-size:11.5px;font-weight:700;color:#C9B998;margin-bottom:4px}
+  .tfield label b{color:#E9C46A;font-weight:800}
+  /* preset latar */
+  .bgpresets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+  .bgp{height:44px;border-radius:9px;border:2px solid #4A3B2A;cursor:pointer;padding:0;position:relative;overflow:hidden}
+  .bgp.on{border-color:#E9C46A;box-shadow:0 0 0 2px #E9C46A inset}
+  .bgp span{position:absolute;left:0;right:0;bottom:0;background:rgba(20,14,8,.72);color:#F3EAD8;font-size:9.5px;font-weight:700;padding:2px 4px;text-align:center}
+  .urlrow{display:flex;gap:6px;margin-bottom:8px}
+  .urlrow input{flex:1}
+  .urlrow button,.mini{background:#241C15;border:1px solid #4A3B2A;color:#F3EAD8;border-radius:8px;padding:8px 12px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit;flex:none}
+  .mini.on{background:#E4572E;border-color:#E4572E;color:#fff}
+  input[type=file]{font-size:12px;color:#C9B998;max-width:100%}
+  .imgrow{border:1px solid #3A2F24;border-radius:10px;padding:10px 12px;margin-bottom:10px}
+  .imgrow .nm{font-size:12.5px;font-weight:700;margin-bottom:6px}
+  .imgrow .nm span{color:#A79C86;font-weight:600;font-size:11px}
+  .note{font-size:11.5px;color:#A79C86;margin-top:8px;line-height:1.55}
+  .note.warn{color:#F2A7BB}
+  .btns{display:flex;gap:8px;margin-top:24px}
   #btnSimpan{flex:1;background:#E4572E;color:#FFF;border:none;border-radius:9px;padding:12px 0;font-weight:800;font-size:14px;cursor:pointer;letter-spacing:.4px;font-family:inherit}
-  #btnReset{background:transparent;color:#C9B998;border:1px solid #4A3B2A;border-radius:9px;padding:12px 16px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
-  .note{font-size:11.5px;color:#A79C86;margin-top:10px}
+  #btnReset{background:transparent;color:#C9B998;border:1px solid #4A3B2A;border-radius:9px;padding:12px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+  #btnResetSec{width:100%;background:transparent;color:#F2A7BB;border:1px solid #6E3A44;border-radius:9px;padding:9px 0;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit;margin-bottom:6px}
   .saved{font-size:12px;color:#9FD3A8;margin-top:10px;line-height:1.55}
   #shareBox{margin-top:12px;display:none}
   #shareBox input{width:100%;background:#100C09;border:1px solid #4A3B2A;border-radius:7px;color:#E9C46A;font-size:11.5px;padding:8px 9px}
@@ -48,25 +81,32 @@
 <body>
 <header>
   <h1>Editor Undangan — Prototipe</h1>
-  <span class="sub">Tema <b>Kolase Cinta</b> · data contoh Nadia &amp; Raka · warna &amp; font saja (edit teks/foto menyusul) · versi statis publik</span>
+  <span class="badge">v2 · PER-SECTION</span>
+  <span class="sub">Tema <b>Kolase Cinta</b> · data contoh Nadia &amp; Raka · setiap section bisa diedit sendiri: teks, warna, font, latar &amp; gambar · versi statis publik</span>
 </header>
 <div class="layout">
   <aside>
-    <h2 class="sec">Palet Siap Pakai</h2>
-    <div class="presets" id="presets"></div>
+    <h2 class="sec">Pilih Section</h2>
+    <div class="seclist" id="secList"><p class="note">Memuat daftar section dari pratinjau…</p></div>
 
-    <h2 class="sec">Warna Custom</h2>
-    <div id="colorFields"></div>
+    <div id="panelGlobal">
+      <h2 class="sec" style="margin-top:22px">Global — Palet Siap Pakai</h2>
+      <div class="presets" id="presets"></div>
+      <h2 class="sec">Global — Warna Custom</h2>
+      <div id="colorFields"></div>
+      <h2 class="sec" style="margin-top:22px">Global — Font</h2>
+      <label class="flab" for="selDisplay">Font Judul / Tulisan Tangan</label>
+      <select id="selDisplay" style="margin-bottom:14px"></select>
+      <label class="flab" for="selBody">Font Isi</label>
+      <select id="selBody"></select>
+      <p class="note">Pengaturan Global adalah nilai dasar tema. Override per-section (pilih section di atas) menimpa Global hanya di section itu.</p>
+    </div>
 
-    <h2 class="sec" style="margin-top:22px">Font</h2>
-    <label class="flab" for="selDisplay">Font Judul / Tulisan Tangan</label>
-    <select id="selDisplay" style="margin-bottom:14px"></select>
-    <label class="flab" for="selBody">Font Isi</label>
-    <select id="selBody"></select>
+    <div id="panelSection" style="display:none"></div>
 
     <div class="btns">
       <button id="btnSimpan">Simpan</button>
-      <button id="btnReset">Reset</button>
+      <button id="btnReset">Reset Semua</button>
     </div>
     <p class="note" id="defaultNote">Saat ini memakai desain asli tema (belum ada override).</p>
     <p class="saved" id="savedNote" style="display:none"></p>
@@ -74,19 +114,27 @@
       <label class="flab">URL tampilan publik</label>
       <input id="shareUrl" readonly>
       <a id="shareOpen" href="#" target="_blank" rel="noopener">Buka tampilan publik ↗</a>
+      <p class="note warn" id="shareWarn" style="display:none"></p>
     </div>
   </aside>
 
   <main>
-    <div class="phone" id="phone"><div class="wait">Menyiapkan pratinjau…</div></div>
-    <p>Pratinjau berubah seketika — gulir di dalam bingkai HP untuk melihat semua section.</p>
+    <div>
+      <div class="phone" id="phone"><div class="wait">Menyiapkan pratinjau…</div></div>
+      <p>Pilih section di panel kiri — pratinjau melompat ke section itu dan berubah seketika.</p>
+    </div>
   </main>
 </div>
-
 <script>
 "use strict";
-/* Port statis PERSIS dari web/src/app/prototype/theme-overrides.ts +
-   editor/page.tsx — perilaku & format ?t= identik dengan versi Next.js. */
+/* ================================================================
+   Editor Undangan v2 — PER-SECTION.
+   Lapisan Global = port statis PERSIS dari theme-overrides.ts (v1).
+   Lapisan Section: setiap section undangan (di-annotate runtime via
+   data-ds-sec) punya override sendiri: teks, warna (latar/teks/aksen),
+   font (judul/isi), latar belakang (preset/URL/upload), gambar.
+   Payload ?t= = JSON base64url: kunci global v1 + blok "sections".
+   ================================================================ */
 const TC_DEFAULTS = { primary:"#E4572E", accent:"#E9C46A", bg:"#FAF6EE", backdrop:"#E7DFCE", ink:"#1E1B16", fontDisplay:"Caveat", fontBody:"Plus Jakarta Sans" };
 const TC_PRESETS = [
   { id:"asli", nama:"Kolase Asli", colors:{ primary:"#E4572E", accent:"#E9C46A", bg:"#FAF6EE", backdrop:"#E7DFCE", ink:"#1E1B16" } },
@@ -122,78 +170,444 @@ const COLOR_FIELDS = [
   { key:"backdrop", label:"Latar Luar", hint:"Area di sekeliling undangan" },
   { key:"ink", label:"Tinta / Teks Judul", hint:"Judul, tombol utama, penutup" }
 ];
-const TC_STORAGE_KEY = "ds-tc-proto-kolase-cinta";
+const TC_STORAGE_KEY = "ds-tc-proto-kolase-cinta";      /* v1: hanya global */
+const V2_STORAGE_KEY = "ds-tc-proto-kolase-cinta-v2";   /* v2: global + sections */
 
+/* Preset latar belakang per-section (CSS murni, tanpa file gambar). */
+const BG_PRESETS = [
+  { id:"grad-krem", nama:"Gradasi Krem", css:"linear-gradient(160deg,#FBF3DF 0%,#F3E5C3 55%,#EAD9B0 100%)" },
+  { id:"grad-burgundy", nama:"Gradasi Burgundy", css:"linear-gradient(160deg,#8E2436 0%,#571221 100%)" },
+  { id:"grad-sage", nama:"Gradasi Sage", css:"linear-gradient(160deg,#E6EDDA 0%,#B7C9A3 100%)" },
+  { id:"grad-navy", nama:"Gradasi Navy", css:"linear-gradient(160deg,#274B73 0%,#152A44 100%)" },
+  { id:"dots", nama:"Polkadot Kertas", pattern:true, css:"radial-gradient(circle,#E7D3A7 2.4px,transparent 3.2px) 0 0/22px 22px, radial-gradient(circle,#EFC3CF 2.4px,transparent 3.2px) 11px 11px/22px 22px, linear-gradient(#FBF6E9,#FBF6E9)" },
+  { id:"garis", nama:"Garis Buku", pattern:true, css:"repeating-linear-gradient(0deg,#FBF6E9 0 26px,#EFE3C6 26px 28px)" }
+];
+function bgPreset(id){ return BG_PRESETS.find((p) => p.id === id) || null; }
+
+/* ---------- inventaris section (dipakai editor; view.html punya salinan identik) ---------- */
+const SECTION_DEFS = [
+  { id:"sampul", label:"Sampul (Cover)" },
+  { id:"hero", label:"Pembuka" },
+  { id:"ayat", label:"Ayat & Doa Pembuka" },
+  { id:"mempelai", label:"Mempelai" },
+  { id:"countdown", label:"Hitung Mundur" },
+  { id:"acara", label:"Acara" },
+  { id:"rundown", label:"Rundown" },
+  { id:"kisah", label:"Kisah Kami" },
+  { id:"galeri", label:"Galeri" },
+  { id:"rsvp", label:"RSVP & Ucapan" },
+  { id:"qr", label:"QR Buku Tamu" },
+  { id:"amplop", label:"Amplop Digital" },
+  { id:"penutup", label:"Penutup" }
+];
+function secLabel(id){ const d = SECTION_DEFS.find((s) => s.id === id); return d ? d.label : id; }
+
+function annotateSections(doc){
+  const found = {};
+  const add = (id, el) => { if (el && !found[id]) { el.setAttribute("data-ds-sec", id); found[id] = el; } };
+  add("sampul", doc.querySelector(".cover"));
+  add("hero", doc.querySelector("section.hero"));
+  const secs = [...doc.querySelectorAll("section")];
+  const byH2 = (re) => secs.find((s) => { const h = s.querySelector("h2"); return h && re.test(h.textContent || ""); });
+  const bandWith = (re) => secs.find((s) => s.classList.contains("band") && re.test(s.textContent || ""));
+  add("ayat", secs.find((s) => s.classList.contains("band") && /dibuka dengan doa/i.test(s.textContent || "")));
+  add("mempelai", byH2(/^\s*Mempelai\s*$/));
+  add("countdown", bandWith(/D-Day/i));
+  add("acara", byH2(/Rangkaian Acara/));
+  add("rundown", byH2(/Susunan Acara/));
+  add("kisah", bandWith(/Kisah Kami/));
+  add("galeri", byH2(/Tempelan Polaroid|Galeri/));
+  add("rsvp", bandWith(/Konfirmasi Kehadiran/));
+  add("qr", byH2(/QR Buku Tamu/));
+  add("amplop", bandWith(/Tanda Kasih/));
+  add("penutup", doc.querySelector("section.penutup"));
+  return found;
+}
+
+const TEXT_SEL = "h1,h2,h3,.kicker,p,figcaption,blockquote,cite,.tgl,li span,.ransom";
+function slotKind(el){
+  if (el.classList && el.classList.contains("ransom")) return "ransom";
+  const kids = [...el.childNodes];
+  if (kids.every((k) => k.nodeType === 3 || k.tagName === "BR")) return "plain";
+  if (kids.every((k) => k.nodeType === 3 || ["BR","STRONG","B","EM","I"].includes(k.tagName))) return "rich";
+  return null;
+}
+function discoverSlots(root){
+  const slots = [];
+  root.querySelectorAll(TEXT_SEL).forEach((el) => {
+    if (el.closest("form")) return;
+    const kind = slotKind(el);
+    if (!kind) return;
+    const val = getSlotText(el, kind);
+    if (!val || !val.trim()) return;
+    if (kind === "plain" && /^[\d\s:.,·—-]+$/.test(val) && !(el.classList && el.classList.contains("nomor"))) return;
+    slots.push({ el, kind, def: val });
+  });
+  return slots;
+}
+function getSlotText(el, kind){
+  if (kind === "ransom") {
+    const al = el.getAttribute("aria-label");
+    if (al) return al;
+    return [...el.querySelectorAll(".row")].map((r) => [...r.querySelectorAll("i")].map((i) => i.textContent).join("")).join(" ");
+  }
+  if (kind === "rich") return richSerialize(el).map((ln) => ln.map((sg) => sg.t).join("")).join("\n");
+  /* plain: teks dengan <br> -> newline */
+  let s = "";
+  el.childNodes.forEach((n) => { if (n.nodeType === 3) s += n.textContent; else if (n.tagName === "BR") s += "\n"; });
+  return s.replace(/[ \t]+/g, " ").replace(/\n{2,}/g, "\n").trim();
+}
+function richSerialize(el){
+  const lines = [[]];
+  el.childNodes.forEach((n) => {
+    if (n.tagName === "BR") { lines.push([]); return; }
+    if (n.nodeType === 3) lines[lines.length - 1].push({ t: n.textContent, b: false });
+    else if (["STRONG","B"].includes(n.tagName)) lines[lines.length - 1].push({ t: n.textContent, b: true });
+    else lines[lines.length - 1].push({ t: n.textContent, b: false });
+  });
+  return lines;
+}
+function setSlotText(el, kind, value){
+  const doc = el.ownerDocument;
+  if (kind === "ransom") { setRansomText(el, value); return; }
+  if (kind === "rich") {
+    const orig = richSerialize(el);
+    const lines = String(value).split("\n");
+    el.textContent = "";
+    lines.forEach((ln, i) => {
+      if (i > 0) el.appendChild(doc.createElement("br"));
+      const o = orig[Math.min(i, orig.length - 1)] || [];
+      const wholeBold = o.length === 1 && o[0].b;
+      if (wholeBold) { const st = doc.createElement("strong"); st.textContent = ln; el.appendChild(st); }
+      else el.appendChild(doc.createTextNode(ln));
+    });
+    return;
+  }
+  el.textContent = "";
+  String(value).split("\n").forEach((ln, i) => {
+    if (i > 0) el.appendChild(doc.createElement("br"));
+    el.appendChild(doc.createTextNode(ln));
+  });
+}
+function setRansomText(el, value){
+  const doc = el.ownerDocument;
+  const oldRows = [...el.querySelectorAll(".row")];
+  const rowClasses = oldRows.map((r) => r.className) ;
+  const tileClasses = [...el.querySelectorAll("i")].map((i) => i.getAttribute("class") || "").filter((c) => c.trim());
+  const hadSpacer = (el.textContent || "").includes("·");
+  const words = String(value).toUpperCase().split(/\s+/).filter(Boolean);
+  el.textContent = "";
+  let ti = 0;
+  const mkTile = (ch) => {
+    const i = doc.createElement("i");
+    i.setAttribute("class", tileClasses.length ? tileClasses[ti++ % tileClasses.length] : "bg-red rr1");
+    i.textContent = ch;
+    return i;
+  };
+  const mkRow = (cls, wordList, withSpacer) => {
+    const row = doc.createElement("span");
+    row.setAttribute("class", cls);
+    wordList.forEach((w, wi) => {
+      if (wi > 0 && withSpacer) {
+        const sp = doc.createElement("i");
+        sp.setAttribute("style", "visibility:hidden;padding:4px 3px");
+        sp.textContent = "·";
+        row.appendChild(sp);
+      }
+      [...w].forEach((ch) => row.appendChild(mkTile(ch)));
+    });
+    return row;
+  };
+  if (!words.length) return;
+  if (oldRows.length <= 1) {
+    el.appendChild(mkRow(rowClasses[0] || "row", words, hadSpacer));
+  } else if (words.length === oldRows.length) {
+    words.forEach((w, i) => el.appendChild(mkRow(rowClasses[i], [w], false)));
+  } else {
+    words.forEach((w, i) => el.appendChild(mkRow(rowClasses[i % rowClasses.length], [w], false)));
+  }
+  el.setAttribute("aria-label", value);
+}
+
+/* ---------- CSS override per-section ---------- */
+function escCssUrl(u){ return String(u).replace(/["\\]/g, ""); }
+function sectionCss(id, o){
+  if (!o) return "";
+  const S = '[data-ds-sec="' + id + '"]';
+  const r = [];
+  if (o.bg) r.push((id === "sampul" ? S + " .cover-card" : S) + "{background-color:" + o.bg + " !important}");
+  if (o.ink) {
+    r.push(S + "{color:" + o.ink + "}");
+    r.push([S + " h1", S + " h2", S + " h3", S + " p", S + " li", S + " figcaption", S + " blockquote", S + " cite"].join(",") + "{color:" + o.ink + " !important}");
+  }
+  if (o.accent) r.push([S + " .kicker", S + " .yr"].join(",") + "{color:" + o.accent + " !important}");
+  if (o.fontDisplay) r.push([S + " h1", S + " h2", S + " h3", S + " .ransom", S + " .names", S + " .names-top", S + " .ttd", S + " .script", S + " .init"].join(",") + "{font-family:" + (TC_FONT_STACKS[o.fontDisplay] || o.fontDisplay) + " !important}");
+  if (o.fontBody) {
+    r.push(S + "{font-family:" + (TC_FONT_STACKS[o.fontBody] || o.fontBody) + "}");
+    r.push([S + " p", S + " li", S + " figcaption", S + " blockquote", S + " cite"].join(",") + "{font-family:" + (TC_FONT_STACKS[o.fontBody] || o.fontBody) + " !important}");
+  }
+  if (o.bgImage && id !== "sampul") {
+    if (o.bgImage.startsWith("preset:")) {
+      const p = bgPreset(o.bgImage.slice(7));
+      if (p) r.push(S + "{background:" + p.css + " !important}");
+    } else if (o.bgImage.startsWith("url:")) {
+      r.push(S + '{background-image:url("' + escCssUrl(o.bgImage.slice(4)) + '") !important;background-size:cover !important;background-position:center !important}');
+    } else if (o.bgImage.startsWith("data:image/")) {
+      r.push(S + '{background-image:url("' + o.bgImage + '") !important;background-size:cover !important;background-position:center !important}');
+    }
+  }
+  if (o.bgImage && id === "sampul" && o.bgImage.startsWith("preset:")) {
+    const p = bgPreset(o.bgImage.slice(7));
+    if (p) r.push(S + "{background:" + p.css + " !important}");
+  }
+  return r.join("\n");
+}
+function allSectionsCss(sections){
+  return Object.keys(sections || {}).map((id) => sectionCss(id, sections[id])).filter(Boolean).join("\n");
+}
+function allFonts(sections, g){
+  const fams = [g.fontDisplay, g.fontBody];
+  Object.values(sections || {}).forEach((o) => { if (o) { fams.push(o.fontDisplay, o.fontBody); } });
+  return fams.filter(Boolean);
+}
 function tcFontsHref(families){
   const fams = [...new Set(families)].filter((f) => FONT_WEIGHTS[f]);
   if (!fams.length) return "";
   const parts = fams.map((f) => "family=" + f.replace(/ /g, "+") + ":" + FONT_WEIGHTS[f]);
   return "https://fonts.googleapis.com/css2?" + parts.join("&") + "&display=swap";
 }
-function tcEncode(o){
-  const diff = {};
-  Object.keys(TC_DEFAULTS).forEach((k) => { if (o[k] !== TC_DEFAULTS[k]) diff[k] = o[k]; });
-  if (!Object.keys(diff).length) return "";
-  const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(diff))));
-  return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-function tcIsDefault(o){ return Object.keys(TC_DEFAULTS).every((k) => o[k] === TC_DEFAULTS[k]); }
 
 /* ---------- state ---------- */
-let ov = { ...TC_DEFAULTS };
+let G = { ...TC_DEFAULTS };
+let SEC = {};
+let INV = {};           /* id -> {root, slots:[{el,kind,def,key}], imgs:[{el,def,key}]} */
+let frame = null;
+let currentView = "global";
 try {
-  const raw = localStorage.getItem(TC_STORAGE_KEY);
-  if (raw) ov = { ...TC_DEFAULTS, ...JSON.parse(raw) };
+  const raw2 = localStorage.getItem(V2_STORAGE_KEY);
+  if (raw2) { const s = JSON.parse(raw2); if (s.global) G = { ...TC_DEFAULTS, ...s.global }; if (s.sections) SEC = s.sections || {}; }
+  else { const raw1 = localStorage.getItem(TC_STORAGE_KEY); if (raw1) G = { ...TC_DEFAULTS, ...JSON.parse(raw1) }; }
 } catch (e) { /* abaikan */ }
 
 const frameHolder = document.getElementById("phone");
-let frame = null;
+function fdoc(){ return frame && frame.contentDocument; }
+function ensureEl(doc, tag, id){
+  let el = doc.getElementById(id);
+  if (!el) { el = doc.createElement(tag); el.id = id; doc.head.appendChild(el); }
+  return el;
+}
 
-function applyLive(){
-  if (!frame) return;
-  const doc = frame.contentDocument;
-  if (!doc) return;
+function applyGlobal(){
+  const doc = fdoc(); if (!doc) return;
   const root = doc.documentElement;
-  root.style.setProperty("--tc-primary", ov.primary);
-  root.style.setProperty("--tc-accent", ov.accent);
-  root.style.setProperty("--tc-bg", ov.bg);
-  root.style.setProperty("--tc-backdrop", ov.backdrop);
-  root.style.setProperty("--tc-ink", ov.ink);
-  root.style.setProperty("--tc-font-display", TC_FONT_STACKS[ov.fontDisplay] || ov.fontDisplay);
-  root.style.setProperty("--tc-font-body", TC_FONT_STACKS[ov.fontBody] || ov.fontBody);
-  let link = doc.getElementById("ds-tc-fonts-live");
-  if (!link) {
-    link = doc.createElement("link");
-    link.id = "ds-tc-fonts-live";
-    link.rel = "stylesheet";
-    doc.head.appendChild(link);
-  }
-  link.href = tcFontsHref([ov.fontDisplay, ov.fontBody]);
+  root.style.setProperty("--tc-primary", G.primary);
+  root.style.setProperty("--tc-accent", G.accent);
+  root.style.setProperty("--tc-bg", G.bg);
+  root.style.setProperty("--tc-backdrop", G.backdrop);
+  root.style.setProperty("--tc-ink", G.ink);
+  root.style.setProperty("--tc-font-display", TC_FONT_STACKS[G.fontDisplay] || G.fontDisplay);
+  root.style.setProperty("--tc-font-body", TC_FONT_STACKS[G.fontBody] || G.fontBody);
+  const link = ensureEl(doc, "link", "ds-tc-fonts-live");
+  link.rel = "stylesheet";
+  link.href = tcFontsHref(allFonts(SEC, G));
 }
-
-function syncControls(){
-  COLOR_FIELDS.forEach(({ key }) => {
-    document.querySelector('input[type=color][data-key="' + key + '"]').value = ov[key];
-    document.querySelector('input[type=text][data-key="' + key + '"]').value = ov[key];
+function applySections(){
+  const doc = fdoc(); if (!doc) return;
+  ensureEl(doc, "style", "ds-sec-override").textContent = allSectionsCss(SEC);
+  const link = ensureEl(doc, "link", "ds-tc-fonts-live");
+  link.rel = "stylesheet";
+  link.href = tcFontsHref(allFonts(SEC, G));
+  Object.keys(INV).forEach((id) => {
+    const inv = INV[id], o = SEC[id] || {};
+    inv.slots.forEach((s) => {
+      const v = o.texts && o.texts[s.key] !== undefined ? o.texts[s.key] : s.def;
+      if (getSlotText(s.el, s.kind) !== v) setSlotText(s.el, s.kind, v);
+    });
+    inv.imgs.forEach((im) => {
+      const v = o.images && o.images[im.key] !== undefined ? o.images[im.key] : im.def;
+      if (im.el.getAttribute("src") !== v) im.el.setAttribute("src", v);
+    });
+    if (id === "sampul") {
+      const photo = inv.root.querySelector(".photo");
+      if (photo) {
+        if (o.bgImage && o.bgImage.startsWith("preset:")) { photo.style.display = "none"; }
+        else {
+          photo.style.display = "";
+          const v = o.bgImage && (o.bgImage.startsWith("url:") || o.bgImage.startsWith("data:image/"))
+            ? (o.bgImage.startsWith("url:") ? o.bgImage.slice(4) : o.bgImage)
+            : (o.images && o.images.i0 !== undefined ? o.images.i0 : (inv.imgs[0] ? inv.imgs[0].def : ""));
+          if (v && photo.getAttribute("src") !== v) photo.setAttribute("src", v);
+        }
+      }
+    }
   });
-  document.getElementById("selDisplay").value = ov.fontDisplay;
-  document.getElementById("selBody").value = ov.fontBody;
-  document.getElementById("defaultNote").style.display = tcIsDefault(ov) ? "" : "none";
 }
-function set(patch){
-  ov = { ...ov, ...patch };
+function applyAll(){ applyGlobal(); applySections(); }
+
+function hasAnyOverride(){
+  const gDiff = Object.keys(TC_DEFAULTS).some((k) => G[k] !== TC_DEFAULTS[k]);
+  return gDiff || Object.keys(SEC).length > 0;
+}
+function markDefaultNote(){
+  document.getElementById("defaultNote").style.display = hasAnyOverride() ? "none" : "";
+}
+function refreshSecDots(){
+  document.querySelectorAll(".secbtn[data-sec]").forEach((b) => {
+    const id = b.getAttribute("data-sec");
+    b.classList.toggle("has", !!SEC[id]);
+  });
+}
+function afterChange(){
+  applyAll(); refreshSecDots(); markDefaultNote();
   document.getElementById("savedNote").style.display = "none";
-  syncControls();
-  applyLive();
+}
+function secOv(id){ if (!SEC[id]) SEC[id] = {}; return SEC[id]; }
+function pruneSec(id){
+  const o = SEC[id]; if (!o) return;
+  ["texts","images"].forEach((k) => { if (o[k] && !Object.keys(o[k]).length) delete o[k]; });
+  if (!Object.keys(o).length) delete SEC[id];
+}
+function setSecField(id, field, val){
+  const o = secOv(id);
+  if (val) o[field] = val; else delete o[field];
+  pruneSec(id); afterChange();
+}
+function setSecText(id, key, val){
+  const o = secOv(id); o.texts = o.texts || {};
+  const slot = INV[id] && INV[id].slots.find((s) => s.key === key);
+  if (slot && val === slot.def) delete o.texts[key]; else o.texts[key] = val;
+  pruneSec(id); afterChange();
+}
+function setSecImage(id, key, val){
+  const o = secOv(id); o.images = o.images || {};
+  const img = INV[id] && INV[id].imgs.find((s) => s.key === key);
+  if (img && val === img.def) delete o.images[key]; else o.images[key] = val;
+  pruneSec(id); afterChange();
 }
 
-/* ---------- bangun kontrol ---------- */
+/* ---------- payload ?t= (v1 global + sections, backward compatible) ---------- */
+function collectPayload(){
+  const p = {};
+  Object.keys(TC_DEFAULTS).forEach((k) => { if (G[k] !== TC_DEFAULTS[k]) p[k] = G[k]; });
+  const secs = {};
+  Object.keys(SEC).forEach((id) => {
+    const o = SEC[id]; if (!o) return;
+    const out = {};
+    ["bg","ink","accent","fontDisplay","fontBody","bgImage"].forEach((k) => { if (o[k]) out[k] = o[k]; });
+    if (o.texts) {
+      const t = {};
+      Object.keys(o.texts).forEach((k) => {
+        const slot = INV[id] && INV[id].slots.find((s) => s.key === k);
+        if (slot && o.texts[k] !== slot.def) t[k] = o.texts[k];
+      });
+      if (Object.keys(t).length) out.texts = t;
+    }
+    if (o.images) {
+      const im = {};
+      Object.keys(o.images).forEach((k) => {
+        const img = INV[id] && INV[id].imgs.find((s) => s.key === k);
+        if (img && o.images[k] !== img.def) im[k] = o.images[k];
+      });
+      if (Object.keys(im).length) out.images = im;
+    }
+    if (Object.keys(out).length) secs[id] = out;
+  });
+  if (Object.keys(secs).length) p.sections = secs;
+  return p;
+}
+function encodePayload(){
+  const p = collectPayload();
+  let dropped = 0;
+  if (p.sections && JSON.stringify(p).length > 100000) {
+    const entries = [];
+    Object.keys(p.sections).forEach((id) => {
+      const o = p.sections[id];
+      if (o.bgImage && o.bgImage.startsWith("data:")) entries.push({ id, field: "bgImage", len: o.bgImage.length });
+      if (o.images) Object.keys(o.images).forEach((k) => { if (o.images[k].startsWith("data:")) entries.push({ id, field: "images." + k, len: o.images[k].length }); });
+    });
+    entries.sort((a, b) => b.len - a.len);
+    for (const e of entries) {
+      if (JSON.stringify(p).length <= 100000) break;
+      if (e.field === "bgImage") delete p.sections[e.id].bgImage;
+      else { delete p.sections[e.id].images[e.field.slice(7)]; if (!Object.keys(p.sections[e.id].images).length) delete p.sections[e.id].images; }
+      dropped++;
+    }
+    Object.keys(p.sections).forEach((id) => { if (!Object.keys(p.sections[id]).length) delete p.sections[id]; });
+    if (!Object.keys(p.sections).length) delete p.sections;
+  }
+  if (!Object.keys(p).length) return { t: "", dropped };
+  const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(p))));
+  return { t: b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""), dropped };
+}
+
+/* ---------- upload gambar: perkecil maks 1200px ---------- */
+function fileToDataUrl(file){
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const max = 1200, sc = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.max(1, Math.round(img.width * sc));
+        c.height = Math.max(1, Math.round(img.height * sc));
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        resolve(c.toDataURL("image/jpeg", 0.85));
+      } catch (err) { reject(err); }
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+/* ---------- fokus & highlight di pratinjau ---------- */
+function focusSection(id){
+  const doc = fdoc(); if (!doc) return;
+  const hl = ensureEl(doc, "style", "ds-sec-hl");
+  const cov = doc.querySelector(".cover");
+  if (id === "sampul") {
+    if (cov) cov.classList.remove("hide");
+    hl.textContent = '[data-ds-sec="sampul"]{outline:3px solid #E4572E;outline-offset:-3px}';
+    return;
+  }
+  if (cov) cov.classList.add("hide");
+  if (!id) { hl.textContent = ""; return; }
+  hl.textContent = '[data-ds-sec="' + id + '"]{outline:3px solid #E4572E;outline-offset:-3px}';
+  const el = doc.querySelector('[data-ds-sec="' + id + '"]');
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function selectView(v){
+  currentView = v;
+  document.querySelectorAll(".secbtn").forEach((b) => b.classList.toggle("on", b.getAttribute("data-view") === v));
+  document.getElementById("panelGlobal").style.display = v === "global" ? "" : "none";
+  const ps = document.getElementById("panelSection");
+  if (v === "global") { ps.style.display = "none"; focusSection(null); }
+  else { ps.style.display = ""; buildSectionPanel(v); focusSection(v); }
+}
+
+/* ---------- kontrol Global (port v1) ---------- */
+function syncGlobalControls(){
+  COLOR_FIELDS.forEach(({ key }) => {
+    const c = document.querySelector('#colorFields input[type=color][data-key="' + key + '"]');
+    const t = document.querySelector('#colorFields input[type=text][data-key="' + key + '"]');
+    if (c) c.value = G[key];
+    if (t) t.value = G[key];
+  });
+  document.getElementById("selDisplay").value = G.fontDisplay;
+  document.getElementById("selBody").value = G.fontBody;
+}
+function setGlobal(patch){
+  G = { ...G, ...patch };
+  syncGlobalControls();
+  afterChange();
+}
 const presetsEl = document.getElementById("presets");
 TC_PRESETS.forEach((p) => {
   const b = document.createElement("button");
   b.className = "preset";
   b.innerHTML = '<span class="dots">' + [p.colors.primary, p.colors.accent, p.colors.bg, p.colors.ink].map((c) => '<i style="background:' + c + '"></i>').join("") + '</span><span class="nm">' + p.nama + "</span>";
-  b.addEventListener("click", () => set({ ...p.colors }));
+  b.addEventListener("click", () => setGlobal({ ...p.colors }));
   presetsEl.appendChild(b);
 });
 const cfEl = document.getElementById("colorFields");
@@ -208,50 +622,301 @@ COLOR_FIELDS.forEach(({ key, label, hint }) => {
 cfEl.addEventListener("input", (e) => {
   const k = e.target.getAttribute("data-key");
   if (!k) return;
-  if (e.target.type === "color") set({ [k]: e.target.value });
-  else if (/^#[0-9a-fA-F]{0,6}$/.test(e.target.value)) set({ [k]: e.target.value });
+  if (e.target.type === "color") setGlobal({ [k]: e.target.value });
+  else if (/^#[0-9a-fA-F]{0,6}$/.test(e.target.value)) setGlobal({ [k]: e.target.value });
 });
 const selD = document.getElementById("selDisplay");
 TC_DISPLAY_FONTS.forEach((f) => { const o = document.createElement("option"); o.value = f; o.textContent = f; o.style.fontFamily = TC_FONT_STACKS[f]; selD.appendChild(o); });
-selD.addEventListener("change", () => set({ fontDisplay: selD.value }));
+selD.addEventListener("change", () => setGlobal({ fontDisplay: selD.value }));
 const selB = document.getElementById("selBody");
 TC_BODY_FONTS.forEach((f) => { const o = document.createElement("option"); o.value = f; o.textContent = f; o.style.fontFamily = TC_FONT_STACKS[f]; selB.appendChild(o); });
-selB.addEventListener("change", () => set({ fontBody: selB.value }));
+selB.addEventListener("change", () => setGlobal({ fontBody: selB.value }));
 
+/* ---------- daftar section ---------- */
+function buildSecList(){
+  const list = document.getElementById("secList");
+  list.innerHTML = "";
+  const mkBtn = (view, label, cnt) => {
+    const b = document.createElement("button");
+    b.className = "secbtn";
+    b.setAttribute("data-view", view);
+    if (view !== "global") b.setAttribute("data-sec", view);
+    const dot = document.createElement("span"); dot.className = "dot";
+    const nm = document.createElement("span"); nm.textContent = label;
+    b.append(dot, nm);
+    if (cnt) { const c = document.createElement("span"); c.className = "cnt"; c.textContent = cnt; b.appendChild(c); }
+    b.addEventListener("click", () => selectView(view));
+    list.appendChild(b);
+  };
+  mkBtn("global", "🎨 Global (Tema)", "");
+  SECTION_DEFS.forEach((d) => {
+    if (!INV[d.id]) return;
+    const inv = INV[d.id];
+    const cnt = inv.slots.length + " teks" + (inv.imgs.length ? " · " + inv.imgs.length + " gbr" : "");
+    mkBtn(d.id, d.label, cnt);
+  });
+  refreshSecDots();
+}
+
+/* ---------- panel per-section ---------- */
+function secTitle(t){
+  const h = document.createElement("h2");
+  h.className = "sec"; h.style.marginTop = "22px"; h.textContent = t;
+  return h;
+}
+function kindLabel(slot){
+  const el = slot.el;
+  if (slot.kind === "ransom") return "Huruf Tempel";
+  if (el.classList.contains("kicker")) return "Kicker";
+  if (el.tagName === "H2" || el.tagName === "H1") return "Judul";
+  if (el.tagName === "H3") return "Subjudul";
+  if (el.tagName === "BLOCKQUOTE") return "Kutipan";
+  if (el.tagName === "CITE") return "Sumber";
+  if (el.closest("li")) { const b = el.closest("li").querySelector("b"); return "Rundown" + (b ? " · " + b.textContent.trim() : ""); }
+  if (el.tagName === "FIGCAPTION") return "Keterangan Foto";
+  if (el.classList.contains("nomor")) return "Nomor";
+  if (slot.kind === "rich") return "Teks Berbaris";
+  return "Teks";
+}
+function textField(id, slot){
+  const wrap = document.createElement("div");
+  wrap.className = "tfield";
+  const lab = document.createElement("label");
+  const defShort = slot.def.replace(/\n/g, " / ").slice(0, 44);
+  lab.innerHTML = "<b></b> — ";
+  lab.querySelector("b").textContent = kindLabel(slot);
+  lab.appendChild(document.createTextNode(defShort + (slot.def.length > 44 ? "…" : "")));
+  wrap.appendChild(lab);
+  const cur = (SEC[id] && SEC[id].texts && SEC[id].texts[slot.key] !== undefined) ? SEC[id].texts[slot.key] : slot.def;
+  const useArea = slot.def.length > 56 || slot.def.includes("\n") || slot.kind === "rich";
+  const inp = document.createElement(useArea ? "textarea" : "input");
+  if (useArea) { inp.className = "tarea"; inp.rows = Math.min(4, 1 + (cur.match(/\n/g) || []).length + Math.ceil(cur.length / 52)); }
+  else inp.type = "text";
+  inp.value = cur;
+  inp.addEventListener("input", () => setSecText(id, slot.key, inp.value));
+  wrap.appendChild(inp);
+  return wrap;
+}
+function secColorRow(id, field, label, hint){
+  const o = SEC[id] || {};
+  const row = document.createElement("div");
+  row.className = "crow";
+  const ci = document.createElement("input");
+  ci.type = "color"; ci.value = o[field] || "#000000";
+  const lab = document.createElement("span");
+  lab.className = "lab";
+  lab.innerHTML = '<span class="a"></span><span class="b"></span>';
+  lab.querySelector(".a").textContent = label;
+  lab.querySelector(".b").textContent = o[field] ? hint : "Ikuti global — belum diatur";
+  const ti = document.createElement("input");
+  ti.type = "text"; ti.value = o[field] || ""; ti.placeholder = "global";
+  const clr = document.createElement("button");
+  clr.className = "clr"; clr.textContent = "✕"; clr.title = "Kembalikan ke global";
+  ci.addEventListener("input", () => { ti.value = ci.value; setSecField(id, field, ci.value); lab.querySelector(".b").textContent = hint; });
+  ti.addEventListener("input", () => { if (/^#[0-9a-fA-F]{6}$/.test(ti.value)) { ci.value = ti.value; setSecField(id, field, ti.value); } });
+  clr.addEventListener("click", () => { ci.value = "#000000"; ti.value = ""; lab.querySelector(".b").textContent = "Ikuti global — belum diatur"; setSecField(id, field, ""); });
+  row.append(ci, lab, ti, clr);
+  return row;
+}
+function fontRow(id, field, label, fonts){
+  const wrap = document.createElement("div");
+  wrap.style.marginBottom = "12px";
+  const lab = document.createElement("label");
+  lab.className = "flab"; lab.textContent = label;
+  const sel = document.createElement("select");
+  const o0 = document.createElement("option"); o0.value = ""; o0.textContent = "— Ikuti global —"; sel.appendChild(o0);
+  fonts.forEach((f) => { const op = document.createElement("option"); op.value = f; op.textContent = f; op.style.fontFamily = TC_FONT_STACKS[f]; sel.appendChild(op); });
+  sel.value = (SEC[id] && SEC[id][field]) || "";
+  sel.addEventListener("change", () => setSecField(id, field, sel.value));
+  wrap.append(lab, sel);
+  return wrap;
+}
+function uploadNote(){
+  const p = document.createElement("p");
+  p.className = "note warn";
+  p.textContent = "Catatan prototipe: foto upload tersimpan di browser ini (diperkecil maks 1200px). Di link berbagi, foto upload hanya ikut bila total payload kecil (<±100 KB); bila terlalu besar, foto hanya tampil di sesi ini.";
+  return p;
+}
+function bgControls(id){
+  const box = document.createElement("div");
+  const cur = () => (SEC[id] && SEC[id].bgImage) || "";
+  const grid = document.createElement("div");
+  grid.className = "bgpresets";
+  const refresh = () => {
+    grid.querySelectorAll(".bgp").forEach((b) => b.classList.toggle("on", cur() === "preset:" + b.getAttribute("data-pid")));
+    clearBtn.classList.toggle("on", !cur());
+  };
+  BG_PRESETS.forEach((p) => {
+    const b = document.createElement("button");
+    b.className = "bgp"; b.setAttribute("data-pid", p.id);
+    b.style.background = p.css;
+    const s = document.createElement("span"); s.textContent = p.nama; b.appendChild(s);
+    b.addEventListener("click", () => { setSecField(id, "bgImage", "preset:" + p.id); refresh(); });
+    grid.appendChild(b);
+  });
+  box.appendChild(grid);
+  const urlRow = document.createElement("div");
+  urlRow.className = "urlrow";
+  const ui = document.createElement("input");
+  ui.type = "text"; ui.className = "wide"; ui.placeholder = "URL gambar latar (https://…)";
+  if (cur().startsWith("url:")) ui.value = cur().slice(4);
+  const ub = document.createElement("button"); ub.textContent = "Pakai";
+  ub.addEventListener("click", () => { const v = ui.value.trim(); setSecField(id, "bgImage", v ? "url:" + v : ""); refresh(); });
+  urlRow.append(ui, ub);
+  box.appendChild(urlRow);
+  const fRow = document.createElement("div");
+  const fi = document.createElement("input");
+  fi.type = "file"; fi.accept = "image/*";
+  fi.addEventListener("change", async () => {
+    if (!fi.files || !fi.files[0]) return;
+    try { const d = await fileToDataUrl(fi.files[0]); setSecField(id, "bgImage", d); refresh(); } catch (e) { /* abaikan */ }
+  });
+  fRow.appendChild(fi);
+  box.appendChild(fRow);
+  box.appendChild(uploadNote());
+  const clearBtn = document.createElement("button");
+  clearBtn.className = "mini"; clearBtn.textContent = "Tanpa gambar latar";
+  clearBtn.style.marginTop = "8px";
+  clearBtn.addEventListener("click", () => { ui.value = ""; setSecField(id, "bgImage", ""); refresh(); });
+  box.appendChild(clearBtn);
+  const note = document.createElement("p");
+  note.className = "note";
+  note.textContent = id === "sampul"
+    ? "Untuk Sampul: preset latar menggantikan foto sampul; URL/upload mengganti foto sampulnya."
+    : "Gambar latar menimpa warna latar section. Warna Latar di atas tetap dipakai sebagai dasar/cadangan.";
+  box.appendChild(note);
+  refresh();
+  return box;
+}
+function imgRow(id, im){
+  const box = document.createElement("div");
+  box.className = "imgrow";
+  const nm = document.createElement("div");
+  nm.className = "nm";
+  const slot = im.el.getAttribute("data-ds-slot");
+  nm.textContent = (slot ? "Slot " + slot : (im.el.alt || "Gambar")) + " ";
+  const fn = document.createElement("span");
+  fn.textContent = "· " + (im.def.split("/").pop() || "");
+  nm.appendChild(fn);
+  box.appendChild(nm);
+  const urlRow = document.createElement("div");
+  urlRow.className = "urlrow";
+  const ui = document.createElement("input");
+  ui.type = "text"; ui.className = "wide"; ui.placeholder = "URL gambar pengganti (https://…)";
+  const cur = SEC[id] && SEC[id].images && SEC[id].images[im.key];
+  if (cur && cur.startsWith("http")) ui.value = cur;
+  const ub = document.createElement("button"); ub.textContent = "Pakai";
+  ub.addEventListener("click", () => { const v = ui.value.trim(); if (v) setSecImage(id, im.key, v); });
+  urlRow.append(ui, ub);
+  box.appendChild(urlRow);
+  const fi = document.createElement("input");
+  fi.type = "file"; fi.accept = "image/*";
+  fi.addEventListener("change", async () => {
+    if (!fi.files || !fi.files[0]) return;
+    try { const d = await fileToDataUrl(fi.files[0]); setSecImage(id, im.key, d); } catch (e) { /* abaikan */ }
+  });
+  box.appendChild(fi);
+  const clr = document.createElement("button");
+  clr.className = "mini"; clr.textContent = "Kembalikan gambar asli"; clr.style.marginTop = "8px";
+  clr.addEventListener("click", () => { ui.value = ""; setSecImage(id, im.key, im.def); });
+  box.appendChild(clr);
+  return box;
+}
+function buildSectionPanel(id){
+  const panel = document.getElementById("panelSection");
+  panel.innerHTML = "";
+  const inv = INV[id];
+  if (!inv) { panel.innerHTML = '<p class="note">Section tidak ditemukan di pratinjau.</p>'; return; }
+  const h = secTitle("Section — " + secLabel(id));
+  h.style.marginTop = "22px";
+  panel.appendChild(h);
+  const btnR = document.createElement("button");
+  btnR.id = "btnResetSec"; btnR.textContent = "↺ Reset section ini";
+  btnR.addEventListener("click", () => { delete SEC[id]; afterChange(); buildSectionPanel(id); });
+  panel.appendChild(btnR);
+  if (inv.slots.length) {
+    panel.appendChild(secTitle("Teks"));
+    inv.slots.forEach((slot) => panel.appendChild(textField(id, slot)));
+  }
+  panel.appendChild(secTitle("Warna Section"));
+  panel.appendChild(secColorRow(id, "bg", "Latar Section", id === "sampul" ? "Latar kartu sampul" : "Warna latar khusus section ini"));
+  panel.appendChild(secColorRow(id, "ink", "Teks & Judul", "Hampir semua teks di section ini"));
+  panel.appendChild(secColorRow(id, "accent", "Aksen", "Kicker / label kecil di section ini"));
+  panel.appendChild(secTitle("Font Section"));
+  panel.appendChild(fontRow(id, "fontDisplay", "Font Judul", TC_DISPLAY_FONTS));
+  panel.appendChild(fontRow(id, "fontBody", "Font Isi", TC_BODY_FONTS));
+  panel.appendChild(secTitle("Latar Belakang"));
+  panel.appendChild(bgControls(id));
+  if (inv.imgs.length) {
+    panel.appendChild(secTitle("Gambar"));
+    panel.appendChild(uploadNote());
+    inv.imgs.forEach((im) => panel.appendChild(imgRow(id, im)));
+  }
+}
+
+/* ---------- simpan / reset ---------- */
 document.getElementById("btnSimpan").addEventListener("click", () => {
-  try { localStorage.setItem(TC_STORAGE_KEY, JSON.stringify(ov)); } catch (e) { /* abaikan */ }
-  const t = tcEncode(ov);
+  try { localStorage.setItem(V2_STORAGE_KEY, JSON.stringify({ global: G, sections: SEC })); } catch (e) { /* abaikan */ }
+  const { t, dropped } = encodePayload();
   const url = new URL("view.html", window.location.href);
   if (t) url.searchParams.set("t", t);
   const input = document.getElementById("shareUrl");
   input.value = url.toString();
   document.getElementById("shareOpen").href = url.toString();
   document.getElementById("shareBox").style.display = "";
+  const warn = document.getElementById("shareWarn");
+  if (dropped > 0) {
+    warn.textContent = dropped + " foto upload TIDAK ikut di link ini (payload terlalu besar) — foto itu hanya tampil di sesi browser ini. Warna, font, teks & gambar via URL tetap ikut.";
+    warn.style.display = "";
+  } else warn.style.display = "none";
   const note = document.getElementById("savedNote");
-  note.textContent = "Tersimpan. URL di bawah adalah tampilan publiknya — buka untuk membuktikan link berubah tanpa editor.";
+  note.textContent = "Tersimpan (global + per-section). URL di bawah adalah tampilan publiknya — buka untuk membuktikan link berubah tanpa editor.";
   note.style.display = "";
 });
 document.getElementById("shareUrl").addEventListener("focus", (e) => e.target.select());
 document.getElementById("btnReset").addEventListener("click", () => {
-  try { localStorage.removeItem(TC_STORAGE_KEY); } catch (e) { /* abaikan */ }
+  try { localStorage.removeItem(V2_STORAGE_KEY); localStorage.removeItem(TC_STORAGE_KEY); } catch (e) { /* abaikan */ }
+  G = { ...TC_DEFAULTS };
+  SEC = {};
+  syncGlobalControls();
   document.getElementById("shareBox").style.display = "none";
-  set({ ...TC_DEFAULTS });
+  afterChange();
+  if (currentView !== "global") buildSectionPanel(currentView);
   const note = document.getElementById("savedNote");
-  note.textContent = "Kembali ke desain asli Kolase Cinta.";
+  note.textContent = "Semua override (global + per-section) dibersihkan — kembali ke desain asli Kolase Cinta.";
   note.style.display = "";
 });
 
-/* ---------- pratinjau: render awal dgn override tersimpan (spt versi Next) ---------- */
+/* ---------- init: muat pratinjau, inventaris, terapkan state tersimpan ---------- */
+function initInventory(){
+  const doc = fdoc(); if (!doc) return;
+  const found = annotateSections(doc);
+  INV = {};
+  SECTION_DEFS.forEach((d) => {
+    const root = found[d.id];
+    if (!root) return;
+    INV[d.id] = {
+      root,
+      slots: discoverSlots(root).map((s, i) => ({ ...s, key: "t" + i })),
+      imgs: [...root.querySelectorAll("img")].map((el, i) => ({ el, key: "i" + i, def: el.getAttribute("src") || "" })),
+    };
+  });
+  buildSecList();
+  applyAll();
+  selectView("global");
+  markDefaultNote();
+}
 (async () => {
+  syncGlobalControls();
+  markDefaultNote();
   try {
     const res = await fetch("undangan-open.html");
     const html = await res.text();
     frame = document.createElement("iframe");
     frame.title = "Pratinjau Undangan Kolase Cinta";
-    frame.addEventListener("load", applyLive);
+    frame.addEventListener("load", () => setTimeout(initInventory, 650));
     frame.srcdoc = html;
     frameHolder.replaceChildren(frame);
-    syncControls();
   } catch (e) {
     frameHolder.innerHTML = '<div class="wait">Gagal memuat pratinjau: ' + e.message + "</div>";
   }

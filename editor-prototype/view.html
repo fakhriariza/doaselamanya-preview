@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Undangan Nadia &amp; Raka — Kolase Cinta (Prototipe Editor)</title>
+<title>Undangan Nadia &amp; Raka — Kolase Cinta (Prototipe Editor v2)</title>
 <style>
   html,body{margin:0;padding:0;background:#111;min-height:100dvh}
   #loading{min-height:100vh;display:grid;place-items:center;background:#1c1410;color:#e8dcc8;font-family:Georgia,serif}
@@ -14,9 +14,10 @@
 <div id="loading">Memuat undangan…</div>
 <script>
 "use strict";
-/* Port statis PERSIS dari web/src/app/prototype/theme-overrides.ts —
-   format ?t= (base64url JSON diff dari nilai bawaan) kompatibel dua arah
-   dengan editor Next.js /prototype/editor. */
+/* Tampilan publik prototipe editor v2.
+   Format ?t= (base64url JSON): kunci global v1 (primary/accent/bg/backdrop/
+   ink/fontDisplay/fontBody) + blok "sections" v2 — kompatibel dua arah
+   dengan editor Next.js & editor statis. Link v1 (tanpa sections) tetap jalan. */
 const TC_DEFAULTS = { primary:"#E4572E", accent:"#E9C46A", bg:"#FAF6EE", backdrop:"#E7DFCE", ink:"#1E1B16", fontDisplay:"Caveat", fontBody:"Plus Jakarta Sans" };
 const TC_FONT_STACKS = {
   "Caveat":"'Caveat',cursive",
@@ -36,6 +37,15 @@ const FONT_WEIGHTS = {
   "Montserrat":"wght@400;500;600;700;800",
   "Plus Jakarta Sans":"wght@400;500;600;700;800"
 };
+const BG_PRESETS = [
+  { id:"grad-krem", css:"linear-gradient(160deg,#FBF3DF 0%,#F3E5C3 55%,#EAD9B0 100%)" },
+  { id:"grad-burgundy", css:"linear-gradient(160deg,#8E2436 0%,#571221 100%)" },
+  { id:"grad-sage", css:"linear-gradient(160deg,#E6EDDA 0%,#B7C9A3 100%)" },
+  { id:"grad-navy", css:"linear-gradient(160deg,#274B73 0%,#152A44 100%)" },
+  { id:"dots", css:"radial-gradient(circle,#E7D3A7 2.4px,transparent 3.2px) 0 0/22px 22px, radial-gradient(circle,#EFC3CF 2.4px,transparent 3.2px) 11px 11px/22px 22px, linear-gradient(#FBF6E9,#FBF6E9)" },
+  { id:"garis", css:"repeating-linear-gradient(0deg,#FBF6E9 0 26px,#EFE3C6 26px 28px)" }
+];
+function bgPreset(id){ return BG_PRESETS.find((p) => p.id === id) || null; }
 function tcFontsHref(families){
   const fams = [...new Set(families)].filter((f) => FONT_WEIGHTS[f]);
   if (!fams.length) return "";
@@ -60,17 +70,46 @@ function sanitize(diff){
   if (typeof diff.fontBody === "string" && TC_FONT_STACKS[diff.fontBody]) out.fontBody = diff.fontBody;
   return out;
 }
-function tcDecode(s){
-  if (!s) return { ...TC_DEFAULTS };
+function sanitizeSections(raw){
+  const out = {};
+  if (!raw || typeof raw !== "object") return out;
+  Object.keys(raw).forEach((id) => {
+    const o = raw[id];
+    if (!/^[a-z]+$/.test(id) || !o || typeof o !== "object") return;
+    const s = {};
+    ["bg","ink","accent"].forEach((k) => { if (typeof o[k] === "string" && HEX.test(o[k])) s[k] = o[k]; });
+    if (typeof o.fontDisplay === "string" && TC_FONT_STACKS[o.fontDisplay]) s.fontDisplay = o.fontDisplay;
+    if (typeof o.fontBody === "string" && TC_FONT_STACKS[o.fontBody]) s.fontBody = o.fontBody;
+    if (typeof o.bgImage === "string" && o.bgImage.length <= 130000) {
+      if (o.bgImage.startsWith("preset:") && bgPreset(o.bgImage.slice(7))) s.bgImage = o.bgImage;
+      else if (/^url:https?:\/\//.test(o.bgImage)) s.bgImage = o.bgImage;
+      else if (/^data:image\/(png|jpe?g|webp|gif);base64,/.test(o.bgImage)) s.bgImage = o.bgImage;
+    }
+    if (o.texts && typeof o.texts === "object") {
+      const t = {};
+      Object.keys(o.texts).forEach((k) => { const v = o.texts[k]; if (/^t\d+$/.test(k) && typeof v === "string" && v.length <= 600) t[k] = v; });
+      if (Object.keys(t).length) s.texts = t;
+    }
+    if (o.images && typeof o.images === "object") {
+      const im = {};
+      Object.keys(o.images).forEach((k) => {
+        const v = o.images[k];
+        if (/^i\d+$/.test(k) && typeof v === "string" && v.length <= 130000 && (/^https?:\/\//.test(v) || /^data:image\/(png|jpe?g|webp|gif);base64,/.test(v))) im[k] = v;
+      });
+      if (Object.keys(im).length) s.images = im;
+    }
+    if (Object.keys(s).length) out[id] = s;
+  });
+  return out;
+}
+function decodePayload(s){
+  if (!s) return { global: { ...TC_DEFAULTS }, sections: {} };
   try {
     const b64 = s.replace(/-/g, "+").replace(/_/g, "/");
     const diff = JSON.parse(decodeURIComponent(escape(atob(b64))));
-    return { ...TC_DEFAULTS, ...sanitize(diff) };
-  } catch { return { ...TC_DEFAULTS }; }
+    return { global: { ...TC_DEFAULTS, ...sanitize(diff) }, sections: sanitizeSections(diff.sections) };
+  } catch { return { global: { ...TC_DEFAULTS }, sections: {} }; }
 }
-/* Sama seperti tcBakeIntoHtml: sisipkan <link> font + <style> override sebelum </head>.
-   HTML undangan bawaan sudah memuat pasangan bake nilai bawaan — buang dulu
-   pasangan lama itu agar tidak dobel. */
 function tcBakeIntoHtml(html, o){
   html = html.replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]*"><style id="ds-tc-override">[\s\S]*?<\/style>/, "");
   html = html.replace(/<style id="ds-tc-override">[\s\S]*?<\/style>/, "");
@@ -78,9 +117,211 @@ function tcBakeIntoHtml(html, o){
   const link = href ? '<link rel="stylesheet" href="' + href + '">' : "";
   return html.replace("</head>", link + '<style id="ds-tc-override">' + tcOverrideCss(o) + "</style></head>");
 }
+
+/* ----- salinan identik logika section dari editor.html ----- */
+function annotateSections(doc){
+  const found = {};
+  const add = (id, el) => { if (el && !found[id]) { el.setAttribute("data-ds-sec", id); found[id] = el; } };
+  add("sampul", doc.querySelector(".cover"));
+  add("hero", doc.querySelector("section.hero"));
+  const secs = [...doc.querySelectorAll("section")];
+  const byH2 = (re) => secs.find((s) => { const h = s.querySelector("h2"); return h && re.test(h.textContent || ""); });
+  const bandWith = (re) => secs.find((s) => s.classList.contains("band") && re.test(s.textContent || ""));
+  add("ayat", secs.find((s) => s.classList.contains("band") && /dibuka dengan doa/i.test(s.textContent || "")));
+  add("mempelai", byH2(/^\s*Mempelai\s*$/));
+  add("countdown", bandWith(/D-Day/i));
+  add("acara", byH2(/Rangkaian Acara/));
+  add("rundown", byH2(/Susunan Acara/));
+  add("kisah", bandWith(/Kisah Kami/));
+  add("galeri", byH2(/Tempelan Polaroid|Galeri/));
+  add("rsvp", bandWith(/Konfirmasi Kehadiran/));
+  add("qr", byH2(/QR Buku Tamu/));
+  add("amplop", bandWith(/Tanda Kasih/));
+  add("penutup", doc.querySelector("section.penutup"));
+  return found;
+}
+const TEXT_SEL = "h1,h2,h3,.kicker,p,figcaption,blockquote,cite,.tgl,li span,.ransom";
+function slotKind(el){
+  if (el.classList && el.classList.contains("ransom")) return "ransom";
+  const kids = [...el.childNodes];
+  if (kids.every((k) => k.nodeType === 3 || k.tagName === "BR")) return "plain";
+  if (kids.every((k) => k.nodeType === 3 || ["BR","STRONG","B","EM","I"].includes(k.tagName))) return "rich";
+  return null;
+}
+function discoverSlots(root){
+  const slots = [];
+  root.querySelectorAll(TEXT_SEL).forEach((el) => {
+    if (el.closest("form")) return;
+    const kind = slotKind(el);
+    if (!kind) return;
+    const val = getSlotText(el, kind);
+    if (!val || !val.trim()) return;
+    if (kind === "plain" && /^[\d\s:.,·—-]+$/.test(val) && !(el.classList && el.classList.contains("nomor"))) return;
+    slots.push({ el, kind, def: val });
+  });
+  return slots;
+}
+function getSlotText(el, kind){
+  if (kind === "ransom") {
+    const al = el.getAttribute("aria-label");
+    if (al) return al;
+    return [...el.querySelectorAll(".row")].map((r) => [...r.querySelectorAll("i")].map((i) => i.textContent).join("")).join(" ");
+  }
+  if (kind === "rich") return richSerialize(el).map((ln) => ln.map((sg) => sg.t).join("")).join("\n");
+  let s = "";
+  el.childNodes.forEach((n) => { if (n.nodeType === 3) s += n.textContent; else if (n.tagName === "BR") s += "\n"; });
+  return s.replace(/[ \t]+/g, " ").replace(/\n{2,}/g, "\n").trim();
+}
+function richSerialize(el){
+  const lines = [[]];
+  el.childNodes.forEach((n) => {
+    if (n.tagName === "BR") { lines.push([]); return; }
+    if (n.nodeType === 3) lines[lines.length - 1].push({ t: n.textContent, b: false });
+    else if (["STRONG","B"].includes(n.tagName)) lines[lines.length - 1].push({ t: n.textContent, b: true });
+    else lines[lines.length - 1].push({ t: n.textContent, b: false });
+  });
+  return lines;
+}
+function setSlotText(el, kind, value){
+  const doc = el.ownerDocument;
+  if (kind === "ransom") { setRansomText(el, value); return; }
+  if (kind === "rich") {
+    const orig = richSerialize(el);
+    const lines = String(value).split("\n");
+    el.textContent = "";
+    lines.forEach((ln, i) => {
+      if (i > 0) el.appendChild(doc.createElement("br"));
+      const o = orig[Math.min(i, orig.length - 1)] || [];
+      const wholeBold = o.length === 1 && o[0].b;
+      if (wholeBold) { const st = doc.createElement("strong"); st.textContent = ln; el.appendChild(st); }
+      else el.appendChild(doc.createTextNode(ln));
+    });
+    return;
+  }
+  el.textContent = "";
+  String(value).split("\n").forEach((ln, i) => {
+    if (i > 0) el.appendChild(doc.createElement("br"));
+    el.appendChild(doc.createTextNode(ln));
+  });
+}
+function setRansomText(el, value){
+  const doc = el.ownerDocument;
+  const oldRows = [...el.querySelectorAll(".row")];
+  const rowClasses = oldRows.map((r) => r.className);
+  const tileClasses = [...el.querySelectorAll("i")].map((i) => i.getAttribute("class") || "").filter((c) => c.trim());
+  const hadSpacer = (el.textContent || "").includes("·");
+  const words = String(value).toUpperCase().split(/\s+/).filter(Boolean);
+  el.textContent = "";
+  let ti = 0;
+  const mkTile = (ch) => {
+    const i = doc.createElement("i");
+    i.setAttribute("class", tileClasses.length ? tileClasses[ti++ % tileClasses.length] : "bg-red rr1");
+    i.textContent = ch;
+    return i;
+  };
+  const mkRow = (cls, wordList, withSpacer) => {
+    const row = doc.createElement("span");
+    row.setAttribute("class", cls);
+    wordList.forEach((w, wi) => {
+      if (wi > 0 && withSpacer) {
+        const sp = doc.createElement("i");
+        sp.setAttribute("style", "visibility:hidden;padding:4px 3px");
+        sp.textContent = "·";
+        row.appendChild(sp);
+      }
+      [...w].forEach((ch) => row.appendChild(mkTile(ch)));
+    });
+    return row;
+  };
+  if (!words.length) return;
+  if (oldRows.length <= 1) el.appendChild(mkRow(rowClasses[0] || "row", words, hadSpacer));
+  else if (words.length === oldRows.length) words.forEach((w, i) => el.appendChild(mkRow(rowClasses[i], [w], false)));
+  else words.forEach((w, i) => el.appendChild(mkRow(rowClasses[i % rowClasses.length], [w], false)));
+  el.setAttribute("aria-label", value);
+}
+function escCssUrl(u){ return String(u).replace(/["\\]/g, ""); }
+function sectionCss(id, o){
+  if (!o) return "";
+  const S = '[data-ds-sec="' + id + '"]';
+  const r = [];
+  if (o.bg) r.push((id === "sampul" ? S + " .cover-card" : S) + "{background-color:" + o.bg + " !important}");
+  if (o.ink) {
+    r.push(S + "{color:" + o.ink + "}");
+    r.push([S + " h1", S + " h2", S + " h3", S + " p", S + " li", S + " figcaption", S + " blockquote", S + " cite"].join(",") + "{color:" + o.ink + " !important}");
+  }
+  if (o.accent) r.push([S + " .kicker", S + " .yr"].join(",") + "{color:" + o.accent + " !important}");
+  if (o.fontDisplay) r.push([S + " h1", S + " h2", S + " h3", S + " .ransom", S + " .names", S + " .names-top", S + " .ttd", S + " .script", S + " .init"].join(",") + "{font-family:" + (TC_FONT_STACKS[o.fontDisplay] || o.fontDisplay) + " !important}");
+  if (o.fontBody) {
+    r.push(S + "{font-family:" + (TC_FONT_STACKS[o.fontBody] || o.fontBody) + "}");
+    r.push([S + " p", S + " li", S + " figcaption", S + " blockquote", S + " cite"].join(",") + "{font-family:" + (TC_FONT_STACKS[o.fontBody] || o.fontBody) + " !important}");
+  }
+  if (o.bgImage && id !== "sampul") {
+    if (o.bgImage.startsWith("preset:")) {
+      const p = bgPreset(o.bgImage.slice(7));
+      if (p) r.push(S + "{background:" + p.css + " !important}");
+    } else if (o.bgImage.startsWith("url:")) {
+      r.push(S + '{background-image:url("' + escCssUrl(o.bgImage.slice(4)) + '") !important;background-size:cover !important;background-position:center !important}');
+    } else if (o.bgImage.startsWith("data:image/")) {
+      r.push(S + '{background-image:url("' + o.bgImage + '") !important;background-size:cover !important;background-position:center !important}');
+    }
+  }
+  if (o.bgImage && id === "sampul" && o.bgImage.startsWith("preset:")) {
+    const p = bgPreset(o.bgImage.slice(7));
+    if (p) r.push(S + "{background:" + p.css + " !important}");
+  }
+  return r.join("\n");
+}
+function allSectionsCss(sections){
+  return Object.keys(sections || {}).map((id) => sectionCss(id, sections[id])).filter(Boolean).join("\n");
+}
+function allFonts(sections, g){
+  const fams = [g.fontDisplay, g.fontBody];
+  Object.values(sections || {}).forEach((o) => { if (o) { fams.push(o.fontDisplay, o.fontBody); } });
+  return fams.filter(Boolean);
+}
+function applySectionsInDoc(doc, sections){
+  const found = annotateSections(doc);
+  let st = doc.getElementById("ds-sec-override");
+  if (!st) { st = doc.createElement("style"); st.id = "ds-sec-override"; doc.head.appendChild(st); }
+  st.textContent = allSectionsCss(sections);
+  Object.keys(sections).forEach((id) => {
+    const root = found[id];
+    if (!root) return;
+    const o = sections[id];
+    if (o.texts) {
+      const slots = discoverSlots(root);
+      Object.keys(o.texts).forEach((k) => {
+        const idx = parseInt(k.slice(1), 10);
+        if (slots[idx]) setSlotText(slots[idx].el, slots[idx].kind, o.texts[k]);
+      });
+    }
+    const imgs = [...root.querySelectorAll("img")];
+    if (o.images) {
+      Object.keys(o.images).forEach((k) => {
+        const idx = parseInt(k.slice(1), 10);
+        if (imgs[idx]) imgs[idx].setAttribute("src", o.images[k]);
+      });
+    }
+    if (id === "sampul") {
+      const photo = root.querySelector(".photo");
+      if (photo && o.bgImage) {
+        if (o.bgImage.startsWith("preset:")) photo.style.display = "none";
+        else if (o.bgImage.startsWith("url:")) photo.setAttribute("src", o.bgImage.slice(4));
+        else if (o.bgImage.startsWith("data:image/")) photo.setAttribute("src", o.bgImage);
+      }
+    }
+  });
+  const href = tcFontsHref(allFonts(sections, { fontDisplay: "__none__", fontBody: "__none__" }));
+  if (href) {
+    let link = doc.getElementById("ds-tc-fonts-live");
+    if (!link) { link = doc.createElement("link"); link.id = "ds-tc-fonts-live"; link.rel = "stylesheet"; doc.head.appendChild(link); }
+    link.href = href;
+  }
+}
+
 (async () => {
   const qp = new URLSearchParams(window.location.search);
-  const ov = tcDecode(qp.get("t"));
+  const { global: ov, sections } = decodePayload(qp.get("t"));
   const file = qp.get("open") === "1" ? "undangan-open.html" : "undangan.html";
   try {
     const res = await fetch(file);
@@ -88,6 +329,15 @@ function tcBakeIntoHtml(html, o){
     const html = tcBakeIntoHtml(raw, ov);
     const frame = document.createElement("iframe");
     frame.title = "Undangan Nadia & Raka — Kolase Cinta (prototipe)";
+    frame.style.visibility = "hidden";
+    frame.addEventListener("load", () => {
+      setTimeout(() => {
+        try {
+          if (frame.contentDocument) applySectionsInDoc(frame.contentDocument, sections);
+        } catch (e) { /* tampilkan apa adanya */ }
+        frame.style.visibility = "";
+      }, 650);
+    });
     frame.srcdoc = html;
     document.getElementById("loading").replaceWith(frame);
   } catch (e) {
