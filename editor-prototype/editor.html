@@ -3,136 +3,300 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Editor Undangan v2 — Prototipe Per-Section (Kolase Cinta)</title>
+<title>Editor Undangan v3 — UI Canva (Kolase Cinta)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  :root{
+    --acc:#8B3DFF; --acc2:#7D2AE8; --accSoft:#F0EAFE; --accRing:#D9C8FF;
+    --ink:#181C20; --mut:#5F6570; --mut2:#8A919C;
+    --line:#E6E7EB; --line2:#D8DBE2; --canvas:#EBECF0;
+    --grad:linear-gradient(90deg,#00C4CC 0%,#4266F5 48%,#7D2AE8 100%);
+  }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{min-height:100dvh;background:#171310;color:#F3EAD8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;display:flex;flex-direction:column}
-  header{padding:14px 22px;border-bottom:1px solid #3A2F24;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-  header h1{font-size:19px;font-weight:800;letter-spacing:.2px;margin:0}
-  header .sub{font-size:12.5px;color:#C9B998}
-  header .sub b{color:#E9C46A}
-  .badge{background:#E4572E;color:#fff;font-size:11px;font-weight:800;border-radius:20px;padding:3px 10px;letter-spacing:.6px}
-  .layout{flex:1;display:flex;align-items:stretch;flex-wrap:wrap}
-  aside{width:348px;max-width:100%;padding:18px 20px 28px;border-right:1px solid #3A2F24;overflow-y:auto}
-  h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#E9C46A;margin:20px 0 10px}
-  h2.sec:first-child{margin-top:0}
+  body{height:100dvh;overflow:hidden;background:#fff;color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif;display:flex;flex-direction:column}
+  button{font-family:inherit}
+  /* ---------- header ---------- */
+  header.top{height:56px;flex:none;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 14px;position:relative;z-index:20}
+  .homeBtn{width:38px;height:38px;flex:none;border-radius:11px;background:var(--grad);display:grid;place-items:center;box-shadow:0 3px 10px rgba(125,42,232,.30)}
+  .ttl{min-width:0}
+  .ttl .nm{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:9px}
+  .badge3{background:var(--accSoft);color:var(--acc2);font-size:10px;font-weight:800;letter-spacing:.8px;border-radius:20px;padding:3px 9px;flex:none}
+  .ttl .st{font-size:11.5px;color:var(--mut);margin-top:1px;display:flex;align-items:center;gap:5px}
+  .ttl .st .ok{color:#2E7D46;font-weight:800}
+  .sp{flex:1}
+  .btnGhost{background:#fff;border:1px solid var(--line2);color:var(--ink);border-radius:999px;padding:8px 17px;font-weight:600;font-size:13.5px;cursor:pointer}
+  .btnGhost:hover{background:#F6F6F8}
+  .btnShare{background:var(--grad);color:#fff;border:none;border-radius:999px;padding:9px 22px;font-weight:700;font-size:13.5px;cursor:pointer;box-shadow:0 4px 14px rgba(125,42,232,.35)}
+  .btnShare:hover{filter:brightness(1.06)}
+  /* ---------- work area ---------- */
+  .work{flex:1;display:flex;min-height:0;position:relative}
+  /* rail */
+  .rail{width:68px;flex:none;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:4px;overflow-y:auto;z-index:10}
+  .rbtn{width:56px;flex:none;padding:8px 0 6px;border:0;border-radius:12px;background:transparent;color:#4A4F57;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+  .rbtn svg{width:22px;height:22px}
+  .rbtn span{font-size:10px;font-weight:600;line-height:1}
+  .rbtn:hover{background:#F4F4F6}
+  .rbtn.on{background:var(--accSoft);color:var(--acc2)}
+  /* flyout panel */
+  .panel{width:340px;flex:none;background:#fff;border-right:1px solid var(--line);display:flex;min-height:0;box-shadow:10px 0 28px rgba(23,18,54,.05);z-index:9}
+  .pview{display:none;flex:1;min-height:0;overflow-y:auto;padding:18px 18px 30px}
+  .pHead{font-size:15.5px;font-weight:700;margin:0 0 3px}
+  .pSub{font-size:12px;color:var(--mut);line-height:1.5;margin:0 0 14px}
+  .srch{position:relative;margin-bottom:12px}
+  .srch svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--mut2)}
+  .srch input{width:100%;height:38px;border:1px solid var(--line2);border-radius:10px;padding:0 12px 0 34px;font-family:inherit;font-size:13px;color:var(--ink);background:#fff}
+  .srch input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--accSoft)}
+  h3.grpT{font-size:13px;font-weight:700;color:var(--ink);margin:0 0 10px}
+  .grp{border-radius:14px;padding:14px 6px 6px;margin:14px -6px 0}
+  .grp:first-of-type{margin-top:2px}
+  @keyframes grpflash{0%{background:var(--accSoft)}100%{background:transparent}}
+  .grp.flash{animation:grpflash 1s ease-out}
+  h2.sec{font-size:16px;font-weight:800;margin:0;color:var(--ink)}
   /* daftar section */
-  .seclist{display:flex;flex-direction:column;gap:6px}
-  .secbtn{display:flex;align-items:center;gap:8px;text-align:left;background:#241C15;border:1px solid #4A3B2A;border-radius:9px;padding:9px 12px;cursor:pointer;color:#F3EAD8;font-family:inherit;font-size:13.5px;font-weight:700}
-  .secbtn:hover{border-color:#E9C46A}
-  .secbtn.on{background:#E4572E;border-color:#E4572E;color:#fff}
-  .secbtn .dot{width:8px;height:8px;border-radius:50%;background:#E9C46A;visibility:hidden;flex:none}
+  .seclist{display:flex;flex-direction:column;gap:4px}
+  .secbtn{display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:#fff;border:1px solid transparent;border-radius:12px;padding:10px 12px;cursor:pointer;color:var(--ink);font-size:13.5px;font-weight:600}
+  .secbtn:hover{background:#F6F6F8}
+  .secbtn.on{background:var(--accSoft);box-shadow:inset 0 0 0 1px var(--accRing)}
+  .secbtn .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);visibility:hidden;flex:none}
   .secbtn.has .dot{visibility:visible}
-  .secbtn .cnt{margin-left:auto;font-size:11px;font-weight:600;color:#A79C86}
-  .secbtn.on .cnt{color:#FFE1D6}
-  /* kontrol global (v1) */
-  .presets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
-  .preset{text-align:left;background:#241C15;border:1px solid #4A3B2A;border-radius:10px;padding:9px 11px;cursor:pointer;color:#F3EAD8;font-family:inherit}
-  .preset .dots{display:flex;gap:4px;margin-bottom:6px}
-  .preset .dots i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,.35);display:block}
+  .secbtn .cnt{margin-left:auto;font-size:11px;font-weight:600;color:var(--mut2)}
+  .secbtn.on .cnt{color:var(--acc2)}
+  /* preset palet (global) */
+  .presets{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .preset{text-align:left;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 12px;cursor:pointer;color:var(--ink)}
+  .preset:hover{border-color:var(--accRing)}
+  .preset .dots{display:flex;gap:4px;margin-bottom:7px}
+  .preset .dots i{width:17px;height:17px;border-radius:50%;border:1px solid rgba(20,20,30,.14);display:block}
   .preset .nm{font-size:12.5px;font-weight:700}
-  .crow{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed #3A2F24;cursor:pointer}
-  .crow input[type=color]{width:42px;height:32px;border:none;background:none;cursor:pointer;padding:0;flex:none}
-  .crow .lab{flex:1;min-width:0}
-  .crow .lab .a{display:block;font-size:13px;font-weight:700}
-  .crow .lab .b{display:block;font-size:11px;color:#A79C86}
-  .crow input[type=text]{width:76px;background:#241C15;border:1px solid #4A3B2A;border-radius:6px;color:#F3EAD8;font-size:12px;padding:5px 7px;text-transform:uppercase}
-  .crow .clr{flex:none;background:none;border:1px solid #4A3B2A;color:#C9B998;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:12px;line-height:1}
-  label.flab{display:block;font-size:12.5px;font-weight:700;margin-bottom:5px}
-  select{width:100%;background:#241C15;border:1px solid #4A3B2A;border-radius:8px;color:#F3EAD8;font-size:14px;padding:9px 10px;font-family:inherit}
-  input[type=text].wide,textarea.tarea{width:100%;background:#241C15;border:1px solid #4A3B2A;border-radius:8px;color:#F3EAD8;font-size:13px;padding:8px 10px;font-family:inherit}
+  /* baris warna gaya Canva */
+  .crow{padding:13px 0;border-bottom:1px dashed #ECECF0}
+  .crow:last-child{border-bottom:none}
+  .crowTop{display:flex;align-items:baseline;gap:8px}
+  .crowTop .a{font-size:13px;font-weight:700}
+  .crowTop .b{font-size:11px;color:var(--mut);flex:1}
+  .crow .clr{flex:none;background:#fff;border:1px solid var(--line2);color:var(--mut);border-radius:8px;width:24px;height:24px;cursor:pointer;font-size:11px;line-height:1}
+  .swgrid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+  .sw{width:30px;height:30px;border-radius:50%;border:1px solid rgba(20,20,30,.14);cursor:pointer;padding:0;flex:none;position:relative}
+  .sw.sel{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--acc)}
+  .sw.rainbow{background:conic-gradient(#F5533D,#F5C33D,#59C135,#3DC4F5,#7D2AE8,#F553B8,#F5533D);display:grid;place-items:center;cursor:pointer}
+  .sw.rainbow input[type=color]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  .sw.rainbow .plus{width:17px;height:17px;border-radius:50%;background:#fff;color:var(--ink);font-size:13px;font-weight:800;display:grid;place-items:center;line-height:1;pointer-events:none}
+  .hex{width:86px;height:30px;border:1px solid var(--line2);border-radius:8px;padding:0 8px;font-size:12px;text-transform:uppercase;color:var(--ink);font-family:inherit}
+  .hex:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--accSoft)}
+  /* field teks & font */
+  label.flab{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px}
+  select{width:100%;height:40px;background:#fff;border:1px solid var(--line2);border-radius:10px;color:var(--ink);font-size:14px;padding:0 10px;font-family:inherit;cursor:pointer}
+  select:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--accSoft)}
+  input[type=text].wide,textarea.tarea{width:100%;background:#fff;border:1px solid var(--line2);border-radius:10px;color:var(--ink);font-size:13px;padding:9px 11px;font-family:inherit}
+  input[type=text].wide:focus,textarea.tarea:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--accSoft)}
   textarea.tarea{resize:vertical;min-height:38px;line-height:1.45}
   .tfield{margin-bottom:12px}
-  .tfield label{display:block;font-size:11.5px;font-weight:700;color:#C9B998;margin-bottom:4px}
-  .tfield label b{color:#E9C46A;font-weight:800}
+  .tfield label{display:block;font-size:11.5px;font-weight:700;color:#39404D;margin-bottom:5px}
+  .tfield label b{color:var(--acc2);font-weight:800}
   /* preset latar */
-  .bgpresets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
-  .bgp{height:44px;border-radius:9px;border:2px solid #4A3B2A;cursor:pointer;padding:0;position:relative;overflow:hidden}
-  .bgp.on{border-color:#E9C46A;box-shadow:0 0 0 2px #E9C46A inset}
-  .bgp span{position:absolute;left:0;right:0;bottom:0;background:rgba(20,14,8,.72);color:#F3EAD8;font-size:9.5px;font-weight:700;padding:2px 4px;text-align:center}
-  .urlrow{display:flex;gap:6px;margin-bottom:8px}
-  .urlrow input{flex:1}
-  .urlrow button,.mini{background:#241C15;border:1px solid #4A3B2A;color:#F3EAD8;border-radius:8px;padding:8px 12px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit;flex:none}
-  .mini.on{background:#E4572E;border-color:#E4572E;color:#fff}
-  input[type=file]{font-size:12px;color:#C9B998;max-width:100%}
-  .imgrow{border:1px solid #3A2F24;border-radius:10px;padding:10px 12px;margin-bottom:10px}
-  .imgrow .nm{font-size:12.5px;font-weight:700;margin-bottom:6px}
-  .imgrow .nm span{color:#A79C86;font-weight:600;font-size:11px}
-  .note{font-size:11.5px;color:#A79C86;margin-top:8px;line-height:1.55}
-  .note.warn{color:#F2A7BB}
-  .btns{display:flex;gap:8px;margin-top:24px}
-  #btnSimpan{flex:1;background:#E4572E;color:#FFF;border:none;border-radius:9px;padding:12px 0;font-weight:800;font-size:14px;cursor:pointer;letter-spacing:.4px;font-family:inherit}
-  #btnReset{background:transparent;color:#C9B998;border:1px solid #4A3B2A;border-radius:9px;padding:12px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
-  #btnResetSec{width:100%;background:transparent;color:#F2A7BB;border:1px solid #6E3A44;border-radius:9px;padding:9px 0;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit;margin-bottom:6px}
-  .saved{font-size:12px;color:#9FD3A8;margin-top:10px;line-height:1.55}
-  #shareBox{margin-top:12px;display:none}
-  #shareBox input{width:100%;background:#100C09;border:1px solid #4A3B2A;border-radius:7px;color:#E9C46A;font-size:11.5px;padding:8px 9px}
-  #shareBox a{display:inline-block;margin-top:8px;color:#F2A7BB;font-size:12.5px;font-weight:700}
-  main{flex:1;display:grid;place-items:center;padding:26px 18px;background:radial-gradient(900px 500px at 50% 0%, #2A211A 0%, #171310 60%)}
-  .phone{width:400px;max-width:94vw;border-radius:30px;border:10px solid #0B0908;box-shadow:0 30px 80px rgba(0,0,0,.55);overflow:hidden;background:#000}
-  .phone iframe{width:100%;height:78dvh;border:0;display:block}
-  .phone .wait{height:78dvh;display:grid;place-items:center;color:#C9B998;font-size:13.5px}
-  main p{font-size:12px;color:#A79C86;margin-top:14px;text-align:center}
+  .bgpresets{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+  .bgp{height:64px;border-radius:12px;border:2px solid var(--line);cursor:pointer;padding:0;position:relative;overflow:hidden;background-color:#fff}
+  .bgp.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--accSoft)}
+  .bgp span{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.88);color:var(--ink);font-size:10px;font-weight:700;padding:3px 4px;text-align:center}
+  .urlrow{display:flex;gap:8px;margin:10px 0 8px}
+  .urlrow input{flex:1;min-width:0}
+  .urlrow button,.mini{background:#fff;border:1px solid var(--line2);color:var(--ink);border-radius:999px;padding:7px 13px;font-weight:600;font-size:12.5px;cursor:pointer;flex:none}
+  .urlrow button:hover,.mini:hover{background:#F6F6F8}
+  .mini.on{background:var(--accSoft);border-color:var(--accRing);color:var(--acc2)}
+  input[type=file]{font-size:12px;color:var(--mut);max-width:100%}
+  .imgrow{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+  .imgrow .nm{font-size:12.5px;font-weight:700;margin-bottom:7px}
+  .imgrow .nm span{color:var(--mut2);font-weight:600;font-size:11px}
+  .note{font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.55}
+  .note.warn{color:#B3375F}
+  #btnResetSec{width:100%;background:#fff;color:#B3375F;border:1px solid #F0C6D2;border-radius:999px;padding:8px 0;font-weight:700;font-size:12.5px;cursor:pointer;margin:10px 0 2px}
+  #btnReset{width:100%;background:#fff;color:#B3375F;border:1px solid #F0C6D2;border-radius:999px;padding:9px 0;font-weight:700;font-size:12.5px;cursor:pointer;margin-top:18px}
+  .backlink{background:none;border:none;color:var(--acc2);font-weight:700;font-size:12.5px;cursor:pointer;padding:0;margin-bottom:10px}
+  .saved{font-size:12px;color:#2E7D46;line-height:1.55}
+  /* ---------- canvas ---------- */
+  .canvasWrap{flex:1;position:relative;background:var(--canvas);min-width:0;min-height:0;display:flex}
+  #stage{flex:1;overflow:auto;display:flex;padding:78px 24px 88px}
+  #sizer{margin:auto;position:relative;flex:none}
+  #scaler{position:absolute;top:0;left:0;transform-origin:top left}
+  .phone{width:400px;border-radius:34px;border:10px solid #101014;box-shadow:0 24px 70px rgba(23,18,54,.28),0 4px 18px rgba(23,18,54,.16);overflow:hidden;background:#000}
+  .phone iframe{width:100%;height:740px;border:0;display:block}
+  .phone .wait{height:740px;display:grid;place-items:center;color:#C9B998;font-size:13.5px;background:#171310}
+  /* floating toolbar */
+  #floatBar{position:absolute;top:14px;left:50%;transform:translateX(-50%);display:none;align-items:center;gap:5px;background:#fff;border-radius:999px;box-shadow:0 10px 30px rgba(23,18,54,.20),0 2px 8px rgba(23,18,54,.12);padding:6px 9px;z-index:6;max-width:calc(100% - 20px)}
+  #floatBar.vis{display:flex}
+  #fbName{font-size:13px;font-weight:800;padding:0 7px;white-space:nowrap}
+  .fbDiv{width:1px;height:22px;background:var(--line);flex:none}
+  #fbFont{height:32px;width:auto;max-width:172px;border:1px solid var(--line2);border-radius:999px;padding:0 8px;font-size:12.5px}
+  .fbLab{font-size:11px;color:var(--mut);font-weight:700}
+  .fbSw{width:26px;height:26px;border-radius:50%;border:1px solid rgba(20,20,30,.20);cursor:pointer;padding:0;flex:none}
+  #fbReset{border:0;background:transparent;color:#B3375F;font-weight:700;font-size:12.5px;cursor:pointer;padding:6px 7px;white-space:nowrap}
+  #fbPop{position:absolute;top:66px;left:50%;transform:translateX(-50%);background:#fff;border-radius:16px;box-shadow:0 16px 44px rgba(23,18,54,.24);padding:14px 16px;width:288px;max-width:calc(100% - 20px);display:none;z-index:7}
+  #fbPop.vis{display:block}
+  #fbPop .t{font-size:13px;font-weight:800;margin-bottom:2px}
+  /* zoom */
+  .zoomCtl{position:absolute;right:16px;bottom:16px;display:flex;align-items:center;gap:2px;background:#fff;border-radius:999px;box-shadow:0 8px 24px rgba(23,18,54,.16);padding:4px;z-index:6}
+  .zoomCtl .zb{width:30px;height:30px;border:0;background:transparent;border-radius:50%;font-size:17px;cursor:pointer;color:var(--ink);line-height:1}
+  .zoomCtl .zb:hover{background:var(--accSoft)}
+  #zoomPct{min-width:54px;text-align:center;font-size:12.5px;font-weight:700;cursor:pointer;border:0;background:transparent;color:var(--ink);font-family:inherit}
+  /* share popover */
+  #sharePop{position:absolute;top:66px;right:14px;width:334px;max-width:calc(100vw - 28px);background:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(23,18,54,.26);padding:16px 18px;display:none;z-index:8}
+  #sharePop.vis{display:block}
+  #sharePop h4{margin:0 0 3px;font-size:14.5px;font-weight:800}
+  #sharePop .sub2{font-size:12px;color:var(--mut);line-height:1.5;margin:0 0 10px}
+  #sharePop .x{position:absolute;top:9px;right:11px;border:0;background:transparent;font-size:13px;color:var(--mut);cursor:pointer}
+  #shareBox input{width:100%;background:#FAF8FF;border:1px solid var(--accRing);border-radius:9px;color:#5B21B6;font-size:11.5px;padding:8px 9px}
+  #shareBox a{display:inline-block;margin-top:9px;color:var(--acc2);font-size:12.5px;font-weight:700;text-decoration:none}
+  /* ---------- mobile: ala Canva app ---------- */
+  @media (max-width:900px){
+    header.top{padding:0 10px;gap:8px}
+    .ttl .nm{font-size:12.5px}
+    .ttl .st .stExtra{display:none}
+    .badge3{display:none}
+    .btnGhost{padding:7px 12px;font-size:12.5px}
+    .btnShare{padding:8px 15px;font-size:12.5px}
+    .work{flex-direction:column}
+    .canvasWrap{order:-1;height:46dvh;flex:none}
+    #stage{padding:62px 10px 58px}
+    .rail{flex-direction:row;width:100%;height:60px;padding:6px 8px;overflow-x:auto;overflow-y:hidden;border-right:0;border-top:1px solid var(--line);gap:2px}
+    .rbtn{width:53px;padding:6px 0 4px}
+    .rbtn span{font-size:9.5px}
+    .panel{width:100%;flex:1;border-right:0;min-height:0;box-shadow:none}
+    #floatBar{top:8px;padding:4px 6px;gap:3px}
+    #fbName{font-size:12px;padding:0 4px}
+    #fbFont{max-width:104px;height:29px;font-size:11.5px}
+    .fbLab{display:none}
+    #fbPop{top:56px}
+    .zoomCtl{right:10px;bottom:10px}
+    #sharePop{top:60px;right:8px;left:8px;width:auto}
+  }
 </style>
 </head>
 <body>
-<header>
-  <h1>Editor Undangan — Prototipe</h1>
-  <span class="badge">v2 · PER-SECTION</span>
-  <span class="sub">Tema <b>Kolase Cinta</b> · data contoh Nadia &amp; Raka · setiap section bisa diedit sendiri: teks, warna, font, latar &amp; gambar · versi statis publik</span>
+<header class="top">
+  <div class="homeBtn" title="Doa Selamanya — Editor Undangan">
+    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#fff" d="M12 3.4 21.2 11h-2.7v8.6h-5v-5.4h-3v5.4h-5V11H2.8z"/></svg>
+  </div>
+  <div class="ttl">
+    <div class="nm">Undangan Kolase Cinta — Nadia &amp; Raka <span class="badge3">v3 · UI CANVA</span></div>
+    <div class="st"><span class="ok">✓</span><span id="saveStatus">Tersimpan otomatis</span><span class="stExtra">· tema Kolase Cinta · klik section di pratinjau untuk memilihnya</span></div>
+  </div>
+  <div class="sp"></div>
+  <button class="btnGhost" id="btnPreview">Pratinjau</button>
+  <button class="btnShare" id="btnSimpan">Bagikan</button>
 </header>
-<div class="layout">
-  <aside>
-    <h2 class="sec">Pilih Section</h2>
-    <div class="seclist" id="secList"><p class="note">Memuat daftar section dari pratinjau…</p></div>
+<div class="work">
+  <nav class="rail" id="rail">
+    <button class="rbtn" data-tool="tema">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.4 0 2-.9 2-1.9 0-.8-.6-1.3-.6-2.1 0-.9.7-1.5 1.7-1.5H17a4.5 4.5 0 0 0 4.5-4.5C21.5 6.9 17.2 3.5 12 3.5z"/><circle cx="7.8" cy="10.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="11" cy="7.3" r="1.3" fill="currentColor" stroke="none"/><circle cx="15.3" cy="8.3" r="1.3" fill="currentColor" stroke="none"/></svg>
+      <span>Tema</span>
+    </button>
+    <button class="rbtn" data-tool="section">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M4 9.5h16M4 14.5h16"/></svg>
+      <span>Section</span>
+    </button>
+    <button class="rbtn" data-tool="teks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 5.5h13M12 5.5V19M9.5 19h5"/></svg>
+      <span>Teks</span>
+    </button>
+    <button class="rbtn" data-tool="warna">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.8s6.2 6.8 6.2 10.7a6.2 6.2 0 1 1-12.4 0C5.8 10.6 12 3.8 12 3.8z"/></svg>
+      <span>Warna</span>
+    </button>
+    <button class="rbtn" data-tool="font">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 18.5 12 5l5.5 13.5M8.3 13.5h7.4"/></svg>
+      <span>Font</span>
+    </button>
+    <button class="rbtn" data-tool="foto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m4.5 17.5 4.8-3.8 3.7 2.8 2.8-2.1 3.7 2.8"/></svg>
+      <span>Foto</span>
+    </button>
+    <button class="rbtn" data-tool="latar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3.5 9 4.7-9 4.7-9-4.7z"/><path d="m3.5 13.2 8.5 4.4 8.5-4.4"/><path d="m3.5 17.7 8.5 4.4 8.5-4.4"/></svg>
+      <span>Latar</span>
+    </button>
+  </nav>
 
-    <div id="panelGlobal">
-      <h2 class="sec" style="margin-top:22px">Global — Palet Siap Pakai</h2>
-      <div class="presets" id="presets"></div>
-      <h2 class="sec">Global — Warna Custom</h2>
-      <div id="colorFields"></div>
-      <h2 class="sec" style="margin-top:22px">Global — Font</h2>
-      <label class="flab" for="selDisplay">Font Judul / Tulisan Tangan</label>
-      <select id="selDisplay" style="margin-bottom:14px"></select>
-      <label class="flab" for="selBody">Font Isi</label>
-      <select id="selBody"></select>
-      <p class="note">Pengaturan Global adalah nilai dasar tema. Override per-section (pilih section di atas) menimpa Global hanya di section itu.</p>
+  <aside class="panel">
+    <div class="pview" id="panelList" style="display:block">
+      <p class="pHead">Section</p>
+      <p class="pSub">Pilih section yang mau diedit — atau klik langsung section-nya di pratinjau.</p>
+      <div class="srch">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+        <input id="secSearch" type="text" placeholder="Cari section…">
+      </div>
+      <p class="note warn" id="listHint" style="display:none"></p>
+      <div class="seclist" id="secList"><p class="note">Memuat daftar section dari pratinjau…</p></div>
     </div>
 
-    <div id="panelSection" style="display:none"></div>
-
-    <div class="btns">
-      <button id="btnSimpan">Simpan</button>
+    <div class="pview" id="panelGlobal" style="display:none">
+      <p class="pHead">Tema Global</p>
+      <p class="pSub">Nilai dasar untuk seluruh undangan. Override per-section menimpa Global hanya di section itu.</p>
+      <div class="grp" id="grpGPreset">
+        <h3 class="grpT">Palet Siap Pakai</h3>
+        <div class="presets" id="presets"></div>
+      </div>
+      <div class="grp" id="grpGWarna">
+        <h3 class="grpT">Warna Custom</h3>
+        <div id="colorFields"></div>
+      </div>
+      <div class="grp" id="grpGFont">
+        <h3 class="grpT">Font</h3>
+        <label class="flab" for="selDisplay">Font Judul / Tulisan Tangan</label>
+        <select id="selDisplay" style="margin-bottom:14px"></select>
+        <label class="flab" for="selBody">Font Isi</label>
+        <select id="selBody"></select>
+      </div>
+      <p class="note" id="defaultNote">Saat ini memakai desain asli tema (belum ada override).</p>
       <button id="btnReset">Reset Semua</button>
     </div>
-    <p class="note" id="defaultNote">Saat ini memakai desain asli tema (belum ada override).</p>
-    <p class="saved" id="savedNote" style="display:none"></p>
-    <div id="shareBox">
-      <label class="flab">URL tampilan publik</label>
-      <input id="shareUrl" readonly>
-      <a id="shareOpen" href="#" target="_blank" rel="noopener">Buka tampilan publik ↗</a>
-      <p class="note warn" id="shareWarn" style="display:none"></p>
-    </div>
+
+    <div class="pview" id="panelSection" style="display:none"></div>
   </aside>
 
-  <main>
-    <div>
-      <div class="phone" id="phone"><div class="wait">Menyiapkan pratinjau…</div></div>
-      <p>Pilih section di panel kiri — pratinjau melompat ke section itu dan berubah seketika.</p>
+  <main class="canvasWrap" id="canvasWrap">
+    <div id="stage">
+      <div id="sizer"><div id="scaler">
+        <div class="phone" id="phone"><div class="wait">Menyiapkan pratinjau…</div></div>
+      </div></div>
+    </div>
+    <div id="floatBar">
+      <span id="fbName">Section</span>
+      <span class="fbDiv"></span>
+      <select id="fbFont" title="Font judul section ini"></select>
+      <span class="fbDiv"></span>
+      <span class="fbLab">Teks</span><button class="fbSw" id="fbInk" title="Warna teks & judul section"></button>
+      <span class="fbLab">Latar</span><button class="fbSw" id="fbBg" title="Warna latar section"></button>
+      <span class="fbDiv"></span>
+      <button id="fbReset">Reset</button>
+    </div>
+    <div id="fbPop"></div>
+    <div class="zoomCtl">
+      <button class="zb" id="zoomOut" title="Perkecil">−</button>
+      <button id="zoomPct" title="Pas ke layar">100%</button>
+      <button class="zb" id="zoomIn" title="Perbesar">+</button>
+    </div>
+    <div id="sharePop">
+      <button class="x" id="shareClose" title="Tutup">✕</button>
+      <h4>Bagikan undangan</h4>
+      <p class="sub2">Tautan tampilan publik di bawah membawa semua perubahan (warna, font, teks &amp; gambar via URL).</p>
+      <p class="saved" id="savedNote" style="display:none"></p>
+      <div id="shareBox" style="display:none">
+        <input id="shareUrl" readonly>
+        <a id="shareOpen" href="#" target="_blank" rel="noopener">Buka tampilan publik ↗</a>
+        <p class="note warn" id="shareWarn" style="display:none"></p>
+      </div>
     </div>
   </main>
 </div>
 <script>
 "use strict";
 /* ================================================================
-   Editor Undangan v2 — PER-SECTION.
-   Lapisan Global = port statis PERSIS dari theme-overrides.ts (v1).
-   Lapisan Section: setiap section undangan (di-annotate runtime via
-   data-ds-sec) punya override sendiri: teks, warna (latar/teks/aksen),
-   font (judul/isi), latar belakang (preset/URL/upload), gambar.
+   Editor Undangan v3 — UI ala Canva, mesin v2 TIDAK berubah:
+   lapisan Global (port theme-overrides.ts v1) + lapisan Section
+   (teks, warna, font, latar, gambar per section via data-ds-sec).
    Payload ?t= = JSON base64url: kunci global v1 + blok "sections".
    ================================================================ */
 const TC_DEFAULTS = { primary:"#E4572E", accent:"#E9C46A", bg:"#FAF6EE", backdrop:"#E7DFCE", ink:"#1E1B16", fontDisplay:"Caveat", fontBody:"Plus Jakarta Sans" };
@@ -170,8 +334,9 @@ const COLOR_FIELDS = [
   { key:"backdrop", label:"Latar Luar", hint:"Area di sekeliling undangan" },
   { key:"ink", label:"Tinta / Teks Judul", hint:"Judul, tombol utama, penutup" }
 ];
+const SWATCHES = ["#E4572E","#E9C46A","#7A1F2B","#C9A24B","#556F4A","#D9A05B","#1D3A5F","#A34A24","#7FB5A8","#F2A7BB","#FAF6EE","#E7DFCE","#FFFFFF","#1E1B16"];
 const TC_STORAGE_KEY = "ds-tc-proto-kolase-cinta";      /* v1: hanya global */
-const V2_STORAGE_KEY = "ds-tc-proto-kolase-cinta-v2";   /* v2: global + sections */
+const V2_STORAGE_KEY = "ds-tc-proto-kolase-cinta-v2";   /* v2+: global + sections */
 
 /* Preset latar belakang per-section (CSS murni, tanpa file gambar). */
 const BG_PRESETS = [
@@ -457,9 +622,17 @@ function refreshSecDots(){
     b.classList.toggle("has", !!SEC[id]);
   });
 }
+let saveTimer = null;
 function afterChange(){
   applyAll(); refreshSecDots(); markDefaultNote();
   document.getElementById("savedNote").style.display = "none";
+  const st = document.getElementById("saveStatus");
+  if (st) st.textContent = "Menyimpan…";
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try { localStorage.setItem(V2_STORAGE_KEY, JSON.stringify({ global: G, sections: SEC })); } catch (e) { /* abaikan */ }
+    if (st) st.textContent = "Tersimpan otomatis";
+  }, 600);
 }
 function secOv(id){ if (!SEC[id]) SEC[id] = {}; return SEC[id]; }
 function pruneSec(id){
@@ -561,41 +734,147 @@ function fileToDataUrl(file){
   });
 }
 
-/* ---------- fokus & highlight di pratinjau ---------- */
+/* ---------- fokus & highlight di pratinjau (outline ungu ala Canva) ---------- */
 function focusSection(id){
   const doc = fdoc(); if (!doc) return;
   const hl = ensureEl(doc, "style", "ds-sec-hl");
   const cov = doc.querySelector(".cover");
   if (id === "sampul") {
     if (cov) cov.classList.remove("hide");
-    hl.textContent = '[data-ds-sec="sampul"]{outline:3px solid #E4572E;outline-offset:-3px}';
+    hl.textContent = '[data-ds-sec="sampul"]{outline:2px solid #8B3DFF;outline-offset:-2px}';
     return;
   }
   if (cov) cov.classList.add("hide");
   if (!id) { hl.textContent = ""; return; }
-  hl.textContent = '[data-ds-sec="' + id + '"]{outline:3px solid #E4572E;outline-offset:-3px}';
+  hl.textContent = '[data-ds-sec="' + id + '"]{outline:2px solid #8B3DFF;outline-offset:-2px}';
   const el = doc.querySelector('[data-ds-sec="' + id + '"]');
   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
+
+/* ================================================================
+   LAPISAN UI v3 — rail + flyout ala Canva.
+   tool: tema | section | teks | warna | font | foto | latar
+   currentView: "global" | id section (state mesin v2).
+   ================================================================ */
+let tool = "section";
+const panelList = document.getElementById("panelList");
+const panelGlobal = document.getElementById("panelGlobal");
+const panelSection = document.getElementById("panelSection");
+const floatBar = document.getElementById("floatBar");
+const fbPop = document.getElementById("fbPop");
+const sharePop = document.getElementById("sharePop");
+
+function visiblePanel(){
+  if (tool === "tema") return "global";
+  if (tool === "section") return "list";
+  if (currentView === "global") return (tool === "warna" || tool === "font") ? "global" : "list";
+  return "section";
+}
+function renderPanel(){
+  const show = visiblePanel();
+  panelList.style.display = show === "list" ? "block" : "none";
+  panelGlobal.style.display = show === "global" ? "block" : "none";
+  panelSection.style.display = show === "section" ? "block" : "none";
+  const hint = document.getElementById("listHint");
+  if (show === "list" && currentView === "global" && ["teks", "foto", "latar"].includes(tool)) {
+    hint.textContent = tool === "teks" ? "Teks diatur per section — pilih section dulu di bawah ini."
+      : tool === "foto" ? "Foto diatur per section — pilih section yang memiliki gambar."
+      : "Latar belakang diatur per section — pilih section dulu di bawah ini.";
+    hint.style.display = "";
+  } else hint.style.display = "none";
+  document.querySelectorAll(".rbtn").forEach((b) => b.classList.toggle("on", b.getAttribute("data-tool") === tool));
+  if (show === "section") scrollToGrp({ teks: "grpTeks", warna: "grpWarna", font: "grpFont", latar: "grpLatar", foto: "grpFoto" }[tool]);
+  if (show === "global") scrollToGrpIn(panelGlobal, { warna: "grpGWarna", font: "grpGFont" }[tool]);
+}
+function scrollToGrpIn(panel, grpId){
+  if (!grpId) return;
+  const grp = document.getElementById(grpId);
+  if (!grp) return;
+  requestAnimationFrame(() => {
+    panel.scrollTop += grp.getBoundingClientRect().top - panel.getBoundingClientRect().top - 8;
+    grp.classList.remove("flash"); void grp.offsetWidth; grp.classList.add("flash");
+  });
+}
+function scrollToGrp(grpId){ scrollToGrpIn(panelSection, grpId); }
+function setTool(t){ tool = t; renderPanel(); }
 function selectView(v){
   currentView = v;
   document.querySelectorAll(".secbtn").forEach((b) => b.classList.toggle("on", b.getAttribute("data-view") === v));
-  document.getElementById("panelGlobal").style.display = v === "global" ? "" : "none";
-  const ps = document.getElementById("panelSection");
-  if (v === "global") { ps.style.display = "none"; focusSection(null); }
-  else { ps.style.display = ""; buildSectionPanel(v); focusSection(v); }
+  if (v === "global") { focusSection(null); hideFloat(); }
+  else { buildSectionPanel(v); focusSection(v); showFloat(v); }
+  renderPanel();
+}
+function pickSection(id){ tool = "teks"; selectView(id); }
+document.querySelectorAll(".rbtn").forEach((b) => {
+  b.addEventListener("click", () => {
+    const t = b.getAttribute("data-tool");
+    if (t === "tema") { tool = "tema"; selectView("global"); }
+    else setTool(t);
+    if (t !== "section") closeFbPop();
+  });
+});
+
+/* ---------- komponen warna ala Canva: swatch bundar + pelangi + hex ---------- */
+function colorRowCore(opts){
+  const row = document.createElement("div");
+  row.className = "crow";
+  const top = document.createElement("div");
+  top.className = "crowTop";
+  const a = document.createElement("span"); a.className = "a"; a.textContent = opts.label;
+  const b = document.createElement("span"); b.className = "b";
+  const clr = document.createElement("button"); clr.className = "clr"; clr.textContent = "✕"; clr.title = opts.clearTitle;
+  top.append(a, b, clr);
+  const grid = document.createElement("div");
+  grid.className = "swgrid";
+  const swBtns = SWATCHES.map((c) => {
+    const s = document.createElement("button");
+    s.className = "sw"; s.setAttribute("data-c", c); s.style.background = c; s.title = c;
+    s.addEventListener("click", () => { opts.onSet(c); render(c); });
+    grid.appendChild(s);
+    return s;
+  });
+  const rainbow = document.createElement("label");
+  rainbow.className = "sw rainbow"; rainbow.title = "Warna custom";
+  const ci = document.createElement("input");
+  ci.type = "color";
+  if (opts.dataKey) ci.setAttribute("data-key", opts.dataKey);
+  const plus = document.createElement("span"); plus.className = "plus"; plus.textContent = "+";
+  rainbow.append(ci, plus);
+  const hex = document.createElement("input");
+  hex.type = "text"; hex.className = "hex"; hex.placeholder = "#RRGGBB"; hex.spellcheck = false;
+  if (opts.dataKey) hex.setAttribute("data-key", opts.dataKey);
+  grid.append(rainbow, hex);
+  function render(v){
+    b.textContent = v ? opts.hintSet : opts.hintUnset;
+    hex.value = v || "";
+    if (v && /^#[0-9a-fA-F]{6}$/.test(v)) ci.value = v;
+    swBtns.forEach((s) => s.classList.toggle("sel", !!v && s.getAttribute("data-c").toLowerCase() === String(v).toLowerCase()));
+  }
+  ci.addEventListener("input", () => { opts.onSet(ci.value); render(ci.value); });
+  hex.addEventListener("input", () => { if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) { opts.onSet(hex.value); render(hex.value); } });
+  clr.addEventListener("click", () => { opts.onClear(); render(""); });
+  render(opts.value || "");
+  row.append(top, grid);
+  return { row, render };
+}
+function secColorRow(id, field, label, hint){
+  return colorRowCore({
+    label, hintSet: hint, hintUnset: "Ikuti global — belum diatur",
+    value: (SEC[id] || {})[field] || "",
+    onSet: (v) => setSecField(id, field, v),
+    onClear: () => setSecField(id, field, ""),
+    clearTitle: "Kembalikan ke global",
+  }).row;
 }
 
-/* ---------- kontrol Global (port v1) ---------- */
+/* ---------- kontrol Global ---------- */
+const globalRenders = {};
 function syncGlobalControls(){
-  COLOR_FIELDS.forEach(({ key }) => {
-    const c = document.querySelector('#colorFields input[type=color][data-key="' + key + '"]');
-    const t = document.querySelector('#colorFields input[type=text][data-key="' + key + '"]');
-    if (c) c.value = G[key];
-    if (t) t.value = G[key];
-  });
-  document.getElementById("selDisplay").value = G.fontDisplay;
-  document.getElementById("selBody").value = G.fontBody;
+  COLOR_FIELDS.forEach(({ key }) => { if (globalRenders[key]) globalRenders[key](G[key]); });
+  const sd = document.getElementById("selDisplay"), sb = document.getElementById("selBody");
+  sd.value = G.fontDisplay; sb.value = G.fontBody;
+  sd.style.fontFamily = TC_FONT_STACKS[G.fontDisplay] || "";
+  sb.style.fontFamily = TC_FONT_STACKS[G.fontBody] || "";
 }
 function setGlobal(patch){
   G = { ...G, ...patch };
@@ -612,18 +891,15 @@ TC_PRESETS.forEach((p) => {
 });
 const cfEl = document.getElementById("colorFields");
 COLOR_FIELDS.forEach(({ key, label, hint }) => {
-  const row = document.createElement("label");
-  row.className = "crow";
-  row.innerHTML = '<input type="color" data-key="' + key + '">' +
-    '<span class="lab"><span class="a">' + label + '</span><span class="b">' + hint + "</span></span>" +
-    '<input type="text" data-key="' + key + '">';
-  cfEl.appendChild(row);
-});
-cfEl.addEventListener("input", (e) => {
-  const k = e.target.getAttribute("data-key");
-  if (!k) return;
-  if (e.target.type === "color") setGlobal({ [k]: e.target.value });
-  else if (/^#[0-9a-fA-F]{0,6}$/.test(e.target.value)) setGlobal({ [k]: e.target.value });
+  const built = colorRowCore({
+    label, hintSet: hint, hintUnset: hint, dataKey: key,
+    value: G[key],
+    onSet: (v) => setGlobal({ [key]: v }),
+    onClear: () => setGlobal({ [key]: TC_DEFAULTS[key] }),
+    clearTitle: "Kembalikan ke warna bawaan tema",
+  });
+  globalRenders[key] = built.render;
+  cfEl.appendChild(built.row);
 });
 const selD = document.getElementById("selDisplay");
 TC_DISPLAY_FONTS.forEach((f) => { const o = document.createElement("option"); o.value = f; o.textContent = f; o.style.fontFamily = TC_FONT_STACKS[f]; selD.appendChild(o); });
@@ -645,10 +921,13 @@ function buildSecList(){
     const nm = document.createElement("span"); nm.textContent = label;
     b.append(dot, nm);
     if (cnt) { const c = document.createElement("span"); c.className = "cnt"; c.textContent = cnt; b.appendChild(c); }
-    b.addEventListener("click", () => selectView(view));
+    b.addEventListener("click", () => {
+      if (view === "global") { tool = "tema"; selectView("global"); }
+      else pickSection(view);
+    });
     list.appendChild(b);
   };
-  mkBtn("global", "🎨 Global (Tema)", "");
+  mkBtn("global", "Global (Tema)", "");
   SECTION_DEFS.forEach((d) => {
     if (!INV[d.id]) return;
     const inv = INV[d.id];
@@ -657,12 +936,26 @@ function buildSecList(){
   });
   refreshSecDots();
 }
+document.getElementById("secSearch").addEventListener("input", (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  document.querySelectorAll("#secList .secbtn").forEach((b) => {
+    b.style.display = !q || b.textContent.toLowerCase().includes(q) ? "" : "none";
+  });
+});
 
 /* ---------- panel per-section ---------- */
 function secTitle(t){
   const h = document.createElement("h2");
-  h.className = "sec"; h.style.marginTop = "22px"; h.textContent = t;
+  h.className = "sec"; h.textContent = t;
   return h;
+}
+function grpWrap(id, title){
+  const g = document.createElement("div");
+  g.className = "grp"; g.id = id;
+  const h = document.createElement("h3");
+  h.className = "grpT"; h.textContent = title;
+  g.appendChild(h);
+  return g;
 }
 function kindLabel(slot){
   const el = slot.el;
@@ -697,27 +990,6 @@ function textField(id, slot){
   wrap.appendChild(inp);
   return wrap;
 }
-function secColorRow(id, field, label, hint){
-  const o = SEC[id] || {};
-  const row = document.createElement("div");
-  row.className = "crow";
-  const ci = document.createElement("input");
-  ci.type = "color"; ci.value = o[field] || "#000000";
-  const lab = document.createElement("span");
-  lab.className = "lab";
-  lab.innerHTML = '<span class="a"></span><span class="b"></span>';
-  lab.querySelector(".a").textContent = label;
-  lab.querySelector(".b").textContent = o[field] ? hint : "Ikuti global — belum diatur";
-  const ti = document.createElement("input");
-  ti.type = "text"; ti.value = o[field] || ""; ti.placeholder = "global";
-  const clr = document.createElement("button");
-  clr.className = "clr"; clr.textContent = "✕"; clr.title = "Kembalikan ke global";
-  ci.addEventListener("input", () => { ti.value = ci.value; setSecField(id, field, ci.value); lab.querySelector(".b").textContent = hint; });
-  ti.addEventListener("input", () => { if (/^#[0-9a-fA-F]{6}$/.test(ti.value)) { ci.value = ti.value; setSecField(id, field, ti.value); } });
-  clr.addEventListener("click", () => { ci.value = "#000000"; ti.value = ""; lab.querySelector(".b").textContent = "Ikuti global — belum diatur"; setSecField(id, field, ""); });
-  row.append(ci, lab, ti, clr);
-  return row;
-}
 function fontRow(id, field, label, fonts){
   const wrap = document.createElement("div");
   wrap.style.marginBottom = "12px";
@@ -727,7 +999,8 @@ function fontRow(id, field, label, fonts){
   const o0 = document.createElement("option"); o0.value = ""; o0.textContent = "— Ikuti global —"; sel.appendChild(o0);
   fonts.forEach((f) => { const op = document.createElement("option"); op.value = f; op.textContent = f; op.style.fontFamily = TC_FONT_STACKS[f]; sel.appendChild(op); });
   sel.value = (SEC[id] && SEC[id][field]) || "";
-  sel.addEventListener("change", () => setSecField(id, field, sel.value));
+  sel.style.fontFamily = sel.value ? (TC_FONT_STACKS[sel.value] || "") : "";
+  sel.addEventListener("change", () => { setSecField(id, field, sel.value); sel.style.fontFamily = sel.value ? (TC_FONT_STACKS[sel.value] || "") : ""; if (field === "fontDisplay") syncFloat(); });
   wrap.append(lab, sel);
   return wrap;
 }
@@ -827,42 +1100,174 @@ function buildSectionPanel(id){
   panel.innerHTML = "";
   const inv = INV[id];
   if (!inv) { panel.innerHTML = '<p class="note">Section tidak ditemukan di pratinjau.</p>'; return; }
-  const h = secTitle("Section — " + secLabel(id));
-  h.style.marginTop = "22px";
-  panel.appendChild(h);
+  const back = document.createElement("button");
+  back.className = "backlink"; back.textContent = "← Semua section";
+  back.addEventListener("click", () => setTool("section"));
+  panel.appendChild(back);
+  panel.appendChild(secTitle(secLabel(id)));
   const btnR = document.createElement("button");
   btnR.id = "btnResetSec"; btnR.textContent = "↺ Reset section ini";
-  btnR.addEventListener("click", () => { delete SEC[id]; afterChange(); buildSectionPanel(id); });
+  btnR.addEventListener("click", () => { delete SEC[id]; afterChange(); buildSectionPanel(id); syncFloat(); });
   panel.appendChild(btnR);
   if (inv.slots.length) {
-    panel.appendChild(secTitle("Teks"));
-    inv.slots.forEach((slot) => panel.appendChild(textField(id, slot)));
+    const g = grpWrap("grpTeks", "Teks");
+    inv.slots.forEach((slot) => g.appendChild(textField(id, slot)));
+    panel.appendChild(g);
   }
-  panel.appendChild(secTitle("Warna Section"));
-  panel.appendChild(secColorRow(id, "bg", "Latar Section", id === "sampul" ? "Latar kartu sampul" : "Warna latar khusus section ini"));
-  panel.appendChild(secColorRow(id, "ink", "Teks & Judul", "Hampir semua teks di section ini"));
-  panel.appendChild(secColorRow(id, "accent", "Aksen", "Kicker / label kecil di section ini"));
-  panel.appendChild(secTitle("Font Section"));
-  panel.appendChild(fontRow(id, "fontDisplay", "Font Judul", TC_DISPLAY_FONTS));
-  panel.appendChild(fontRow(id, "fontBody", "Font Isi", TC_BODY_FONTS));
-  panel.appendChild(secTitle("Latar Belakang"));
-  panel.appendChild(bgControls(id));
+  const gw = grpWrap("grpWarna", "Warna Section");
+  gw.appendChild(secColorRow(id, "bg", "Latar Section", id === "sampul" ? "Latar kartu sampul" : "Warna latar khusus section ini"));
+  gw.appendChild(secColorRow(id, "ink", "Teks & Judul", "Hampir semua teks di section ini"));
+  gw.appendChild(secColorRow(id, "accent", "Aksen", "Kicker / label kecil di section ini"));
+  panel.appendChild(gw);
+  const gf = grpWrap("grpFont", "Font Section");
+  gf.appendChild(fontRow(id, "fontDisplay", "Font Judul", TC_DISPLAY_FONTS));
+  gf.appendChild(fontRow(id, "fontBody", "Font Isi", TC_BODY_FONTS));
+  panel.appendChild(gf);
+  const gl = grpWrap("grpLatar", "Latar Belakang");
+  gl.appendChild(bgControls(id));
+  panel.appendChild(gl);
   if (inv.imgs.length) {
-    panel.appendChild(secTitle("Gambar"));
-    panel.appendChild(uploadNote());
-    inv.imgs.forEach((im) => panel.appendChild(imgRow(id, im)));
+    const gi = grpWrap("grpFoto", "Gambar");
+    gi.appendChild(uploadNote());
+    inv.imgs.forEach((im) => gi.appendChild(imgRow(id, im)));
+    panel.appendChild(gi);
   }
 }
 
-/* ---------- simpan / reset ---------- */
-document.getElementById("btnSimpan").addEventListener("click", () => {
-  try { localStorage.setItem(V2_STORAGE_KEY, JSON.stringify({ global: G, sections: SEC })); } catch (e) { /* abaikan */ }
+/* ---------- toolbar melayang kontekstual ---------- */
+const fbName = document.getElementById("fbName");
+const fbFont = document.getElementById("fbFont");
+const fbInk = document.getElementById("fbInk");
+const fbBg = document.getElementById("fbBg");
+(function buildFbFont(){
+  const o0 = document.createElement("option"); o0.value = ""; o0.textContent = "Font judul: Global"; fbFont.appendChild(o0);
+  TC_DISPLAY_FONTS.forEach((f) => { const op = document.createElement("option"); op.value = f; op.textContent = f; op.style.fontFamily = TC_FONT_STACKS[f]; fbFont.appendChild(op); });
+})();
+function swBg(btn, val){
+  if (val) { btn.style.background = val; btn.style.backgroundImage = "none"; }
+  else { btn.style.background = "#fff"; btn.style.backgroundImage = "linear-gradient(to top right, transparent 45%, #E5484D 45%, #E5484D 55%, transparent 55%)"; }
+}
+function syncFloat(){
+  if (currentView === "global") return;
+  const o = SEC[currentView] || {};
+  fbName.textContent = secLabel(currentView);
+  fbFont.value = o.fontDisplay || "";
+  fbFont.style.fontFamily = o.fontDisplay ? (TC_FONT_STACKS[o.fontDisplay] || "") : "";
+  swBg(fbInk, o.ink || "");
+  swBg(fbBg, o.bg || "");
+}
+function showFloat(id){
+  syncFloat();
+  floatBar.classList.add("vis");
+}
+function hideFloat(){
+  floatBar.classList.remove("vis");
+  closeFbPop();
+}
+fbFont.addEventListener("change", () => {
+  if (currentView === "global") return;
+  setSecField(currentView, "fontDisplay", fbFont.value);
+  fbFont.style.fontFamily = fbFont.value ? (TC_FONT_STACKS[fbFont.value] || "") : "";
+  if (visiblePanel() === "section") buildSectionPanel(currentView);
+});
+document.getElementById("fbReset").addEventListener("click", () => {
+  if (currentView === "global") return;
+  delete SEC[currentView];
+  afterChange();
+  buildSectionPanel(currentView);
+  syncFloat();
+  closeFbPop();
+});
+let fbField = null;
+function closeFbPop(){ fbPop.classList.remove("vis"); fbField = null; }
+function openFbPop(field){
+  if (currentView === "global") return;
+  if (fbField === field && fbPop.classList.contains("vis")) { closeFbPop(); return; }
+  fbField = field;
+  const id = currentView;
+  fbPop.innerHTML = "";
+  const t = document.createElement("div");
+  t.className = "t";
+  t.textContent = field === "ink" ? "Warna Teks & Judul" : "Warna Latar Section";
+  fbPop.appendChild(t);
+  const sub = document.createElement("p");
+  sub.className = "note"; sub.style.margin = "0 0 4px";
+  sub.textContent = "Section: " + secLabel(id);
+  fbPop.appendChild(sub);
+  const built = colorRowCore({
+    label: "", hintSet: "", hintUnset: "",
+    value: (SEC[id] || {})[field] || "",
+    onSet: (v) => { setSecField(id, field, v); syncFloat(); if (visiblePanel() === "section") buildSectionPanel(id); },
+    onClear: () => { setSecField(id, field, ""); syncFloat(); if (visiblePanel() === "section") buildSectionPanel(id); },
+    clearTitle: "Kembalikan ke global",
+  });
+  built.row.querySelector(".crowTop").style.display = "none";
+  const clrBtn = document.createElement("button");
+  clrBtn.className = "mini"; clrBtn.textContent = "Ikuti global (tanpa warna khusus)"; clrBtn.style.marginTop = "10px";
+  clrBtn.addEventListener("click", () => { setSecField(id, field, ""); syncFloat(); if (visiblePanel() === "section") buildSectionPanel(id); closeFbPop(); });
+  fbPop.appendChild(built.row);
+  fbPop.appendChild(clrBtn);
+  fbPop.classList.add("vis");
+}
+fbInk.addEventListener("click", () => openFbPop("ink"));
+fbBg.addEventListener("click", () => openFbPop("bg"));
+document.getElementById("canvasWrap").addEventListener("click", (e) => {
+  if (!e.target.closest("#fbPop") && !e.target.closest("#floatBar")) closeFbPop();
+  if (!e.target.closest("#sharePop") && !e.target.closest("#btnSimpan")) sharePop.classList.remove("vis");
+});
+
+/* ---------- zoom canvas ---------- */
+const PHONE_W = 420, PHONE_H = 760;
+const sizer = document.getElementById("sizer");
+const scaler = document.getElementById("scaler");
+const zoomPct = document.getElementById("zoomPct");
+let zoomMode = "fit", zoomVal = 1, lastZ = 1;
+function fitZoom(){
+  const r = document.getElementById("canvasWrap").getBoundingClientRect();
+  const availW = Math.max(120, r.width - 40), availH = Math.max(160, r.height - 170);
+  const zw = availW / PHONE_W, zh = availH / PHONE_H;
+  /* canvas sempit/portrait (HP): pas lebar, tinggi boleh scroll — ala Canva mobile */
+  if (r.width < 900) return Math.max(0.15, Math.min(zw, 1));
+  return Math.max(0.15, Math.min(zw, zh, 1));
+}
+function applyZoom(){
+  const z = zoomMode === "fit" ? fitZoom() : zoomVal;
+  lastZ = z;
+  sizer.style.width = (PHONE_W * z) + "px";
+  sizer.style.height = (PHONE_H * z) + "px";
+  scaler.style.transform = "scale(" + z + ")";
+  zoomPct.textContent = Math.round(z * 100) + "%";
+}
+document.getElementById("zoomIn").addEventListener("click", () => { zoomMode = "manual"; zoomVal = Math.min(1.5, Math.round((lastZ + 0.1) * 100) / 100); applyZoom(); });
+document.getElementById("zoomOut").addEventListener("click", () => { zoomMode = "manual"; zoomVal = Math.max(0.5, Math.round((lastZ - 0.1) * 100) / 100); applyZoom(); });
+zoomPct.addEventListener("click", () => { zoomMode = "fit"; applyZoom(); });
+window.addEventListener("resize", () => { if (zoomMode === "fit") applyZoom(); });
+
+/* ---------- klik di pratinjau = pilih section (ala Canva) ---------- */
+function attachPreviewClick(){
+  const doc = fdoc(); if (!doc) return;
+  doc.addEventListener("click", (e) => {
+    const t = e.target;
+    const secEl = t && t.closest ? t.closest("[data-ds-sec]") : null;
+    e.preventDefault(); e.stopPropagation();
+    if (secEl) pickSection(secEl.getAttribute("data-ds-sec"));
+  }, true);
+  doc.addEventListener("submit", (e) => e.preventDefault(), true);
+}
+
+/* ---------- simpan / bagikan / pratinjau / reset ---------- */
+function currentShareUrl(){
   const { t, dropped } = encodePayload();
   const url = new URL("view.html", window.location.href);
   if (t) url.searchParams.set("t", t);
+  return { url: url.toString(), dropped };
+}
+document.getElementById("btnSimpan").addEventListener("click", () => {
+  try { localStorage.setItem(V2_STORAGE_KEY, JSON.stringify({ global: G, sections: SEC })); } catch (e) { /* abaikan */ }
+  const { url, dropped } = currentShareUrl();
   const input = document.getElementById("shareUrl");
-  input.value = url.toString();
-  document.getElementById("shareOpen").href = url.toString();
+  input.value = url;
+  document.getElementById("shareOpen").href = url;
   document.getElementById("shareBox").style.display = "";
   const warn = document.getElementById("shareWarn");
   if (dropped > 0) {
@@ -872,16 +1277,23 @@ document.getElementById("btnSimpan").addEventListener("click", () => {
   const note = document.getElementById("savedNote");
   note.textContent = "Tersimpan (global + per-section). URL di bawah adalah tampilan publiknya — buka untuk membuktikan link berubah tanpa editor.";
   note.style.display = "";
+  sharePop.classList.add("vis");
 });
+document.getElementById("shareClose").addEventListener("click", () => sharePop.classList.remove("vis"));
 document.getElementById("shareUrl").addEventListener("focus", (e) => e.target.select());
+document.getElementById("btnPreview").addEventListener("click", () => {
+  const { url } = currentShareUrl();
+  window.open(url, "_blank", "noopener");
+});
 document.getElementById("btnReset").addEventListener("click", () => {
   try { localStorage.removeItem(V2_STORAGE_KEY); localStorage.removeItem(TC_STORAGE_KEY); } catch (e) { /* abaikan */ }
   G = { ...TC_DEFAULTS };
   SEC = {};
   syncGlobalControls();
   document.getElementById("shareBox").style.display = "none";
+  sharePop.classList.remove("vis");
   afterChange();
-  if (currentView !== "global") buildSectionPanel(currentView);
+  if (currentView !== "global") { buildSectionPanel(currentView); syncFloat(); }
   const note = document.getElementById("savedNote");
   note.textContent = "Semua override (global + per-section) dibersihkan — kembali ke desain asli Kolase Cinta.";
   note.style.display = "";
@@ -905,10 +1317,13 @@ function initInventory(){
   applyAll();
   selectView("global");
   markDefaultNote();
+  attachPreviewClick();
+  applyZoom();
 }
 (async () => {
   syncGlobalControls();
   markDefaultNote();
+  applyZoom();
   try {
     const res = await fetch("undangan-open.html");
     const html = await res.text();
